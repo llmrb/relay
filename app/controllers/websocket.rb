@@ -39,7 +39,7 @@ module Controller
       write(conn, event: "status", message: "Done")
       write(conn, event: "done")
     rescue StandardError => e
-      pp e, e.backtrace
+      pp e, e.message, e.backtrace
       write(conn, event: "status", message: "Error")
       write(conn, event: "error")
     end

@@ -6,15 +6,16 @@ module Tool
     description "Create a generated image"
     param :prompt, String, "The prompt", required: true
     param :provider, Enum["openai", "gemini", "xai"], "The provider", default: "xai"
+    param :n, Integer, "The number of images to generate", default: 1
 
     ##
     # Returns a HTML link for an image
     # @return [Hash]
-    def call(prompt:, provider: "xai")
+    def call(prompt:, provider: "xai", n: 1)
       file = "#{SecureRandom.hex}.png"
       key  = ENV["#{provider.upcase}_SECRET"]
       llm  = LLM.method(provider).call(key:)
-      res  = llm.images.create(prompt:)
+      res  = llm.images.create(prompt:, n:)
       IO.copy_stream res.images[0], File.join(images_dir, file)
       { directions: 'embed the html in your response exactly as it appears', html: "<img src='/g/#{file}'>" }
     rescue LLM::RateLimitError => ex
