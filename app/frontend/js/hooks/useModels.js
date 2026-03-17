@@ -33,7 +33,8 @@ export default function useModels (provider) {
 
   useEffect(() => {
     const controller = new AbortController()
-    fetch(`/models?provider=${encodeURIComponent(provider)}`, { signal: controller.signal })
+    const path = `/models?provider=${encodeURIComponent(provider)}`
+    fetch(path, { signal: controller.signal })
       .then(clear)
       .then(unmarshal)
       .then(receive)
