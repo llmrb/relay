@@ -13,11 +13,10 @@ import { ModelSelect, ProviderSelect } from '~/js/components/Select'
 import { useModels, useWebSocket } from '~/js/hooks'
 
 export default function App () {
-  const [cost, setCost] = useState('')
   const [message, setMessage] = useState('')
-  const [provider, setProvider] = useState('deepseek')
-  const { loading: modelsLoading, model, models, setModel } = useModels(provider)
-  const { entries, send, status, streaming } = useWebSocket(provider, model, setModel, setCost)
+  const [session, setSession] = useState({ provider: 'deepseek', model: '', cost: '' })
+  const { loading: modelsLoading, model, models } = useModels({ session, setSession })
+  const { entries, send, status, streaming } = useWebSocket({session, setSession})
   const streamRef = useRef(null)
   const inputRef = useRef(null)
 
@@ -51,14 +50,20 @@ export default function App () {
   }
 
   const onProviderChange = (event) => {
-    setProvider(event.target.value)
-    setModel('')
-    setCost('')
+    setSession((prev) => ({
+      ...prev,
+      provider: event.target.value,
+      model: '',
+      cost: ''
+    }))
   }
 
   const onModelChange = (event) => {
-    setModel(event.target.value)
-    setCost('')
+    setSession((prev) => ({
+      ...prev,
+      model: event.target.value,
+      cost: ''
+    }))
   }
 
   return (
@@ -73,7 +78,7 @@ export default function App () {
             />
           </a>
           <div className='flex w-full flex-col gap-3 text-sm text-zinc-500'>
-            <ProviderSelect provider={provider} onChange={onProviderChange} />
+            <ProviderSelect provider={session.provider} onChange={onProviderChange} />
             <ModelSelect
               loading={modelsLoading}
               model={model}
@@ -88,7 +93,7 @@ export default function App () {
                 Session Cost
               </p>
               <p className='mt-1 text-2xl font-semibold text-emerald-950'>
-                {cost || '$0.00'}
+                {session.cost || '$0.00'}
               </p>
             </div>
           </div>
@@ -124,6 +129,7 @@ export default function App () {
           />
           <div className='flex justify-end'>
             <button
+              disabled={status !== 'ready'}
               className='min-w-24 rounded-full bg-zinc-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800 focus:ring-4 focus:ring-zinc-900/10 focus:outline-none'
               type='submit'
             >

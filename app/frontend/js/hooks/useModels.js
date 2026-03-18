@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export default function useModels (provider) {
+export default function useModels ({ session, setSession }) {
   const [models, setModels] = useState([])
-  const [model, setModel] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -10,7 +9,6 @@ export default function useModels (provider) {
 
   const clear = (response) => {
     setModels([])
-    setModel('')
     setLoading(true)
     setError(false)
     return response
@@ -18,7 +16,10 @@ export default function useModels (provider) {
 
   const receive = (payload) => {
     setModels(payload)
-    setModel(payload[0]?.id || '')
+    setSession((prev) => ({
+      ...prev,
+      model: payload[0]?.id || ''
+    }))
     setLoading(false)
     return payload
   }
@@ -33,20 +34,19 @@ export default function useModels (provider) {
 
   useEffect(() => {
     const controller = new AbortController()
-    const path = `/models?provider=${encodeURIComponent(provider)}`
+    const path = `/models?provider=${encodeURIComponent(session.provider)}`
     fetch(path, { signal: controller.signal })
       .then(clear)
       .then(unmarshal)
       .then(receive)
       .catch(onError)
     return () => controller.abort()
-  }, [provider])
+  }, [session.provider])
 
   return {
     error,
     loading,
-    model,
+    model: session.model,
     models,
-    setModel
   }
 }

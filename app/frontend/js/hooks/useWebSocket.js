@@ -4,14 +4,19 @@ import { useEffect, useState } from 'react'
 
 const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
 
-export default function useWebSocket (provider, model, setModel, setCost) {
+export default function useWebSocket ({session, setSession}) {
   const [status, setStatus] = useState('connecting')
   const [entries, setEntries] = useState([])
   const [streaming, setStreaming] = useState('')
   const [socket, setSocket] = useState(null)
 
   const _setModel = (payload) => {
-    if (payload.model && payload.model !== model) { setModel(payload.model) }
+    if (payload.model && payload.model !== session.model) {
+      setSession((prev) => ({
+        ...prev,
+        model: payload.model
+      }))
+    }
   }
 
   const say = (text) => {
@@ -37,7 +42,7 @@ export default function useWebSocket (provider, model, setModel, setCost) {
     switch (payload.event) {
       case 'welcome':
         _setModel(payload)
-        say(`server: connected (${payload.provider || provider}${payload.model ? ` / ${payload.model}` : ''})`)
+        say(`server: connected (${payload.provider} / ${payload.model})`)
         break
       case 'status':
         setStatus(payload.message)
@@ -47,7 +52,17 @@ export default function useWebSocket (provider, model, setModel, setCost) {
         break
       case 'done':
         finish()
-        payload.cost === 'unknown' ? setCost(payload.cost) : setCost(`$${payload.cost}`)
+        if (payload.cost === 'unknown') {
+          setSession((prev) => ({
+            ...prev,
+            cost: payload.cost
+          }))
+        } else {
+          setSession((prev) => ({
+            ...prev,
+            cost: `$${payload.cost}`
+          }))
+        }
         setStatus('ready')
         break
       case 'error':
@@ -61,10 +76,10 @@ export default function useWebSocket (provider, model, setModel, setCost) {
   }
 
   useEffect(() => {
-    if (!model) { return }
+    if (!session.model) { return }
 
     let active = true
-    const query = `provider=${encodeURIComponent(provider)}&model=${encodeURIComponent(model)}`
+    const query = `provider=${encodeURIComponent(session.provider)}&model=${encodeURIComponent(session.model)}`
     const socket = new WebSocket(`${protocol}//${window.location.host}/ws?${query}`)
     setSocket(socket)
     setStatus('connecting')
@@ -93,7 +108,7 @@ export default function useWebSocket (provider, model, setModel, setCost) {
       active = false
       socket.close()
     }
-  }, [provider, model])
+  }, [session.provider, session.model])
 
   const send = (message) => {
     if (!socket || socket.readyState !== WebSocket.OPEN) {
