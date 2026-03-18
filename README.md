@@ -9,9 +9,9 @@ Enjoy :)
 
 ## Screencast
 
-[![Watch the screencast](https://img.youtube.com/vi/PO0GFmSG1uU/maxresdefault.jpg)](https://www.youtube.com/watch?v=PO0GFmSG1uU)
+[![Watch the screencast](https://img.youtube.com/vi/fOvAFq7ITiE/maxresdefault.jpg)](https://youtu.be/fOvAFq7ITiE)
 
-Watch the screencast on [YouTube](https://www.youtube.com/watch?v=PO0GFmSG1uU).
+Watch the screencast on [YouTube](https://youtu.be/fOvAFq7ITiE).
 
 ## Features
 
