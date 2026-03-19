@@ -43,7 +43,6 @@ export default function useModels ({ session, setSession }) {
   return {
     error,
     loading,
-    model: session.model,
     models,
   }
 }

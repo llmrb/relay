@@ -15,8 +15,8 @@ import { useModels, useWebSocket } from '~/js/hooks'
 export default function App () {
   const [message, setMessage] = useState('')
   const [session, setSession] = useState({ provider: 'deepseek', model: '', cost: '' })
-  const { loading: modelsLoading, model, models } = useModels({ session, setSession })
-  const { entries, send, status, streaming } = useWebSocket({session, setSession})
+  const { loading: modelsLoading, models } = useModels({ session, setSession })
+  const { entries, send, status, stream } = useWebSocket({session, setSession})
 
   const streamRef = useRef(null)
   const inputRef = useRef(null)
@@ -63,7 +63,7 @@ export default function App () {
 
   useLayoutEffect(() => {
     scrollToBottom()
-  }, [entries, streaming])
+  }, [entries, stream])
 
   useEffect(() => {
     const stream = streamRef.current
@@ -112,7 +112,7 @@ export default function App () {
             <ProviderSelect provider={session.provider} onChange={onProviderChange} />
             <ModelSelect
               loading={modelsLoading}
-              model={model}
+              model={session.model}
               models={models}
               onChange={onModelChange}
             />
@@ -140,7 +140,7 @@ export default function App () {
             if (entry.kind === 'user') { return <UserMessage key={index} text={entry.text} /> }
             return <SystemMessage key={index} text={entry.text} />
           })}
-          {streaming ? <StreamingMessage markdown={streaming} /> : null}
+          {stream ? <StreamingMessage markdown={stream} /> : null}
         </div>
         <p className='text-left text-sm text-zinc-500'>
           Status: <span className='font-semibold text-zinc-700'>{status}</span>

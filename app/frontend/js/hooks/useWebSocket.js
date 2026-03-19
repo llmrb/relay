@@ -7,41 +7,35 @@ const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
 export default function useWebSocket ({session, setSession}) {
   const [status, setStatus] = useState('connecting')
   const [entries, setEntries] = useState([])
-  const [streaming, setStreaming] = useState('')
+  const [stream, setStream] = useState('')
   const [socket, setSocket] = useState(null)
 
-  const say = (text) => {
-    setEntries((prev) => [...prev, { kind: 'system', text }])
+  const say = (kind, text) => {
+    setEntries((prev) => [...prev, { kind, text }])
   }
 
-  const tell = (text) => {
-    setEntries((prev) => [...prev, { kind: 'user', text }])
-  }
-
-  const stream = (chunk) => {
-    setStreaming((prev) => prev + chunk)
-  }
-
-  const finish = () => {
-    setStreaming((current) => {
-      if (current) { setEntries((prev) => [...prev, { kind: 'assistant', markdown: current }]) }
-      return ''
-    })
+  const error = () => {
+    setStream('')
+    setStatus('error')
+    say('system', 'server: server error')
   }
 
   const onMessage = (payload) => {
     switch (payload.event) {
       case 'welcome':
-        say(`server: connected (${session.provider} / ${session.model})`)
+        say('system', `server: connected (${session.provider} / ${session.model})`)
         break
       case 'status':
         setStatus(payload.message)
         break
       case 'delta':
-        stream(payload.message)
+        setStream((prev) => prev + payload.message)
         break
       case 'done':
-        finish()
+        setStream((current) => {
+          if (current) { setEntries((prev) => [...prev, { kind: 'assistant', markdown: current }]) }
+          return ''
+        })
         if (payload.cost === 'unknown') {
           setSession((prev) => ({...prev, cost: payload.cost}))
         } else {
@@ -50,9 +44,7 @@ export default function useWebSocket ({session, setSession}) {
         setStatus('ready')
         break
       case 'error':
-        setStreaming('')
-        setStatus('error')
-        say('server: server error')
+        error('server: server error')
         break
       default:
         break
@@ -100,7 +92,7 @@ export default function useWebSocket ({session, setSession}) {
       return false
     }
     setStatus('waiting')
-    tell(message)
+    say('user', message)
     socket.send(message)
     return true
   }
@@ -109,6 +101,6 @@ export default function useWebSocket ({session, setSession}) {
     entries,
     send,
     status,
-    streaming
+    stream
   }
 }
