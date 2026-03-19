@@ -3,6 +3,10 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import {
+  TextArea,
+} from "~/js/components/TextArea"
+
+import {
   AssistantMessage,
   StreamingMessage,
   SystemMessage,
@@ -20,7 +24,6 @@ export default function App () {
 
   const streamRef = useRef(null)
   const inputRef = useRef(null)
-  const keysRef = useRef([])
 
   const scrollToBottom = () => {
     const stream = streamRef.current
@@ -32,25 +35,6 @@ export default function App () {
     const text = message.trim()
     if (!text) return false
     if (send(text)) setMessage('')
-  }
-
-  const onMessageKeyDown = (event) => {
-    const keys = keysRef.current
-    if (event.nativeEvent.isComposing) return
-    if (!keys.includes(event.key)) keys.push(event.key)
-
-    const enters = keys.filter((key) => key === 'Enter')
-    const shifts = keys.filter((key) => key === 'Shift')
-
-    if (enters.length && !shifts.length) {
-      onSubmit(event)
-      keysRef.current = []
-    }
-  }
-
-  const onMessageKeyUp = (event) => {
-    const keys = keysRef.current
-    keysRef.current = keys.filter((key) => key !== event.key)
   }
 
   const onProviderChange = (event) => {
@@ -138,7 +122,7 @@ export default function App () {
           {entries.map((entry, index) => {
             if (entry.kind === 'assistant') { return <AssistantMessage key={index} markdown={entry.markdown} /> }
             if (entry.kind === 'user') { return <UserMessage key={index} text={entry.text} /> }
-            return <SystemMessage key={index} text={entry.text} />
+            if (entry.kind === 'system') { return <SystemMessage key={index} text={entry.text} /> }
           })}
           {stream ? <StreamingMessage markdown={stream} /> : null}
         </div>
@@ -149,17 +133,7 @@ export default function App () {
           className='sticky bottom-0 flex flex-col gap-2 bg-gradient-to-b from-white/0 via-white/90 to-white pt-3 pb-1'
           onSubmit={onSubmit}
         >
-          <textarea
-            ref={inputRef}
-            rows={1}
-            className='max-h-60 min-h-14 w-full resize-none overflow-y-auto rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-[15px] text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-300 focus:ring-4 focus:ring-zinc-900/10'
-            placeholder='Type a message'
-            autoComplete='off'
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-            onKeyDown={onMessageKeyDown}
-            onKeyUp={onMessageKeyUp}
-          />
+          <TextArea inputRef={inputRef} message={message} setMessage={setMessage} onSubmit={onSubmit} />
           <div className='flex justify-end'>
             <button
               disabled={status !== 'ready'}
