@@ -12,7 +12,14 @@ class Server::Routes::Websocket
     #  The current LLM session
     # @return [void]
     def on_connect(conn, llm, sess)
-      write(conn, event: "welcome", provider: llm.class.to_s, model: sess.model)
+      welcome_event = {
+        event: "welcome",
+        provider: llm.class.to_s,
+        model: sess.model,
+        contextWindow: sess.context_window,
+        contextWindowUsage: sess.usage.total_tokens || 0,
+      }
+      write(conn, welcome_event)
       while (message = conn.read)
         read(conn, sess, message)
       end
@@ -48,6 +55,7 @@ class Server::Routes::Websocket
     rescue LLM::NoSuchRegistryError, LLM::NoSuchModelError
       write(conn, event: "done", cost: "unknown")
     rescue StandardError => e
+      pp e.class, e.message, e.backtrace
       write(conn, event: "status", message: "Error")
       write(conn, event: "error")
     end

@@ -7,6 +7,7 @@ const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
 export default function useWebSocket ({session, setSession}) {
   const [status, setStatus] = useState('connecting')
   const [entries, setEntries] = useState([])
+  const [reconnectKey, setReconnectKey] = useState(0)
   const [stream, setStream] = useState('')
   const [socket, setSocket] = useState(null)
 
@@ -14,16 +15,33 @@ export default function useWebSocket ({session, setSession}) {
     setEntries((prev) => [...prev, { kind, text }])
   }
 
+  const reconnect = () => {
+    setReconnectKey((prev) => prev + 1)
+  }
+
   const error = () => {
     setStream('')
-    setStatus('error')
+    setStatus('Try again')
     say('system', 'server: server error')
+  }
+
+  const send = (message) => {
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      say('client: socket is not open')
+      return false
+    }
+    setStatus('waiting')
+    say('user', message)
+    socket.send(message)
+    return true
   }
 
   const onMessage = (payload) => {
     switch (payload.event) {
       case 'welcome':
-        say('system', `server: connected (${session.provider} / ${session.model})`)
+        const { provider, model, contextWindow } = payload
+        setSession((prev) => ({...prev, contextWindow}))
+        say('system', `server: connected (${provider} / ${model})`)
         break
       case 'status':
         setStatus(payload.message)
@@ -60,13 +78,21 @@ export default function useWebSocket ({session, setSession}) {
     setSocket(socket)
     setStatus('connecting')
 
-    socket.addEventListener('open', () => active && setStatus('ready'))
-    socket.addEventListener('close', () => active && setStatus('closed'))
+    socket.addEventListener('open', () => {
+      if (!active) { return }
+      setStatus('ready')
+    })
+
+    socket.addEventListener('close', () => {
+      if (!active) { return }
+      say("client: connection closed")
+      reconnect()
+    })
 
     socket.addEventListener('error', () => {
       if (!active) { return }
-      setStatus('error')
       say('client: socket error')
+      reconnect()
     })
 
     socket.addEventListener('message', (event) => {
@@ -84,18 +110,7 @@ export default function useWebSocket ({session, setSession}) {
       active = false
       socket.close()
     }
-  }, [session.provider, session.model])
-
-  const send = (message) => {
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
-      say('client: socket is not open')
-      return false
-    }
-    setStatus('waiting')
-    say('user', message)
-    socket.send(message)
-    return true
-  }
+  }, [session.provider, session.model, reconnectKey])
 
   return {
     entries,
