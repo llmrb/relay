@@ -38,6 +38,9 @@ module Server::Routes
       @root ||= File.join __dir__, "..", "..", ".."
     end
 
+    ##
+    # Returns a Hash or Hash-like object of request parameters
+    # @return [Hash]
     def params
       request.params
     end
