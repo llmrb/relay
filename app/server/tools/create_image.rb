@@ -5,7 +5,7 @@ module Server::Tool
     name "create-image"
     description "Create a generated image"
     param :prompt, String, "The prompt", required: true
-    param :provider, Enum["openai", "gemini", "xai"], "The provider", default: "xai"
+    param :provider, Enum["openai", "google", "xai"], "The provider", default: "xai"
     param :n, Integer, "The number of images to generate", default: 1
 
     ##
