@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Server::Router < Roda
+  plugin :common_logger
+
   include Server::Routes
 
   route do |r|
