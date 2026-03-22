@@ -64,6 +64,14 @@
     @apply mb-0;
   }
 
+  .assistant-content a {
+    @apply font-medium text-blue-600 underline decoration-blue-600 underline-offset-3;
+  }
+
+  .assistant-content a:hover {
+    @apply text-blue-700 decoration-blue-700;
+  }
+
   .assistant-content ul {
     @apply my-4 list-disc pl-6;
   }

@@ -45,7 +45,7 @@ class Relay::Routes::Websocket
     # @return [void]
     def read(conn, sess, message)
       return if message.to_s.empty?
-      vars[:messages].concat [{role: "user", content: message}, {role: "assistant", content: +""}]
+      vars[:messages].concat [{role: :user, content: message}, {role: :assistant, content: +""}]
       write(conn, fragment(:status, status: "Thinking..."))
       write(conn, fragment(:chat))
       write(conn, fragment(:input))
@@ -97,7 +97,7 @@ class Relay::Routes::Websocket
     #  The streamed assistant text chunk
     # @return [void]
     def stream(conn, chunk)
-      message = vars[:messages].reverse_each.find { _1[:role] == "assistant" }
+      message = vars[:messages].reverse_each.find { _1[:role] == :assistant }
       message[:content] << chunk
       write conn, fragment(:chat)
     end

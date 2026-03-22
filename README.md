@@ -12,9 +12,19 @@ environment.
 
 ## Features
 
+### Application
+
 - 🌊 Streaming chat over WebSockets
 - 🛠️ Custom tool support via [app/tools/](app/tools)
 - 🖼️ Sample image-generation tool in [create_image.rb](./app/tools/create_image.rb)
+- 📚 Sample knowledge tool in [relay_knowledge.rb](./app/tools/relay_knowledge.rb)
+
+The example tools show two useful patterns: delegating work to external
+providers, and exposing documentation-backed knowledge to the model
+through a tool.
+
+### Architecture
+
 - ⚙️ Rack application built with Falcon, Roda, and async-websocket
 - 🗃️ Sequel with built-in migrations
 - 🧵 Sidekiq workers for background jobs
@@ -44,6 +54,7 @@ GOOGLE_SECRET=...
 ANTHROPIC_SECRET=...
 DEEPSEEK_SECRET=...
 XAI_SECRET=...
+SESSION_SECRET=
 REDIS_URL=
 ```
 ## Architecture
