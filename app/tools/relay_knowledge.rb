@@ -14,8 +14,8 @@ module Relay::Tools
     # @return [Hash]
     def call(topic:)
       case topic
-      when "relay" then {documentation: relay_documentation}
-      when "llm.rb" then {documentation: llmrb_documentation}
+      when "relay" then {directions:, documentation: relay_documentation}
+      when "llm.rb" then {directions:, documentation: llmrb_documentation}
       else {error: "unknown topic: #{topic}"}
       end
     rescue SystemCallError
@@ -32,6 +32,10 @@ module Relay::Tools
     def llmrb_documentation
       docs = File.join(Relay.root, "..", "llm.rb", "README.md")
       File.read(docs)
+    end
+
+    def directions
+      "Reference links from the associated document in your response"
     end
   end
 end

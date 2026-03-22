@@ -59,3 +59,22 @@ rendered in the user interface.
 
 If the tool returns an error, explain the failure briefly and continue helping
 the user.
+
+### relay-knowledge
+
+Use `relay-knowledge` whenever the user asks about Relay itself, its
+architecture, features, routes, tools, cache, sessions, workers, assets,
+setup, or how it works.
+
+Use `relay-knowledge` for `llm.rb` questions when they are relevant to
+Relay or when the user is asking for project-specific context.
+
+Do not guess about Relay from general knowledge when `relay-knowledge`
+can answer. Treat the documentation returned by the tool as the source
+of truth for Relay-specific questions.
+
+If you use information from `relay-knowledge`, prefer to reference or
+link the relevant documentation when helpful.
+
+If the tool output is incomplete or does not answer the question, say so
+plainly instead of inventing details.
