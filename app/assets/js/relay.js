@@ -1,5 +1,6 @@
 import "../css/application.css"
 import htmx from "htmx.org"
+import hljs from "highlight.js"
 import { marked } from "marked"
 
 window.htmx = htmx
@@ -24,6 +25,9 @@ require("htmx-ext-ws")
     const markdown = (root = document.body) => {
       root.querySelectorAll("[data-markdown]").forEach((element) => {
         element.innerHTML = marked.parse(element.dataset.markdownSource || "")
+        element.querySelectorAll("pre code").forEach((block) => {
+          hljs.highlightElement(block)
+        })
       })
     }
 

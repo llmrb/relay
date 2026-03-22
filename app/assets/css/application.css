@@ -8,23 +8,27 @@
 
 @layer base {
   body {
-    @apply min-h-screen bg-white text-zinc-900 antialiased;
+    @apply min-h-screen bg-stone-100 text-zinc-900 antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgb(219 234 254 / 0.7), transparent 28rem),
+      radial-gradient(circle at top right, rgb(254 243 199 / 0.6), transparent 24rem),
+      linear-gradient(to bottom, rgb(250 250 249), rgb(245 245 244));
   }
 
   ::selection {
-    @apply bg-zinc-200 text-zinc-900;
+    @apply bg-sky-200 text-zinc-900;
   }
 }
 
 @layer components {
   .panel {
-    @apply rounded-3xl border border-zinc-200 bg-white shadow-sm;
+    @apply rounded-3xl border border-stone-200/80 bg-white/85 shadow-sm backdrop-blur-sm;
   }
 
   .scrollbar-chat {
     scrollbar-gutter: stable;
     scrollbar-width: thin;
-    scrollbar-color: #d4d4d8 transparent;
+    scrollbar-color: #93c5fd transparent;
   }
 
   .scrollbar-chat::-webkit-scrollbar {
@@ -36,14 +40,14 @@
   }
 
   .scrollbar-chat::-webkit-scrollbar-thumb {
-    background: #d4d4d8;
+    background: #93c5fd;
     border: 1px solid transparent;
     border-radius: 9999px;
     background-clip: content-box;
   }
 
   .scrollbar-chat::-webkit-scrollbar-thumb:hover {
-    background: #b4b4bb;
+    background: #60a5fa;
     border: 1px solid transparent;
     background-clip: content-box;
   }
@@ -85,15 +89,47 @@
   }
 
   .assistant-content pre {
-    @apply my-4 overflow-x-auto rounded-2xl bg-zinc-100 p-3;
+    @apply my-4 overflow-x-auto rounded-2xl border border-sky-100 bg-sky-50/80 p-3;
   }
 
   .assistant-content code {
     @apply font-mono;
   }
 
+  .assistant-content pre code.hljs {
+    @apply block rounded-xl bg-sky-50/80 p-0 text-[13px] leading-6 text-zinc-800;
+  }
+
+  .assistant-content .hljs-keyword,
+  .assistant-content .hljs-selector-tag,
+  .assistant-content .hljs-title,
+  .assistant-content .hljs-section,
+  .assistant-content .hljs-built_in,
+  .assistant-content .hljs-type {
+    @apply text-blue-700;
+  }
+
+  .assistant-content .hljs-string,
+  .assistant-content .hljs-attr,
+  .assistant-content .hljs-template-tag,
+  .assistant-content .hljs-template-variable {
+    @apply text-emerald-700;
+  }
+
+  .assistant-content .hljs-number,
+  .assistant-content .hljs-literal,
+  .assistant-content .hljs-symbol,
+  .assistant-content .hljs-bullet {
+    @apply text-amber-700;
+  }
+
+  .assistant-content .hljs-comment,
+  .assistant-content .hljs-quote {
+    @apply text-stone-500 italic;
+  }
+
   .assistant-content blockquote {
-    @apply my-4 border-l-4 border-zinc-300 pl-4 text-zinc-600;
+    @apply my-4 border-l-4 border-amber-300 pl-4 text-stone-600;
   }
 
   .assistant-content img {
@@ -101,10 +137,10 @@
   }
 
   .label {
-    @apply block text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500;
+    @apply block text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-500;
   }
 
   .field {
-    @apply w-full rounded-2xl border border-zinc-200 bg-white px-3 py-3 text-zinc-700 outline-none transition focus:border-zinc-400 focus:ring-4 focus:ring-zinc-900/5;
+    @apply w-full rounded-2xl border border-stone-200 bg-white/90 px-3 py-3 text-zinc-700 outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10;
   }
 }
