@@ -127,9 +127,9 @@ without treating them as persistent data.
 
 ## Sources
 
-* [GitHub.com](https://github.com/llmrb/realtalk)
-* [GitLab.com](https://gitlab.com/llmrb/realtalk)
-* [Codeberg.org](https://codeberg.org/llmrb/realtalk)
+* [GitHub.com](https://github.com/llmrb/relay)
+* [GitLab.com](https://gitlab.com/llmrb/relay)
+* [Codeberg.org](https://codeberg.org/llmrb/relay)
 
 ## License
 
