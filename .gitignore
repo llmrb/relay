@@ -5,3 +5,4 @@ public/
 tmp/
 db/*.sqlite3
 !public/.gitkeep
+!public/images/relay.png
