@@ -11,7 +11,7 @@ module Relay::Routes
     def call
       Async::WebSocket::Adapters::Rack.open(request.env) do |conn|
         stream = Stream.new(conn, self)
-        params = { model: websocket_model, stream:, tools: }
+        params = { model:, stream:, tools: }
         llm.tracer = logger(llm)
         on_connect conn, llm, LLM::Session.new(llm, params)
       end || upgrade_required
@@ -32,7 +32,7 @@ module Relay::Routes
     end
 
     def tools
-      [CreateImage]
+      [CreateImage, RelayKnowledge]
     end
 
     def instructions
@@ -44,10 +44,6 @@ module Relay::Routes
         _1.system instructions
         _1.user message
       end
-    end
-
-    def websocket_model
-      model || "deepseek-chat"
     end
 
     ##
