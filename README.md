@@ -127,7 +127,7 @@ without treating them as persistent data.
 
 ## Screencast
 
-[![Watch the Relay screencast](https://img.youtube.com/vi/WhAV3o3hEBw/maxresdefault.jpg)](https://www.youtube.com/watch?v=WhAV3o3hEBw)
+[![Watch the Relay screencast](https://img.youtube.com/vi/A52YcO7SSyk/maxresdefault.jpg)](https://www.youtube.com/watch?v=A52YcO7SSyk)
 
 ## Sources
 
