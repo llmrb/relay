@@ -11,7 +11,7 @@ export const Jukebox = () => {
   }
 
   const getArtist = (node) =>{
-    const artistEl = node.querySelector(".artist")
+    const artistEl = node.querySelector(".artist[data-play]")
     if (artistEl) {
       const attrs = Array.from(artistEl.querySelectorAll("[data-name]"))
       const entries = attrs.map((el) => [el.dataset.name, el.textContent.trim()])

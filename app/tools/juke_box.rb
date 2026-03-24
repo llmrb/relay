@@ -39,8 +39,10 @@ module Relay::Tools
 
     def directions
       [
-        "embed a single 'artist' item to trigger the video being played",
-        "do not embed an iframe"
+        "To play a track, embed a single `artist` item with the `data-play` attribute.",
+        "Do not embed an iframe.",
+        "When presenting the full list, omit `data-play`.",
+        "Use the full list for display only."
       ]
     end
   end
