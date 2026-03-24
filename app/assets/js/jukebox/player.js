@@ -22,15 +22,18 @@ const Player = function (parentEl) {
   }
 
   self.setTitle = (title) => {
+    if (!title) return
     titleEl.textContent = title
   }
 
   self.setTrack = (artist) => {
-     iframeEl.src = artist.track
-     iframeEl.dataset.id = artist.track
+    if (!artist.track) return
+    iframeEl.src = artist.track
+    iframeEl.dataset.id = artist.track
   }
 
   self.setArtist = (artist) => {
+    if (!artist.name || !artist.title) return
     self.setTitle(`${artist.name} - ${artist.title}`)
     self.setTrack(artist)
   }
