@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/llmrb/llm.rb.git
-  revision: a6915905996919c0ecce7b441d22aa9fab909f35
+  revision: 14173aa160020f12f1d607447e7f0ff5fdf5410b
   specs:
     llm.rb (4.8.0)
 
@@ -8,13 +8,13 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.3)
-    async (2.38.0)
+    async (2.38.1)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.11)
       metrics (~> 0.12)
       traces (~> 0.18)
-    async-container (0.34.3)
+    async-container (0.34.4)
       async (~> 2.22)
     async-http (0.94.2)
       async (>= 2.10.2)
@@ -35,7 +35,7 @@ GEM
       async
       async-container (~> 0.34)
       string-format (~> 0.2)
-    async-utilization (0.3.1)
+    async-utilization (0.3.2)
       console (~> 1.0)
     async-websocket (0.30.0)
       async-http (~> 0.76)
@@ -69,9 +69,9 @@ GEM
     fiber-storage (1.0.1)
     fiddle (1.1.8)
     io-endpoint (0.17.2)
-    io-event (1.14.4)
+    io-event (1.14.5)
     io-stream (0.11.1)
-    json (2.19.1)
+    json (2.19.3)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     localhost (1.7.0)
@@ -96,7 +96,7 @@ GEM
     protocol-http2 (0.24.0)
       protocol-hpack (~> 1.4)
       protocol-http (~> 0.47)
-    protocol-rack (0.21.1)
+    protocol-rack (0.22.0)
       io-stream (>= 0.10)
       protocol-http (~> 0.58)
       rack (>= 1.0)
@@ -138,7 +138,7 @@ GEM
       mapping (~> 1.0)
     sequel (5.102.0)
       bigdecimal
-    sidekiq (8.1.1)
+    sidekiq (8.1.2)
       connection_pool (>= 3.0.0)
       json (>= 2.16.0)
       logger (>= 1.7.0)
@@ -146,6 +146,16 @@ GEM
       redis-client (>= 0.26.0)
     sqlite3 (2.9.2)
       mini_portile2 (~> 2.8.0)
+    sqlite3 (2.9.2-aarch64-linux-gnu)
+    sqlite3 (2.9.2-aarch64-linux-musl)
+    sqlite3 (2.9.2-arm-linux-gnu)
+    sqlite3 (2.9.2-arm-linux-musl)
+    sqlite3 (2.9.2-arm64-darwin)
+    sqlite3 (2.9.2-x86-linux-gnu)
+    sqlite3 (2.9.2-x86-linux-musl)
+    sqlite3 (2.9.2-x86_64-darwin)
+    sqlite3 (2.9.2-x86_64-linux-gnu)
+    sqlite3 (2.9.2-x86_64-linux-musl)
     standard (1.54.0)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -169,8 +179,18 @@ GEM
     zeitwerk (2.7.5)
 
 PLATFORMS
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux-gnu
+  arm-linux-musl
+  arm64-darwin
   ruby
+  x86-linux-gnu
+  x86-linux-musl
+  x86_64-darwin
   x86_64-freebsd-15
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
   async-websocket
