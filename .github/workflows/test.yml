@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RACK_ENV: test
+      SESSION_SECRET: test-session-secret
 
     steps:
       - name: Check out code
