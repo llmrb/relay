@@ -78,6 +78,42 @@ SESSION_SECRET=
 REDIS_URL=
 ```
 
+## Running Tests
+
+Relay includes a test suite built with `rack-test` and `test-unit` from the Ruby standard library. The tests follow the patterns established in the codebase and focus on HTTP route behavior.
+
+### Setup
+
+Install test dependencies:
+
+```bash
+bundle install
+```
+
+### Running Tests
+
+Run the full test suite:
+
+```bash
+rake test
+```
+
+Create the test directory structure (if needed):
+
+```bash
+rake test:create
+```
+
+### Test Structure
+
+- **`test/test_helper.rb`** - Base test class with Rack::Test setup
+- **`test/routes/`** - Route-specific tests
+  - `base_test.rb` - Tests for root redirect, health check, and 404 handling
+  - `list_models_test.rb` - Tests for authentication requirements on API endpoints
+  - `sign_in_test.rb` - Tests for sign-in page accessibility and form validation
+
+Tests are automatically discovered from files matching `test/**/*_test.rb`.
+
 ## Customization
 
 **Tools**
