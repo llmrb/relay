@@ -1,13 +1,17 @@
 const Timer = function() {
   const self = Object.create(null)
-  self.parentEl = document.getElementById("chatbot-status")
+  let parentEl = document.getElementById("chatbot-status")
   
   let interval = null
   let startTime = null
   let currentStatus = ""
 
-  const getSpan = () => {
-    return self.parentEl?.querySelector(".font-medium.text-zinc-100")
+  const getParent = () => {
+    return parentEl
+  }
+
+  const getSpan = (parent = getParent()) => {
+    return parent?.querySelector(".font-medium.text-zinc-100")
   }
 
   const update = (text) => {
@@ -39,8 +43,8 @@ const Timer = function() {
     currentStatus = ""
   }
 
-  self.handle = (parentEl) => {
-    self.parentEl = parentEl
+  self.handle = (newParentEl) => {
+    parentEl = newParentEl
     const span = getSpan()
     if (!span) return
     const statusText = span.textContent.trim()
