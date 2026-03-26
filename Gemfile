@@ -22,3 +22,8 @@ gem "zeitwerk"
 group :development do
   gem "standard"
 end
+
+group :test do
+  gem "rack-test"
+  gem "test-unit"
+end
