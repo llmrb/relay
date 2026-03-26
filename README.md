@@ -73,6 +73,8 @@ SESSION_SECRET=
 REDIS_URL=
 ```
 
+## Customization
+
 **Tools**
 
 Relay ships with a small set of built-in tools in [`app/tools/`](app/tools):
