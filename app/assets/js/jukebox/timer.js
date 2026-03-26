@@ -9,7 +9,7 @@ const Timer = function(parentEl) {
   self.startTime = null
   self.el = null
 
-  const getStatusEl = (parent = self.parentEl) => {
+  const getSpan = (parent = self.parentEl) => {
     return parent?.querySelector(".status-value")
   }
 
@@ -63,7 +63,7 @@ const Timer = function(parentEl) {
     if (self.timeout)
       clearTimeout(self.timeout)
     self.startTime = Date.now()
-    const span = getStatusEl()
+    const span = getSpan()
     if (!span) return
     attachTo(span)
     update(0)
@@ -79,7 +79,7 @@ const Timer = function(parentEl) {
   }
 
   self.handle = (parent) => {
-    const span = getStatusEl(parent)
+    const span = getSpan(parent)
     if (!span) return
     const statusText = span.textContent.trim()
     if (statusText.startsWith("Thinking") || statusText.startsWith("Running"))
