@@ -3,14 +3,15 @@
 require "setup"
 
 class BaseRouteTest < Relay::Test
-  def test_root_path_raises_without_request_delegation
-    assert_raise(NameError) do
-      get "/"
-    end
+  def test_root_path_redirects_to_sign_in
+    get "/"
+    assert_equal 302, last_response.status
+    assert_match "/sign-in", last_response.headers["Location"]
   end
 
   def test_unknown_get_route_returns_404
     get "/nonexistent-route"
     assert_equal 404, last_response.status
+    assert_match "Not Found", last_response.body
   end
 end
