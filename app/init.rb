@@ -20,6 +20,9 @@ module Relay
   loader.setup
   @loader = loader
 
+  ##
+  # Returns the Zeitwerk loader used for application autoloading
+  # @return [Zeitwerk::Loader]
   def self.loader
     @loader
   end
