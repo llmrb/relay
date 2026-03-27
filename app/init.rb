@@ -18,7 +18,6 @@ module Relay
 
   loader.enable_reloading if development?
   loader.setup
-  @loader = loader
 
   ##
   # Returns the Zeitwerk loader used for application autoloading
@@ -26,6 +25,7 @@ module Relay
   def self.loader
     @loader
   end
+  @loader = loader
 
   require_relative "init/env"
   require_relative "init/database"
