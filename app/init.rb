@@ -7,13 +7,7 @@ module Relay
   require "erb"
   require "yaml"
 
-  def self.environment
-    ENV.fetch("RACK_ENV", "development")
-  end
-
-  def self.development?
-    environment == "development"
-  end
+  require_relative "../lib/relay"
 
   loader = Zeitwerk::Loader.new
   loader.ignore(
@@ -29,7 +23,6 @@ module Relay
     @loader
   end
 
-  require_relative "../lib/relay"
   require_relative "init/env"
   require_relative "init/database"
   require_relative "init/sidekiq"

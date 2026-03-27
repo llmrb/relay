@@ -5,6 +5,14 @@ module Relay
   require_relative "relay/task_monitor"
   require_relative "relay/task"
 
+  def self.environment
+    ENV.fetch("RACK_ENV", "development")
+  end
+
+  def self.development?
+    environment == "development"
+  end
+
   ##
   # Returns mcp configuration
   # @return [LLM::Object]
