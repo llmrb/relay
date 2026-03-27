@@ -133,10 +133,25 @@ stdio:
         GITHUB_PERSONAL_ACCESS_TOKEN: <YOUR_TOKEN>
 ```
 
+For local or self-hosted Forgejo and Gitea instances, you can use an MCP
+server such as [`forgejo-mcp`](https://github.com/Sqcows/forgejo-mcp)
+and point it at your local server URL:
+
+```yml
+stdio:
+  - name: Forgejo
+    description: Forgejo/Gitea MCP server
+    config:
+      argv: ["npx", "@ric_/forgejo-mcp"]
+      env:
+        FORGEJO_URL: http://localhost:3000
+        FORGEJO_TOKEN: <YOUR_TOKEN>
+```
+
 Setup:
 
 1. Install the MCP server binary you want to use, for example
-   `github-mcp-server`.
+   `github-mcp-server` or `npx @ric_/forgejo-mcp`.
 2. Copy `app/config/mcp.yml.sample` to `app/config/mcp.yml`.
 3. Fill in any required environment variables such as API tokens.
 4. Restart Relay.
