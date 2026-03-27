@@ -23,14 +23,14 @@ module Relay::Models
     # @return [LLM::Function]
     #  Returns an array of tools
     def functions
-      session.functions
+      ctx.functions
     end
 
     ##
     # Continues the stored context with new input
     # @return [LLM::Response]
     def talk(...)
-      session.talk(...)
+      ctx.talk(...)
     end
 
     ##
@@ -48,10 +48,10 @@ module Relay::Models
     # @return [Relay::Models::Context]
     def persist!
       update(
-        input_tokens: session.usage.input_tokens,
-        output_tokens: session.usage.output_tokens,
-        total_tokens: session.usage.total_tokens,
-        data: session.to_json
+        input_tokens: ctx.usage.input_tokens,
+        output_tokens: ctx.usage.output_tokens,
+        total_tokens: ctx.usage.total_tokens,
+        data: ctx.to_json
       )
     end
 
@@ -62,7 +62,7 @@ module Relay::Models
     # @return [Array<Hash>]
     #  Returns persisted user and assistant messages
     def messages
-      session.messages.filter_map do |message|
+      ctx.messages.filter_map do |message|
         next if message.tool_call?
         next unless message.user? || message.assistant?
         {role: message.role.to_sym, content: message.content.to_s}
@@ -73,13 +73,13 @@ module Relay::Models
     # @return [LLM::Cost]
     #  Returns the approximate cost of the current context
     def cost
-      session.cost
+      ctx.cost
     end
 
     ##
     # @return [Integer]
     def context_window
-      session.context_window
+      ctx.context_window
     rescue LLM::NoSuchModelError, LLM::NoSuchRegistryError
       0
     end
@@ -88,16 +88,16 @@ module Relay::Models
     # @return [LLM::Provider]
     #  An instance of LLM::Provider
     def llm
-      @llm ||= LLM.method(provider).call(key: ENV["#{provider.upcase}_SECRET"])
+      @llm ||= LLM.method(provider).call(key: ENV["#{provider.upcase}_SECRET"], timeout: 300)
     end
 
     private
 
     ##
     # @return [LLM::Session]
-    #  Returns an instance of LLM::Session
-    def session
-      @session ||= LLM::Session.new(llm, model: self[:model]).restore(string: data)
+    #  Returns the context
+    def ctx
+      @ctx ||= LLM::Session.new(llm, model: self[:model]).restore(string: data)
     end
   end
 end
