@@ -1,4 +1,4 @@
-# Relay
+## About
 
 Relay is a developer environment for working with LLMs in real time.
 Built with [llm.rb](https://github.com/llmrb/llm.rb#readme), HTMX,
@@ -296,12 +296,6 @@ Run the full test suite:
 
 ```bash
 rake test
-```
-
-Create the test directory structure (if needed):
-
-```bash
-rake test:create
 ```
 
 ### Test Structure
