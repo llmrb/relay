@@ -11,6 +11,8 @@ module Relay::Models
     # @param [LLM::Session] llm_session
     def llm_session=(llm_session)
       self.session_data = llm_session.to_json
+      # Update token counts from the session if available
+      update_tokens_from(llm_session) if llm_session.respond_to?(:input_tokens)
     end
 
     ##
@@ -40,6 +42,22 @@ module Relay::Models
         self.output_tokens = source.output_tokens.to_i
         self.total_tokens = source.total_tokens.to_i
       end
+    end
+
+    ##
+    # Returns estimated cost for this session based on token counts
+    # @return [Float, nil] estimated cost in dollars, or nil if cost can't be estimated
+    def estimated_cost
+      # This would need access to the provider's pricing information
+      # For now, return nil - can be implemented later with LLM::Registry
+      nil
+    end
+
+    ##
+    # Returns a user-friendly display name for the session
+    # @return [String]
+    def display_name
+      "#{model} (#{provider}) - #{created_at.strftime('%Y-%m-%d %H:%M')}"
     end
 
     ##
