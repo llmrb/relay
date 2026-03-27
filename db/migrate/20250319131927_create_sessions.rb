@@ -8,7 +8,7 @@ Sequel.migration do
       Integer :input_tokens, default: 0
       Integer :output_tokens, default: 0
       Integer :total_tokens, default: 0
-      column :session_data, :jsonb, null: false, default: Sequel.pg_jsonb({})
+      column :session_data, :json, null: false, default: Sequel.lit("'{}'")
 
       DateTime :created_at, null: false
       DateTime :updated_at, null: false
