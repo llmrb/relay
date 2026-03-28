@@ -46,8 +46,7 @@ class Relay::Routes::Websocket
     # @return [void]
     def read(conn, ctx, message, params)
       return if message.to_s.empty?
-      vars[:messages] << {role: :user, content: message}
-      vars[:messages] << {role: :assistant, content: +""}
+      vars[:messages].concat [{role: :user, content: message}, {role: :assistant, content: +""}]
       write(conn, fragment(:status, status: "Thinking..."))
       write(conn, fragment(:remove_empty_state)) if vars[:messages].length == 2
       message = vars[:messages][-2]
