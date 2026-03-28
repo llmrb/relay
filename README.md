@@ -1,12 +1,14 @@
 ## About
 
-Relay is a developer environment for working with LLMs in real time.
+Relay is a self-hostable LLM workspace for real tools and MCP.
 Built with [llm.rb](https://github.com/llmrb/llm.rb#readme), HTMX,
 Roda, Falcon, and WebSockets, it gives you a Ruby-first interface for
-experimenting with providers, models, tools, MCP servers, streaming
-responses, and background jobs.
+working with providers, models, tools, MCP servers, streaming
+responses, and persistent chat context.
 
-Relay also serves as a reference implementation for building
+Relay is useful for internal AI workflows, self-hosted experimentation,
+and teams that want a lightweight interface for tool-enabled LLM work.
+It also serves as a reference implementation for building
 production-style, tool-enabled LLM applications with llm.rb while
 keeping the frontend light and the architecture Ruby-centric.
 
@@ -14,18 +16,29 @@ keeping the frontend light and the architecture Ruby-centric.
 
 [![Watch the Relay screencast](https://img.youtube.com/vi/Jb7LNUYlCf4/maxresdefault.jpg)](https://www.youtube.com/watch?v=BfuN-2pnN8I)
 
+## Why Relay?
+
+Relay is a good fit if you want to:
+
+- self-host an LLM workspace
+- connect models to real tools
+- use MCP servers from one interface
+- switch between providers and models
+- study or extend a Ruby-first LLM app
+
 ## Features
 
-### Application
+### Workspace
 
 - 🌊 Streaming chat over WebSockets
 - 🤖 Multiple provider support: OpenAI, Google, Anthropic, DeepSeek, xAI
 - 🛠️ Add your own tools to [app/tools/](app/tools)
 - 🧪 Sample tools: [create_image.rb](./app/tools/create_image.rb), [relay_knowledge.rb](./app/tools/relay_knowledge.rb), [juke_box.rb](./app/tools/juke_box.rb)
 - 🔌 Optional MCP server support via [app/config/mcp.yml.sample](app/config/mcp.yml.sample)
+- 💾 Persistent chat context by provider and model
 - 🔐 User authentication with session-backed sign-in
 
-### Architecture
+### Platform
 
 - ⚙️ Rack application built with Falcon, Roda, and async-websocket
 - 🗃️ Sequel with built-in migrations
