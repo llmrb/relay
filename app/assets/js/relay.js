@@ -14,18 +14,47 @@ import { Timer } from "../js/jukebox/timer"
   document.addEventListener("DOMContentLoaded", () => {
     const jukebox = Jukebox()
     const timer = Timer(document.getElementById("chatbot-status"))
-    
+
+    let shouldFollow = true
+
+    const streamEl = () => document.getElementById("chatbot-stream")
+
+    const isNearBottom = (el, threshold = 48) => {
+      if (!el) return true
+      return el.scrollHeight - el.scrollTop - el.clientHeight <= threshold
+    }
+
     const scroll = () => {
-      const stream = document.getElementById("chatbot-stream")
+      const stream = streamEl()
       if (!stream) return
       stream.scrollTop = stream.scrollHeight
     }
 
     const follow = () => {
+      if (!shouldFollow) return
+
       scroll()
-      requestAnimationFrame(scroll)
-      setTimeout(scroll, 0)
-      setTimeout(scroll, 32)
+      requestAnimationFrame(() => {
+        if (shouldFollow) scroll()
+      })
+      setTimeout(() => {
+        if (shouldFollow) scroll()
+      }, 0)
+      setTimeout(() => {
+        if (shouldFollow) scroll()
+      }, 32)
+    }
+
+    const bindScrollTracking = () => {
+      const stream = streamEl()
+      if (!stream || stream.dataset.followBound === "true") return
+
+      stream.dataset.followBound = "true"
+      shouldFollow = isNearBottom(stream)
+
+      stream.addEventListener("scroll", () => {
+        shouldFollow = isNearBottom(stream)
+      }, { passive: true })
     }
 
     const syntaxHighlight = (el) =>{
@@ -57,11 +86,17 @@ import { Timer } from "../js/jukebox/timer"
     })
 
     markdown()
+    bindScrollTracking()
     follow()
 
-    document.body.addEventListener("htmx:afterSwap", (event) => markdown(event.target))
+    document.body.addEventListener("htmx:afterSwap", (event) => {
+      markdown(event.target)
+      bindScrollTracking()
+    })
+
     document.body.addEventListener("htmx:oobAfterSwap", (event) => {
       markdown(event.target)
+      bindScrollTracking()
       follow()
     })
   })
