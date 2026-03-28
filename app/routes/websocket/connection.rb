@@ -50,8 +50,10 @@ class Relay::Routes::Websocket
       vars[:messages] << {role: :assistant, content: +""}
       write(conn, fragment(:status, status: "Thinking..."))
       write(conn, fragment(:remove_empty_state)) if vars[:messages].length == 2
-      write(conn, fragment(:append_message, message: vars[:messages][-2]))
-      write(conn, fragment(:append_message, message: vars[:messages][-1]))
+      message = vars[:messages][-2]
+      write(conn, fragment(:append_message, message:))
+      message = vars[:messages][-1]
+      write(conn, fragment(:append_message, message:))
       write(conn, fragment(:input))
       send(ctx, message, params)
       invoke(ctx, ctx.functions, conn, params)
@@ -113,7 +115,7 @@ class Relay::Routes::Websocket
     def stream(conn, chunk)
       message = vars[:messages].reverse_each.find { _1[:role] == :assistant }
       message[:content] << chunk
-      write conn, fragment(:replace_last_message, message: message)
+      write conn, fragment(:replace_last_message, message:)
     end
 
     ##
