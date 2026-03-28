@@ -52,12 +52,9 @@ import { Timer } from "../js/jukebox/timer"
       })
     }
 
-    if (stream) {
+    document.body.addEventListener("htmx:beforeSwap", () => {
       shouldFollow = isNearBottom(stream)
-      stream.addEventListener("scroll", () => {
-        shouldFollow = isNearBottom(stream)
-      }, { passive: true })
-    }
+    })
 
     document.body.addEventListener("htmx:oobAfterSwap", (event) => {
       if (event.target.id === "chatbot-status") {
