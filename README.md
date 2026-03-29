@@ -96,6 +96,28 @@ SESSION_SECRET=
 REDIS_URL=
 ```
 
+## Cost considerations
+
+Relay supports multiple providers, each with different pricing models.
+For cost-conscious users, **DeepSeek** offers an excellent balance of
+quality and affordability:
+
+- **DeepSeek** costs approximately **$0.05** to fill a 128K context
+  window
+- This makes it one of the most cost-effective options for long
+  conversations and tool-heavy workflows
+- DeepSeek's pricing is significantly lower than comparable models from
+  OpenAI, Anthropic, or Google
+
+The only caveat is that DeepSeek can sometimes be slower than other
+models to process tool calls. This is fine if you give good
+instructions, then go do other things, and come back to DeepSeek
+afterwards.
+
+When using Relay for extended sessions or frequent tool usage, DeepSeek
+can help keep operational costs minimal while maintaining good
+performance.
+
 ## Customization
 
 **Tools**
