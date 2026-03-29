@@ -193,13 +193,7 @@ class Relay::Routes::Websocket
       else
         runner
       end
-      loop do
-        alive = if runnable.respond_to?(:status)
-          runnable.status != :completed
-        else
-          runnable.alive?
-        end
-        break unless alive
+      while runnable.alive?
         write conn, "<!-- heartbeat -->"
         pause(0.5)
       end
