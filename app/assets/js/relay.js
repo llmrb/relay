@@ -49,15 +49,19 @@ import { Timer } from "../js/jukebox/timer"
         jukebox.scanForMusic(nodes[nodes.length - 1])
     }
 
-    document.body.addEventListener("htmx:beforeSwap", () => {
+    if (stream) {
       shouldFollow = isNearBottom(stream)
-    })
+      stream.addEventListener("scroll", () => {
+        shouldFollow = isNearBottom(stream)
+      }, { passive: true })
+    }
 
     document.body.addEventListener("htmx:oobAfterSwap", (event) => {
       const elt = event.detail.elt || event.target
       if (elt.id === "chatbot-status") {
         timer.parentEl = elt
         timer.handle(elt)
+        return
       }
       enhance(elt)
       follow()
