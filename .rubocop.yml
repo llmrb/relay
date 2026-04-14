@@ -60,3 +60,5 @@ Style/TernaryParentheses:
   Enabled: false
 Style/MethodCallWithoutArgsParentheses:
   Enabled: false
+Layout/HashAlignment:
+  Enabled: false
