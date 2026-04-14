@@ -2,10 +2,9 @@
 
 module Relay::Models
   class User < Sequel::Model
-    set_dataset :users
-
     include Relay::Model
 
+    set_dataset :users
     one_to_many :contexts
 
     ##
