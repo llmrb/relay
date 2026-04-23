@@ -40,10 +40,7 @@ module Relay::Models
 
     def set_context
       {
-        compactor: {
-          message_threshold: 40,
-          retention_window: 8
-        }
+        compactor: { message_threshold: nil, retention_window: 8 }
       }
     end
   end
