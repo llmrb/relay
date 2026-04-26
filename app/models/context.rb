@@ -27,6 +27,13 @@ module Relay::Models
       end
     end
 
+    ##
+    # @return [String, nil]
+    #  Returns the first persisted user message content.
+    def title
+      ctx.messages.find(&:user?)&.content
+    end
+
     def cost
       super
     rescue LLM::NoSuchModelError, LLM::NoSuchRegistryError

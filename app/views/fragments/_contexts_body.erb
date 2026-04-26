@@ -18,7 +18,8 @@
             onchange="this.form.requestSubmit()"
           >
           <span class="flex min-w-0 flex-1 flex-col">
-            <span class="font-medium"><%= context.messages.size %> messages</span>
+            <span class="truncate font-medium"><%= context.title || "Untitled Context" %></span>
+            <span class="theme-muted text-xs"><%= context.messages.size %> messages</span>
           </span>
         </label>
       <% end %>
