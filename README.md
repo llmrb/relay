@@ -1,11 +1,10 @@
 ## About
 
 Relay is a production-style, self-hostable LLM environment built on
-[llm.rb](https://github.com/llmrb/llm.rb#readme). It gives you one
-place to work with providers, models, tools, MCP servers, attachments,
-saved contexts, and streaming conversations, and serves both as a
-usable application and as a reference implementation for building
-products on top of [llm.rb](https://github.com/llmrb/llm.rb#readme).
+[llm.rb](https://github.com/llmrb/llm.rb#readme). It is both a usable
+workspace and a reference implementation: a real product that shows how
+llm.rb can power providers, tools, MCP servers, attachments, saved
+contexts, and streaming conversations in one application.
 
 ## Screenshot
 
@@ -13,10 +12,7 @@ products on top of [llm.rb](https://github.com/llmrb/llm.rb#readme).
 
 ## Built with llm.rb
 
-#### Built on llm.rb
-Relay is meant to show what
-[llm.rb](https://github.com/llmrb/llm.rb#readme) can power in a real
-application:
+Relay is meant to show what llm.rb can power in a real application:
 
 - multi-provider conversational products
 - persistent contexts and long-lived sessions
@@ -26,7 +22,7 @@ application:
 
 #### From runtime to product
 
-| [llm.rb](https://github.com/llmrb/llm.rb#readme) capability | How Relay uses it |
+| llm.rb capability | How Relay uses it |
 | --- | --- |
 | `LLM::Context` | Saved conversations and long-lived chat sessions |
 | Provider abstraction | Provider and model switching in the UI |
@@ -37,8 +33,7 @@ application:
 
 #### Why Relay matters
 
-Relay demonstrates that
-[llm.rb](https://github.com/llmrb/llm.rb#readme) can support:
+Relay demonstrates that llm.rb can support:
 
 - multi-provider conversational applications
 - persistent session and context management
@@ -55,8 +50,7 @@ Relay is a good fit if you want to:
 - connect models to local tools and MCP servers
 - keep long-lived conversations with saved contexts
 - compare providers and models in one interface
-- fork a real application as the base for your own
-  [llm.rb](https://github.com/llmrb/llm.rb#readme) product
+- fork a real application as the base for your own llm.rb product
 
 ## Quick start
 
@@ -126,7 +120,7 @@ picked up without restarting the web server.
 - Multiple provider support: OpenAI, Google, Anthropic, DeepSeek, and xAI
 - Saved chat contexts with provider-aware switching and new-context creation
 - Attachment support for providers that accept local files through
-  [`llm.rb`](https://github.com/llmrb/llm.rb#readme)
+  `llm.rb`
 - Built-in tool support plus automatic loading of custom tools from [app/tools/](app/tools)
 - Optional MCP server integration via [app/config/mcp.yml.sample](app/config/mcp.yml.sample)
 - Session-backed sign-in and per-user persistent context
