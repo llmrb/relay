@@ -34,6 +34,13 @@ module Relay::Models
       ctx.messages.find(&:user?)&.content
     end
 
+    ##
+    # @return [Array<Relay::Models::MCP>]
+    #  Enabled MCP servers for this context's user.
+    def mcps
+      user ? user.mcps_dataset.where(enabled: true).all : []
+    end
+
     def cost
       super
     rescue LLM::NoSuchModelError, LLM::NoSuchRegistryError

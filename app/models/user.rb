@@ -6,6 +6,7 @@ module Relay::Models
 
     set_dataset :users
     one_to_many :contexts
+    one_to_many :mcps, class: "Relay::Models::MCP"
 
     ##
     # Hashes and stores the given password.

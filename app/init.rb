@@ -8,6 +8,12 @@ module Relay
   require "yaml"
 
   loader = Zeitwerk::Loader.new
+  loader.inflector.inflect(
+    "list_mcp" => "ListMCP",
+    "mcp" => "MCP",
+    "mcp_validator" => "MCPValidator",
+    "mcps" => "MCPs"
+  )
   loader.ignore(
     File.join(__dir__, "init.rb"),
     File.join(__dir__, "init")

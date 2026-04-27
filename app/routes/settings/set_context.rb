@@ -6,10 +6,14 @@ module Relay::Routes
 
     def call
       set_context
-      r.redirect("/")
+      htmx? ? render : r.redirect("/")
     end
 
     private
+
+    def render
+      partial("fragments/settings/set_context", locals: {models: chat_models, contexts:, messages: ctx.messages})
+    end
 
     def set_context
       sync_context!(selected_context) if selected_context

@@ -3,6 +3,7 @@
 module Relay
   class Router < Roda
     include Relay::Concerns::Attachment
+    include Relay::Concerns::Context
 
     ##
     # Plugins
@@ -13,6 +14,8 @@ module Relay
       secret: ENV["SESSION_SECRET"]
 
     plugin :partials,
+      assume_fixed_locals: Relay.production?,
+      check_template_mtime: !Relay.production?,
       escape: true,
       layout: "layout",
       views: File.expand_path("../views", __dir__)
@@ -36,6 +39,44 @@ module Relay
 
       r.get true do
         r.redirect "/"
+      end
+
+      r.is "mcps" do
+        r.get do
+          Routes::ListMCP.new(self).call
+        end
+
+        r.post do
+          Routes::MCP::Create.new(self).call
+        end
+      end
+
+      r.is "mcps", "new" do
+        r.get do
+          Routes::MCP::New.new(self).call
+        end
+      end
+
+      r.is "mcps", "form" do
+        r.post do
+          Routes::MCP::Form.new(self).call
+        end
+      end
+
+      r.on "mcps", Integer do |id|
+        r.get do
+          Routes::MCP::Show.new(self).call(id)
+        end
+
+        r.is "delete" do
+          r.post do
+            Routes::MCP::Delete.new(self).call(id)
+          end
+        end
+
+        r.post do
+          Routes::MCP::Update.new(self).call(id)
+        end
       end
 
       r.on "settings" do

@@ -1,12 +1,20 @@
 <main class="app-shell h-screen font-sans">
+  <div id="htmx-activity" class="activity-indicator" aria-live="polite" aria-busy="false">
+    <span class="activity-indicator__dot"></span>
+    <span>Loading…</span>
+  </div>
+  <div id="htmx-activity-bar" class="activity-bar" aria-hidden="true"></div>
   <div class="mx-auto flex h-full min-h-0 w-full max-w-none flex-col gap-4 px-4 py-6 lg:flex-row sm:px-6">
-    <%== partial("partials/sidebar", locals: { show_controls: true, models:, contexts: }) %>
-    <%== partial("fragments/chat", locals: {messages:}) %>
+    <div id="workspace-main" class="flex min-h-0 min-w-0 flex-1 gap-4">
+      <%== partial("partials/sidebar", locals: { show_controls: true, models:, contexts: }) %>
+      <%== partial("fragments/chat", locals: {messages:, provider:, model:}) %>
+    </div>
     <div class="panel flex w-full shrink-0 flex-col gap-10 px-4 py-4 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-[24rem]">
       <%== partial("fragments/jukebox") %>
       <%== partial("fragments/tools_panel") %>
-      <%== partial("fragments/mcp_panel", {locals: {stdio: Relay.mcp.stdio}}) %>
+      <%== partial("fragments/mcp_panel", locals: {servers: mcp_servers}) %>
     </div>
     <%== partial("fragments/jukebox/player") %>
+    <div id="mcp-modal-root"></div>
   </div>
 </main>

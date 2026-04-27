@@ -6,6 +6,7 @@ module Relay
   require_relative "relay/attachment"
   require_relative "relay/jukebox"
   require_relative "relay/markdown"
+  require_relative "relay/model_info/sync"
   require_relative "relay/task_monitor"
   require_relative "relay/task"
   require_relative "relay/tool"
@@ -27,15 +28,10 @@ module Relay
   end
 
   ##
-  # Returns mcp configuration
-  # @return [LLM::Object]
-  def self.mcp
-    path = File.join(config_dir, "mcp.yml")
-    @mcp ||= if File.readable?(path)
-      LLM::Object.from YAML.safe_load_file(path)
-    else
-      LLM::Object.from(stdio: [])
-    end
+  # Returns true when running in production
+  # @return [Boolean]
+  def self.production?
+    environment == "production"
   end
 
   ##
@@ -99,13 +95,6 @@ module Relay
   # @return [String]
   def self.views_dir
     @views_dir ||= File.join(root, "app", "views")
-  end
-
-  ##
-  # Returns the path to the app/config directory
-  # @return [String]
-  def self.config_dir
-    @config_dir ||= File.join(root, "app", "config")
   end
 
   ##

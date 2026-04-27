@@ -38,7 +38,7 @@ module Relay::Routes
     # Returns an array of MCP clients that can provide tools
     # @return [Array<LLM::MCP>]
     def mcps
-      @mcps ||= Relay.mcp.stdio.map { LLM.mcp(stdio: _1.config) }
+      @mcps ||= ctx.mcps.map(&:mcp)
     end
 
     ##

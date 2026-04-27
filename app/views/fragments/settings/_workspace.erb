@@ -1,0 +1,4 @@
+<div id="workspace-main" class="flex min-h-0 min-w-0 flex-1 gap-4">
+  <%== partial("partials/sidebar", locals: { show_controls: true, models:, contexts: }) %>
+  <%== partial("fragments/settings/chat", locals: {messages:, provider:, model:}) %>
+</div>

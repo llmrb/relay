@@ -95,10 +95,10 @@ module Relay::Concerns
     end
 
     ##
-    # @return [Array<LLM::Model>]
+    # @return [Array<Relay::Models::ModelInfo>]
     #  Chat-capable models for the current provider.
     def chat_models
-      llms.fetch(provider).models.all.select(&:chat?)
+      Relay::Models::ModelInfo.where(provider:, chat: true).order(:name).all
     end
 
     ##
@@ -117,7 +117,7 @@ module Relay::Concerns
     # @param [String, nil] id
     # @return [Boolean]
     def valid_model?(id)
-      chat_models.any? { _1.id == id }
+      chat_models.any? { _1.model_id == id }
     end
 
     ##
@@ -131,7 +131,8 @@ module Relay::Concerns
     ##
     # @return [Relay::Models::User, nil]
     def user
-      @user
+      @user ||= Relay::Models::User[session["user_id"]] if session["user_id"]
     end
+
   end
 end

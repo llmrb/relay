@@ -1,8 +1,19 @@
 <aside id="mcp-list" class="theme-strong w-full shrink-0 text-sm">
   <div class="flex flex-col gap-3">
-    <span class="label">MCP</span>
+    <div class="flex items-center justify-between gap-3">
+      <span class="label">MCP</span>
+      <button
+        class="theme-muted cursor-pointer text-[11px] hover:underline"
+        type="button"
+        hx-get="/mcps"
+        hx-target="#mcp-modal-root"
+        hx-swap="innerHTML"
+      >
+        Manage
+      </button>
+    </div>
     <ul>
-      <% stdio.each do |tool| %>
+      <% servers.each do |tool| %>
         <li class="py-2 first:pt-0 last:pb-0">
           <div class="flex items-center justify-between gap-3">
             <div class="theme-strong min-w-0 text-sm font-semibold tracking-tight"><%= tool.name %></div>
@@ -24,10 +35,10 @@
         </li>
       <% end %>
     </ul>
-    <% if stdio.empty? %>
+    <% if servers.empty? %>
       <span class="theme-muted text-[11px]">No servers available</span>
     <% else %>
-      <span class="theme-muted text-[11px]"><%= stdio.size %> servers available</span>
+      <span class="theme-muted text-[11px]"><%= servers.size %> servers available</span>
     <% end %>
   </div>
 </aside>

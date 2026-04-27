@@ -6,10 +6,14 @@ module Relay::Routes
 
     def call
       create_context
-      r.redirect("/")
+      htmx? ? render : r.redirect("/")
     end
 
     private
+
+    def render
+      partial("fragments/settings/new_context", locals: {models: chat_models, contexts:, messages: ctx.messages})
+    end
 
     def create_context
       context = Relay::Models::Context.create(user_id: user.id, provider:, model:)

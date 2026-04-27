@@ -1,11 +1,19 @@
 <div id="models-control" class="flex flex-col gap-2" hx-swap-oob="outerHTML">
   <span class="label">Model</span>
-  <form class="w-full" hx-post="/settings/set-model" hx-sync="#sidebar-controls:replace" hx-target="#models-control" hx-swap="outerHTML" hx-trigger="change from:select">
-    <select class="select-field" name="model">
+  <form class="w-full" action="/settings/set-model" method="post">
+    <select
+      class="select-field"
+      name="model"
+      hx-post="/settings/set-model"
+      hx-sync="#sidebar-controls:replace"
+      hx-target="#workspace-main"
+      hx-swap="outerHTML"
+      hx-trigger="change"
+    >
       <% models.each do |model| %>
         <option
-          <%= "selected" if model.id == session["model"] %>
-          value="<%= model.id %>">
+          <%= "selected" if model.model_id == self.model %>
+          value="<%= model.model_id %>">
           <%= model.name %>
         </option>
       <% end %>

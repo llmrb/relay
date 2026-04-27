@@ -11,10 +11,14 @@ module Relay::Routes
     def call
       set_provider
       set_model
-      r.redirect("/")
+      htmx? ? render : r.redirect("/")
     end
 
     private
+
+    def render
+      partial("fragments/settings/set_provider", locals: {models: chat_models, contexts:, messages: ctx.messages})
+    end
 
     ##
     # Sets the provider

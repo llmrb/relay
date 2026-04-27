@@ -6,10 +6,14 @@ module Relay::Routes
 
     def call
       set_model
-      r.redirect("/")
+      htmx? ? render : r.redirect("/")
     end
 
     private
+
+    def render
+      partial("fragments/settings/set_model", locals: {models: chat_models, contexts:, messages: ctx.messages})
+    end
 
     def set_model
       session["model"] = params["model"]

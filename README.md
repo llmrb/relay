@@ -122,7 +122,7 @@ picked up without restarting the web server.
 - Attachment support for providers that accept local files through
   `llm.rb`
 - Built-in tool support plus automatic loading of custom tools from [app/tools/](app/tools)
-- Optional MCP server integration via [app/config/mcp.yml.sample](app/config/mcp.yml.sample)
+- User-managed MCP server integration from the Relay web UI
 - Session-backed sign-in and per-user persistent context
 - A jukebox sidebar with tool-driven playlist management
 
@@ -167,61 +167,22 @@ available to the model alongside the built-in ones.
 
 **MCP**
 
-Relay reads MCP server configuration from `app/config/mcp.yml` when the
-file is present. Use [`app/config/mcp.yml.sample`](app/config/mcp.yml.sample)
-as the starting point.
+Relay includes an MCP management page so each user can configure their
+own stdio MCP servers from the web UI.
 
-You can add your own stdio MCP servers by appending entries under
-`stdio`. Each server entry includes:
+This first version keeps the setup intentionally small:
 
-- `name`: the display name shown in the UI
-- `description`: a short explanation of what the server provides
-- `config`: the stdio launch configuration Relay passes to `LLM.mcp`
+- `name` and `description` for display
+- `argv` for the command to launch
+- optional `cwd`
+- optional `env` entries as `KEY=value`
+- an `enabled` flag to control whether the server is active in chat
 
-The `config` object supports:
-
-- `argv`: the command and arguments used to start the MCP server
-- `env`: environment variables passed to the process
-- `cwd`: optional working directory for the process
-
-Example:
-
-```yml
-stdio:
-  - name: GitHub
-    description: GitHub's MCP server
-    config:
-      argv: ["github-mcp-server", "stdio"]
-      env:
-        GITHUB_PERSONAL_ACCESS_TOKEN: <YOUR_TOKEN>
-```
-
-For local or self-hosted Forgejo and Gitea instances, you can use an MCP
-server such as [`forgejo-mcp`](https://github.com/Sqcows/forgejo-mcp)
-and point it at your local server URL:
-
-```yml
-stdio:
-  - name: Forgejo
-    description: Forgejo/Gitea MCP server
-    config:
-      argv: ["npx", "@ric_/forgejo-mcp"]
-      env:
-        FORGEJO_URL: http://localhost:3000
-        FORGEJO_TOKEN: <YOUR_TOKEN>
-```
-
-Setup:
-
-1. Install the MCP server binary you want to use, for example
-   `github-mcp-server` or `npx @ric_/forgejo-mcp`.
-2. Copy `app/config/mcp.yml.sample` to `app/config/mcp.yml`.
-3. Fill in any required environment variables such as API tokens.
-4. Restart Relay.
+To add a server, install the MCP binary you want to run, open the MCP
+management page in Relay, and save the stdio launch configuration there.
 
 Once configured, Relay starts the MCP servers for the chat session and
-adds their tools to the available tool list. If `app/config/mcp.yml`
-is absent, Relay starts without any MCP servers.
+adds their tools to the available tool list.
 
 ## Sources
 

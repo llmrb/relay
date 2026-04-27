@@ -1,0 +1,10 @@
+<div
+  id="chat-panel"
+  class="flex min-h-0 min-w-0 flex-1 flex-col gap-4"
+  hx-ext="ws"
+  ws-connect="/api/ws"
+>
+  <%== partial("fragments/stream", locals: {messages: messages || [], provider:, model:}) %>
+  <%== partial("fragments/settings/status", locals: {status: "Ready", context_window: {used: 0, max: 0, label: "0 / 0 tokens"}, cost: "$0.00"}) %>
+  <%== partial("fragments/settings/input") %>
+</div>

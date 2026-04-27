@@ -6,7 +6,7 @@
     <div class="theme-strong mt-3 text-center text-xs first:mt-0">
       Welcome to Relay
       <br>
-      <%= session["provider"] %> / <%= session["model"] %>
+      <%= provider %> / <%= model %>
     </div>
     <% messages.each do |message| %>
       <%== partial("fragments/message", locals: {message:}) %>

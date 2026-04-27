@@ -27,5 +27,9 @@ module Relay::Routes
       Relay.cache
     end
 
+    def htmx?
+      request.env["HTTP_HX_REQUEST"] == "true"
+    end
+
   end
 end
