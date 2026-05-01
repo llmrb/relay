@@ -3,10 +3,12 @@
 module Relay::Routes
   class Websocket < Base
     require_relative "websocket/connection"
+    require_relative "websocket/interrupt"
     require_relative "websocket/stream"
 
     prepend Relay::Hooks::RequireUser
 
+    include Interrupt
     include Connection
     include Relay::Tools
 
@@ -14,7 +16,7 @@ module Relay::Routes
       Async::WebSocket::Adapters::Rack.open(request.env) do |conn|
         mcps.each(&:start)
         context = ctx
-        stream = Stream.new(conn, self)
+        stream = Relay::Routes::Websocket::Stream.new(conn, self)
         params = {model: context[:model], stream:, tools:}
         on_connect conn, context.llm, context, params
       ensure

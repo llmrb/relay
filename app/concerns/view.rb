@@ -29,6 +29,15 @@ module Relay::Concerns
     end
 
     ##
+    # @param [String] status
+    # @return [Boolean]
+    #  Returns true when the status represents an interruptible request.
+    def cancellable?(status)
+      text = status.to_s
+      text.start_with?("Thinking", "Running", "Compacting")
+    end
+
+    ##
     # @param [Relay::Models::Context] ctx
     # @return [Hash]
     #  Returns the current context-window display payload.

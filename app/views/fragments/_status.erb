@@ -3,11 +3,25 @@
   hx-swap-oob="outerHTML"
   class="grid grid-cols-3 gap-4 text-sm text-zinc-500"
 >
-  <p class="flex min-h-[2.75rem] min-w-0 flex-col justify-center text-left leading-tight">
-    <span class="label">Status</span>
-    <span class="status-value mt-1 block font-medium text-zinc-100"><%= status %></span>
-  </p>
-  <p class="flex min-h-[2.75rem] flex-col justify-center text-center leading-tight">
+  <div class="flex min-h-[2.75rem] min-w-0 flex-col justify-center text-left leading-tight">
+    <div class="flex items-center justify-between gap-2">
+      <span class="label">Status</span>
+      <% if cancellable?(status) %>
+        <form class="shrink-0" ws-send>
+          <input type="hidden" name="type" value="interrupt">
+          <button
+            class="inline-flex h-5 w-5 items-center justify-center rounded-full border border-red-500/30 bg-red-500/10 text-[11px] leading-none text-red-300 transition hover:border-red-400/50 hover:bg-red-500/20 hover:text-red-200"
+            type="submit"
+            aria-label="Cancel request"
+          >&#10005;</button>
+        </form>
+      <% end %>
+    </div>
+    <div class="status-value mt-1 flex min-w-0 items-center gap-1 font-medium text-zinc-100">
+      <span class="status-text min-w-0 flex-1 truncate"><%= status %></span>
+    </div>
+  </div>
+  <div class="flex min-h-[2.75rem] min-w-0 flex-col justify-center text-center leading-tight">
     <span class="label">Context Window</span>
     <progress
       class="context-progress mt-2 h-2 w-full overflow-hidden rounded-full"
@@ -15,9 +29,9 @@
       max="<%= [context_window[:max], 1].max %>"
     ><%= context_window[:label] %></progress>
     <span class="mt-1 block font-medium text-zinc-100"><%= context_window[:label] %></span>
-  </p>
-  <p class="flex min-h-[2.75rem] flex-col justify-center text-right leading-tight">
+  </div>
+  <div class="flex min-h-[2.75rem] min-w-0 flex-col justify-center text-right leading-tight">
     <span class="label">Cost</span>
     <span class="mt-1 block font-medium text-zinc-100"><%= cost %></span>
-  </p>
+  </div>
 </div>

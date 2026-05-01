@@ -17,10 +17,12 @@ class Relay::Routes::Websocket
       vars[:messages] = ctx.messages
       write(conn, fragment(:status, status_bar(ctx:)))
       while (message = conn.read)
-        on_message conn, ctx, parse_message(message), params
+        dispatch(conn, ctx, parse_message(message), params)
       end
-    rescue EOFError
+    rescue EOFError, Protocol::WebSocket::ClosedError
       nil
+    ensure
+      @task = nil
     end
 
     ##
@@ -33,6 +35,18 @@ class Relay::Routes::Websocket
     def write(conn, message)
       conn.write(Protocol::WebSocket::TextMessage.new(String(message)))
       conn.flush
+    rescue Errno::EPIPE, IOError, Protocol::WebSocket::ClosedError
+      nil
+    end
+
+    def dispatch(conn, ctx, payload, params)
+      case
+      when interrupt?(payload) then interrupt!(conn, ctx)
+      when request_in_flight?
+        write(conn, fragment(:status, status_bar(status: "Busy", ctx:)))
+      else
+        @task = Async { on_message(conn, ctx, payload, params) }
+      end
     end
 
     ##
@@ -59,11 +73,15 @@ class Relay::Routes::Websocket
       write(conn, fragment(:status, status_bar(ctx:)))
       @contexts = nil
       write(conn, fragment(:contexts, contexts: contexts))
+    rescue LLM::Interrupt
+      on_interrupt(conn, ctx)
     rescue LLM::NoSuchRegistryError, LLM::NoSuchModelError
       write(conn, fragment(:status, status_bar(cost: "unknown")))
     rescue => e
       pp e.class, e.message, e.backtrace
       write(conn, fragment(:status, status_bar(status: "Error")))
+    ensure
+      @task = nil
     end
 
     ##
@@ -148,6 +166,10 @@ class Relay::Routes::Websocket
     # @return [Hash]
     def vars
       @temp ||= {messages: []}
+    end
+
+    def request_in_flight?
+      @task&.alive?
     end
 
     ##

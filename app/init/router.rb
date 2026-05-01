@@ -145,6 +145,7 @@ module Relay
           Routes::ClearAttachment.new(self).call
         end
       end
+
     end
 
   end

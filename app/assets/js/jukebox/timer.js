@@ -13,6 +13,10 @@ const Timer = function(parentEl) {
     return parent?.querySelector(".status-value")
   }
 
+  const getTextEl = (parent = self.parentEl) => {
+    return parent?.querySelector(".status-text")
+  }
+
   const create = () => {
     const timer = document.createElement("span")
     timer.className = "timer-value"
@@ -37,19 +41,19 @@ const Timer = function(parentEl) {
     self.timeout = setTimeout(tick, delay)
   }
 
-  const attachTo = (span) => {
+  const attachTo = (textEl) => {
     if (self.el && !self.el.isConnected)
       self.el = null
-    if (!span || self.el) return
+    if (!textEl || self.el) return
     self.el = create()
     const wrapper = document.createElement("span")
     wrapper.className = "status-active"
-    const originalText = span.textContent.replace(/\s*\(\d+s\)$/, "")
+    const originalText = textEl.textContent.replace(/\s*\(\d+s\)$/, "")
     const textNode = document.createTextNode(originalText)
-    span.textContent = ""
+    textEl.textContent = ""
     wrapper.appendChild(textNode)
     wrapper.appendChild(self.el)
-    span.appendChild(wrapper)
+    textEl.appendChild(wrapper)
   }
 
   const detach = () => {
@@ -63,9 +67,9 @@ const Timer = function(parentEl) {
     if (self.timeout)
       clearTimeout(self.timeout)
     self.startTime = Date.now()
-    const span = getSpan()
-    if (!span) return
-    attachTo(span)
+    const textEl = getTextEl()
+    if (!textEl) return
+    attachTo(textEl)
     update(0)
     self.timeout = setTimeout(tick, 1000)
   }
