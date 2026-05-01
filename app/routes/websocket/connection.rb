@@ -15,7 +15,7 @@ class Relay::Routes::Websocket
     # @return [void]
     def on_connect(conn, llm, ctx, params)
       vars[:messages] = ctx.messages
-      write(conn, fragment(:status, status: "Ready", cost: format_cost(ctx.cost), context_window: context_window(ctx)))
+      write(conn, fragment(:status, status_bar(ctx:)))
       while (message = conn.read)
         on_message conn, ctx, parse_message(message), params
       end
@@ -49,21 +49,21 @@ class Relay::Routes::Websocket
       prompt = build_prompt(ctx, payload["message"], file)
       return if prompt.empty?
       vars[:messages].concat [{role: :user, content: prompt}, {role: :assistant, content: +""}]
-      write(conn, fragment(:status, status: "Thinking..."))
+      write(conn, fragment(:status, status_bar(status: "Thinking...", ctx:)))
       write(conn, fragment(:remove_empty_state)) if vars[:messages].length == 2
       write(conn, fragment(:append_message, message: vars[:messages][-2]))
       write(conn, fragment(:append_message, message: vars[:messages][-1]))
       write(conn, fragment(:input))
       wait_with_heartbeat(conn, proc { talk(ctx, prompt, params) })
       resolve_functions(ctx, conn, params)
-      write(conn, fragment(:status, status: "Ready", context_window: context_window(ctx), cost: format_cost(ctx.cost)))
+      write(conn, fragment(:status, status_bar(ctx:)))
       @contexts = nil
       write(conn, fragment(:contexts, contexts: contexts))
     rescue LLM::NoSuchRegistryError, LLM::NoSuchModelError
-      write(conn, fragment(:status, cost: "unknown", status: "Ready"))
+      write(conn, fragment(:status, status_bar(cost: "unknown")))
     rescue => e
       pp e.class, e.message, e.backtrace
-      write(conn, fragment(:status, status: "Error"))
+      write(conn, fragment(:status, status_bar(status: "Error")))
     end
 
     ##
@@ -118,8 +118,8 @@ class Relay::Routes::Websocket
     #  The local values to merge into the retained fragment state
     # @return [String]
     #  The rendered HTML fragment
-    def fragment(name, **locals)
-      vars.merge!(locals)
+    def fragment(name, locals = nil, **kwargs)
+      vars.merge!((locals || {}).merge(kwargs))
       case name
       when :append_message then partial("fragments/append_message", locals: vars)
       when :chat then partial("fragments/stream", locals: vars)
@@ -129,19 +129,6 @@ class Relay::Routes::Websocket
       when :replace_last_message then partial("fragments/replace_last_message", locals: vars)
       when :status then partial("fragments/status", locals: vars)
       end
-    end
-
-    ##
-    # Formats the session cost for display
-    # @param [String] cost
-    #  The raw session cost
-    # @return [String]
-    #  The formatted cost string
-    def format_cost(cost)
-      return "unknown" if cost == "unknown"
-      "$#{cost}"
-    rescue LLM::NoSuchModelError, LLM::NoSuchRegistryError
-      "unknown"
     end
 
     ##

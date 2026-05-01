@@ -33,19 +33,14 @@ class Relay::Routes::Websocket
     # Reports compaction start in the chat status bar.
     # @return [void]
     def on_compaction(ctx, compactor)
-      @sock.write(@conn, @sock.fragment(:status, status: "Compacting..."))
+      @sock.write(@conn, @sock.fragment(:status, @sock.status_bar(status: "Compacting...", ctx:)))
     end
 
     ##
     # Reports compaction completion with refreshed usage details.
     # @return [void]
     def on_compaction_finish(ctx, compactor)
-      @sock.write(@conn, @sock.fragment(
-        :status,
-        status: "Compaction finished",
-        context_window: @sock.context_window(ctx),
-        cost: @sock.format_cost(ctx.cost)
-      ))
+      @sock.write(@conn, @sock.fragment(:status, @sock.status_bar(status: "Compaction finished", ctx:)))
     end
   end
 end

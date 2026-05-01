@@ -29,7 +29,7 @@ module Relay::Routes
     end
 
     def report_tool_status(conn, tool)
-      write(conn, fragment(:status, status: tool_status([tool])))
+      write(conn, fragment(:status, status_bar(status: tool_status([tool]))))
     end
 
     private

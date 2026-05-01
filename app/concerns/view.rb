@@ -20,11 +20,11 @@ module Relay::Concerns
     ##
     # @return [Hash]
     #  Returns the status-bar payload for the current context.
-    def status_bar
+    def status_bar(status: "Ready", ctx: self.ctx, context_window: nil, cost: nil)
       {
-        status: "Ready",
-        context_window: context_window(ctx),
-        cost: format_cost(ctx.cost)
+        status:,
+        context_window: context_window || context_window(ctx),
+        cost: cost || format_cost(ctx.cost)
       }
     end
 
