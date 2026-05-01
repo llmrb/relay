@@ -132,20 +132,6 @@ class Relay::Routes::Websocket
     end
 
     ##
-    # Returns session token usage against the model context window
-    # @param [LLM::Session] sess
-    #  The current LLM session
-    # @return [Hash]
-    #  The current token usage, maximum window, and display label
-    def context_window(sess)
-      used = sess.usage.total_tokens || 0
-      max = sess.context_window || 0
-      {used:, max:, label: "#{used} / #{max} tokens"}
-    rescue LLM::NoSuchModelError, LLM::NoSuchRegistryError
-      {used: 0, max: 0, label: "0 / 0 tokens"}
-    end
-
-    ##
     # Formats the session cost for display
     # @param [String] cost
     #  The raw session cost

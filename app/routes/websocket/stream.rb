@@ -28,5 +28,24 @@ class Relay::Routes::Websocket
       @sock.report_tool_status(@conn, tool)
       queue << (error || tool.spawn(:task))
     end
+
+    ##
+    # Reports compaction start in the chat status bar.
+    # @return [void]
+    def on_compaction(ctx, compactor)
+      @sock.write(@conn, @sock.fragment(:status, status: "Compacting..."))
+    end
+
+    ##
+    # Reports compaction completion with refreshed usage details.
+    # @return [void]
+    def on_compaction_finish(ctx, compactor)
+      @sock.write(@conn, @sock.fragment(
+        :status,
+        status: "Compaction finished",
+        context_window: @sock.context_window(ctx),
+        cost: @sock.format_cost(ctx.cost)
+      ))
+    end
   end
 end

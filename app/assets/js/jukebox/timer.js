@@ -82,7 +82,11 @@ const Timer = function(parentEl) {
     const span = getSpan(parent)
     if (!span) return
     const statusText = span.textContent.trim()
-    if (statusText.startsWith("Thinking") || statusText.startsWith("Running"))
+    if (
+      statusText.startsWith("Thinking") ||
+      statusText.startsWith("Running") ||
+      statusText.startsWith("Compacting")
+    )
       start(statusText)
     else
       stop()

@@ -8,24 +8,10 @@ module Relay::Models
   # so future turns can continue from the same context window.
   class Context < Sequel::Model
     include Relay::Model
-    plugin :llm, provider: :set_provider, tracer: :set_tracer, context: :set_context
+    plugin :llm, provider: :set_provider, context: :set_context, tracer: :set_tracer
 
     set_dataset :contexts
     many_to_one :user
-
-    ##
-    # @note
-    #  This method excludes tool calls and system messages.
-    #  It is safe to render in the UI.
-    # @return [Array<Hash>]
-    #  Returns persisted user and assistant messages
-    def messages
-      ctx.messages.filter_map do |message|
-        next if message.tool_call?
-        next unless message.user? || message.assistant?
-        {role: message.role.to_sym, content: message.content.to_s}
-      end
-    end
 
     ##
     # @return [String, nil]
@@ -41,12 +27,37 @@ module Relay::Models
       user ? user.mcps_dataset.where(enabled: true).all : []
     end
 
-    def cost
-      super
-    rescue LLM::NoSuchModelError, LLM::NoSuchRegistryError
-      "unknown"
+    ##
+    # @return [LLM::Compactor]
+    #  Returns the runtime compactor for the persisted context.
+    def compactor
+      ctx.compactor
     end
 
+    ##
+    # @return [Boolean]
+    #  Returns true when the underlying llm.rb context is in a
+    #  post-compaction state.
+    def compacted?
+      ctx.compacted?
+    end
+
+    ##
+    # @note
+    #  This method excludes tool calls and system messages.
+    #  It is safe to render in the UI.
+    # @return [Array<Hash>]
+    #  Returns persisted user and assistant messages
+    def messages
+      ctx.messages.filter_map do |message|
+        next if message.tool_call? || message.compaction?
+        next unless message.user? || message.assistant?
+        {role: message.role.to_sym, content: message.content.to_s}
+      end
+    end
+
+    ##
+    # @return [Integer]
     def context_window
       super
     rescue LLM::NoSuchModelError, LLM::NoSuchRegistryError
@@ -59,13 +70,13 @@ module Relay::Models
       LLM.method(provider).call(key: ENV["#{provider.upcase}_SECRET"], persistent: true)
     end
 
+    def set_context
+      { model: self[:model], compactor: { retention_window: 8, token_threshold: "95%" } }
+    end
+
     def set_tracer
       path = File.join(Relay.logs_dir, "#{provider}-#{Date.today.iso8601}.log")
       LLM::Tracer::Logger.new(llm, path:)
-    end
-
-    def set_context
-      { model: self[:model], compactor: { retention_window: 8 } }
     end
   end
 end

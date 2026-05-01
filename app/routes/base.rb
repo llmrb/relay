@@ -6,6 +6,7 @@ module Relay::Routes
     include Relay::Concerns::Attachment
     include Relay::Concerns::Context
     include Relay::Concerns::Roda
+    include Relay::Concerns::View
 
     ##
     # @return [String]

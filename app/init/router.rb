@@ -4,6 +4,7 @@ module Relay
   class Router < Roda
     include Relay::Concerns::Attachment
     include Relay::Concerns::Context
+    include Relay::Concerns::View
 
     ##
     # Plugins
@@ -146,12 +147,5 @@ module Relay
       end
     end
 
-    ##
-    # @param [String] text
-    # @return [String]
-    #  Renders markdown to HTML
-    def markdown(text)
-      Relay.markdown(text)
-    end
   end
 end

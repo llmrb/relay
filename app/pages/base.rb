@@ -8,6 +8,7 @@ module Relay::Pages
     include Relay::Concerns::Attachment
     include Relay::Concerns::Context
     include Relay::Concerns::Roda
+    include Relay::Concerns::View
 
     private
 
