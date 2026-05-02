@@ -140,6 +140,12 @@ module Relay
         end
       end
 
+      r.on "themes" do
+        r.get String do |id|
+          Routes::ThemeStylesheet.new(self).call(id.delete_suffix(".css"))
+        end
+      end
+
       r.is "upload-attachment" do
         r.post do
           Routes::UploadAttachment.new(self).call

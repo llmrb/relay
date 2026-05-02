@@ -7,6 +7,7 @@ module Relay
   require_relative "relay/jukebox"
   require_relative "relay/markdown"
   require_relative "relay/model_info/sync"
+  require_relative "relay/theme"
   require_relative "relay/task_monitor"
   require_relative "relay/task"
   require_relative "relay/tool"

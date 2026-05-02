@@ -1,11 +1,15 @@
 <div
   id="chat-panel"
-  class="flex min-h-0 min-w-0 flex-1 flex-col gap-4"
+  class="workspace-chat"
   hx-ext="ws"
-  hx-swap-oob="outerHTML"
+  <%= 'hx-swap-oob="outerHTML"' if swap_oob %>
   ws-connect="/api/ws"
 >
-  <%== partial("fragments/stream", locals: {messages: messages || [], provider:, model:}) %>
-  <%== partial("fragments/status", locals: status_bar) %>
-  <%== partial("fragments/input") %>
+  <section class="chat-surface">
+    <%== partial("fragments/stream", locals: {messages: messages || []}) %>
+    <div class="chat-footer space-y-4">
+      <%== partial("fragments/input", locals: {swap_oob:}) %>
+    </div>
+    <%== partial("fragments/status", locals: status_bar.merge(swap_oob:)) %>
+  </section>
 </div>

@@ -1,0 +1,17 @@
+@layer base {
+  body {
+    @apply min-h-screen antialiased;
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+
+  ::selection {
+    background-color: var(--theme-accent-soft);
+    color: var(--theme-text);
+  }
+
+  option {
+    background-color: var(--theme-surface);
+    color: var(--theme-text);
+  }
+}

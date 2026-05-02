@@ -1,0 +1,21 @@
+<div
+  id="chatbot-sidebar-status"
+  class="status-block"
+  hx-swap-oob="outerHTML"
+>
+  <div class="status-label">Status</div>
+  <div class="status-value status-value-inline">
+    <span class="status-text min-w-0"><%= status %></span>
+    <% if cancellable?(status) %>
+      <form class="shrink-0" ws-send>
+        <input type="hidden" name="type" value="interrupt">
+        <button
+          class="inline-flex h-5 w-5 items-center justify-center rounded-full border text-[11px] leading-none transition"
+          style="border-color: var(--theme-danger-border); background-color: var(--theme-danger-bg); color: var(--theme-danger-text);"
+          type="submit"
+          aria-label="Cancel request"
+        >&#10005;</button>
+      </form>
+    <% end %>
+  </div>
+</div>

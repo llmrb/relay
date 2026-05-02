@@ -1,0 +1,18 @@
+@use "./base/tokens";
+@use "./base/mixins";
+@use "./base/reset";
+@use "./base/typography";
+
+@use "./components/activity";
+@use "./components/auth";
+@use "./components/chat";
+@use "./components/composer";
+@use "./components/forms";
+@use "./components/jukebox";
+@use "./components/mcp";
+@use "./components/sidebar";
+@use "./components/status";
+
+@import "tailwindcss";
+
+@source "../../views/**/*.erb";

@@ -1,0 +1,72 @@
+@use "../base/mixins" as *;
+
+@layer components {
+  .context-progress {
+    color: var(--theme-progress-end);
+
+    &::-webkit-progress-bar {
+      background-color: var(--theme-surface-3);
+      border-radius: 9999px;
+    }
+
+    &::-webkit-progress-value {
+      background: var(--theme-progress-start);
+      border-radius: 9999px;
+    }
+
+    &::-moz-progress-bar {
+      background: var(--theme-progress-start);
+      border-radius: 9999px;
+    }
+  }
+
+  .timer-value {
+    @apply ml-2 inline-flex items-center justify-center text-[12px] font-semibold tabular-nums tracking-[0.02em];
+    color: color-mix(in srgb, var(--theme-accent) 82%, var(--theme-text) 18%);
+  }
+
+  .status-active {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-sm font-medium;
+    background-color: color-mix(in srgb, var(--theme-accent-soft) 64%, var(--theme-panel) 36%);
+    color: var(--theme-text);
+  }
+
+  .status-strip {
+    @apply grid grid-cols-[minmax(0,1fr)_minmax(15rem,22rem)_auto] items-center gap-6 border-t px-5 py-3 text-sm;
+    border-color: color-mix(in srgb, var(--theme-panel-border) 82%, transparent);
+    background-color: color-mix(in srgb, var(--theme-surface) 68%, transparent);
+  }
+
+  .status-meta {
+    @apply text-[11px] font-medium tracking-[0.04em];
+    color: var(--theme-muted);
+  }
+
+  .status-block {
+    @apply min-w-0;
+  }
+
+  .status-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em];
+    color: color-mix(in srgb, var(--theme-accent) 78%, white 10%);
+  }
+
+  .status-value-inline {
+    @apply mt-1 flex min-w-0 items-center gap-2 font-medium;
+    color: var(--theme-text);
+  }
+
+  .status-text {
+    @apply min-w-0;
+  }
+
+  .status-window {
+    @apply mx-auto mt-1 flex w-full max-w-[18rem] flex-col gap-2;
+  }
+
+  @include compact-shell {
+    .status-strip {
+      @apply grid-cols-[minmax(0,1fr)_minmax(13rem,17rem)_auto] gap-4 px-4 py-2.5;
+    }
+  }
+}

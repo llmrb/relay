@@ -17,7 +17,7 @@ module Relay::Routes
     private
 
     def render
-      partial("fragments/settings/set_provider", locals: {models: chat_models, contexts:, messages: ctx.messages})
+      partial("fragments/settings/workspace", locals: {messages: ctx.messages})
     end
 
     ##

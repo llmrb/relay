@@ -4,17 +4,10 @@
     <span>Loading…</span>
   </div>
   <div id="htmx-activity-bar" class="activity-bar" aria-hidden="true"></div>
-  <div class="mx-auto flex h-full min-h-0 w-full max-w-none flex-col gap-4 px-4 py-6 lg:flex-row sm:px-6">
-    <div id="workspace-main" class="flex min-h-0 min-w-0 flex-1 gap-4">
-      <%== partial("partials/sidebar", locals: { show_controls: true, models:, contexts: }) %>
-      <%== partial("fragments/chat", locals: {messages:, provider:, model:}) %>
-    </div>
-    <div class="panel flex w-full shrink-0 flex-col gap-6 px-4 py-4 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-[24rem]">
-      <%== partial("fragments/jukebox") %>
-      <div class="flex min-h-0 flex-1 flex-col gap-6">
-        <%== partial("fragments/tools_panel") %>
-        <%== partial("fragments/mcp_panel", locals: {servers: mcp_servers}) %>
-      </div>
+  <div class="workspace-frame mx-auto flex h-full min-h-0 w-full max-w-none flex-col gap-4 px-4 py-5 lg:flex-row lg:gap-6 sm:px-5">
+    <div id="workspace-main" class="flex min-h-0 min-w-0 flex-1 gap-4 lg:gap-5">
+      <%== partial("partials/sidebar", locals: {show_controls: true}) %>
+      <%== partial("fragments/chat", locals: {messages:, swap_oob: false}) %>
     </div>
     <%== partial("fragments/jukebox/player") %>
     <div id="mcp-modal-root"></div>

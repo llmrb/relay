@@ -1,0 +1,63 @@
+@use "../base/mixins" as *;
+
+@layer components {
+  .upload-indicator {
+    @apply hidden;
+    color: var(--theme-muted);
+
+    &.is-active {
+      @apply block;
+    }
+  }
+
+  .composer-input {
+    @apply max-h-60 min-h-14 flex-1 resize-none overflow-y-auto rounded-2xl border px-4 py-3 text-[15px] outline-none focus:ring-4;
+    border-color: var(--theme-panel-border);
+    background-color: var(--theme-surface-3);
+    color: var(--theme-text);
+    --tw-ring-color: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+
+    &::placeholder {
+      color: var(--theme-placeholder);
+    }
+  }
+
+  .composer-submit {
+    @apply min-w-24 shrink-0 rounded-full px-4 py-3 text-sm font-semibold transition focus:ring-4 focus:outline-none;
+    background-color: var(--theme-panel);
+    color: var(--theme-text);
+    --tw-ring-color: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+
+    &:hover {
+      background-color: var(--theme-surface-3);
+    }
+  }
+
+  .button-subtle {
+    border: 1px solid var(--theme-panel-border);
+    background-color: color-mix(in srgb, var(--theme-panel) 82%, transparent);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--theme-surface-3) 72%, transparent);
+    }
+  }
+
+  .button-primary {
+    background-color: var(--theme-accent);
+    color: var(--theme-accent-foreground);
+
+    &:hover {
+      filter: brightness(1.05);
+    }
+  }
+
+  @include compact-shell {
+    .composer-input {
+      @apply min-h-12 px-3.5 py-2.5 text-[14px];
+    }
+
+    .composer-submit {
+      @apply min-w-20 px-3.5 py-2.5 text-[13px];
+    }
+  }
+}

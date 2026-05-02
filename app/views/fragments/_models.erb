@@ -1,5 +1,7 @@
 <div id="models-control" class="flex flex-col gap-2">
-  <span class="label">Model</span>
+  <% if show_label %>
+    <span class="label">Provider Model</span>
+  <% end %>
   <form class="w-full" action="/settings/set-model" method="post">
     <select
       class="select-field"
@@ -10,7 +12,7 @@
       hx-swap="outerHTML"
       hx-trigger="change"
     >
-      <% models.each do |model| %>
+      <% chat_models.each do |model| %>
         <option
           <%= "selected" if model.model_id == self.model %>
           value="<%= model.model_id %>">
@@ -19,5 +21,5 @@
       <% end %>
     </select>
   </form>
-  <span class="theme-muted text-[11px]"><%= models.size %> models available</span>
+  <span class="theme-muted text-[11px]"><%= chat_models.size %> models ready to use</span>
 </div>

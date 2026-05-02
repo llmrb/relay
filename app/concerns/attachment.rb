@@ -1,7 +1,7 @@
 module Relay::Concerns
   module Attachment
     def attachment
-      @attachment ||= Relay::Attachment.session(
+      Relay::Attachment.session(
         session:,
         root: Relay.root,
         user: respond_to?(:user) ? user : nil,

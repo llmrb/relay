@@ -1,0 +1,5 @@
+@mixin compact-shell {
+  @media (max-width: 1400px), (max-height: 820px) {
+    @content;
+  }
+}

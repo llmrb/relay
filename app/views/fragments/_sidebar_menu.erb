@@ -1,0 +1,11 @@
+<details class="sidebar-overflow">
+  <summary aria-label="Open sidebar menu">...</summary>
+  <div class="sidebar-overflow-menu">
+    <div class="flex flex-col gap-4">
+      <%== partial("fragments/providers", locals: {show_label: true}) %>
+      <%== partial("fragments/models", locals: {show_label: true}) %>
+      <div class="theme-divider"></div>
+      <%== partial("fragments/mcp_settings", locals: {servers: mcps, show_label: true}) %>
+    </div>
+  </div>
+</details>

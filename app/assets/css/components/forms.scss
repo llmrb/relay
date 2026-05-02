@@ -1,0 +1,42 @@
+@layer components {
+  .field {
+    @apply w-full rounded-2xl border px-3 py-3 outline-none transition focus:ring-4;
+    border-color: var(--theme-panel-border);
+    background-color: var(--theme-surface);
+    color: var(--theme-text);
+    --tw-ring-color: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+  }
+
+  .select-field {
+    @apply w-full appearance-none border-b bg-transparent py-1 pr-8 pl-0 font-medium outline-none transition;
+    border-color: var(--theme-panel-border);
+    color: var(--theme-text);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 8l4 4 4-4' stroke='%2394a3b8' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right 0.1rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+
+    &:hover {
+      color: var(--theme-text);
+    }
+  }
+
+  .tooltip {
+    @apply text-xs leading-5;
+    color: var(--theme-text);
+  }
+
+  .detail-button {
+    @apply rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.14em] transition focus:outline-none;
+    border-color: var(--theme-panel-border);
+    background-color: var(--theme-panel);
+    color: var(--theme-accent-strong);
+
+    &:hover,
+    &:focus {
+      border-color: var(--theme-accent-border);
+      background-color: var(--theme-surface-3);
+      color: var(--theme-accent-strong);
+    }
+  }
+}

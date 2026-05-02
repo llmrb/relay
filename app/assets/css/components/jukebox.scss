@@ -1,0 +1,14 @@
+@layer components {
+  .media-body {
+    @apply text-sm;
+    background-color: var(--theme-surface-2);
+    color: var(--theme-muted);
+  }
+
+  .playing-notice {
+    @apply my-3 rounded-2xl border px-4 py-3 text-sm font-medium;
+    border-color: var(--theme-accent-border);
+    background-color: var(--theme-accent-soft);
+    color: var(--theme-text);
+  }
+}

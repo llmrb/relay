@@ -1,3 +1,7 @@
-<div id="contexts-control" class="flex flex-col gap-2">
-  <%== partial("fragments/contexts_body", locals: {contexts:}) %>
+<div
+  id="contexts-control"
+  class="sidebar-contexts flex h-full min-h-0 flex-col gap-2"
+  <%= 'hx-swap-oob="outerHTML"' if swap_oob %>
+>
+  <%== partial("fragments/contexts_body", locals: {contexts:, show_label:}) %>
 </div>

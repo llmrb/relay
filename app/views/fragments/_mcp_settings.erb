@@ -1,0 +1,45 @@
+<div id="mcp-settings" class="theme-strong flex flex-col gap-3 text-sm" hx-swap-oob="outerHTML">
+  <% if show_label %>
+    <span class="label">MCP</span>
+  <% end %>
+  <div class="flex items-center justify-between gap-3">
+    <span class="theme-muted text-[11px]"><%= servers.empty? ? "No servers configured" : "#{servers.size} servers configured" %></span>
+    <button
+      class="theme-muted cursor-pointer text-[11px] hover:underline"
+      type="button"
+      hx-get="/mcps"
+      hx-target="#mcp-modal-root"
+      hx-swap="innerHTML"
+    >
+      Manage
+    </button>
+  </div>
+  <% unless servers.empty? %>
+    <div class="scrollbar-chat max-h-56 overflow-y-auto pr-1">
+      <ul>
+        <% servers.each do |server| %>
+          <li class="py-2 first:pt-0 last:pb-0">
+            <div class="sidebar-list-item flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="theme-strong truncate text-sm font-semibold tracking-tight"><%= server.name %></div>
+                <div class="sidebar-meta mt-1 line-clamp-1 leading-5"><%= server.transport %> transport</div>
+              </div>
+              <form class="shrink-0" hx-post="/mcps/<%= server.id %>/toggle" hx-swap="none">
+                <button
+                  type="submit"
+                  class="inline-flex min-w-[4.75rem] items-center justify-center gap-1 rounded-full border px-2 py-1 text-[11px] font-semibold transition"
+                  style="<%= server[:enabled] ? "border-color: var(--theme-success-border); background-color: var(--theme-success-bg); color: var(--theme-success-text);" : "border-color: var(--theme-toggle-off-border); background-color: var(--theme-toggle-off-bg); color: var(--theme-toggle-off-text);" %>"
+                  aria-label="<%= server[:enabled] ? "Disable" : "Enable" %> <%= server.name %>"
+                  title="<%= server[:enabled] ? "Enabled" : "Disabled" %>"
+                >
+                  <span aria-hidden="true"><%= server[:enabled] ? "●" : "○" %></span>
+                  <span><%= server[:enabled] ? "On" : "Off" %></span>
+                </button>
+              </form>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

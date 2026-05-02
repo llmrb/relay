@@ -1,6 +1,12 @@
-<div id="sidebar-controls" class="theme-strong flex w-full flex-col gap-4 text-sm">
-  <%== partial("fragments/providers") %>
-  <%== partial("fragments/models", locals: {models:}) %>
-  <%== partial("fragments/themes") %>
-  <%== partial("fragments/contexts", locals: {contexts:}) %>
+<div id="sidebar-controls" class="theme-strong flex h-full min-h-0 w-full flex-col text-sm">
+  <section class="sidebar-group">
+    <span class="label">Provider</span>
+    <div class="sidebar-group-body mt-3 space-y-4">
+      <%== partial("fragments/providers", locals: {show_label: false}) %>
+      <%== partial("fragments/models", locals: {show_label: false}) %>
+    </div>
+  </section>
+  <section class="sidebar-group mt-[20px] min-h-0 flex-1">
+    <%== partial("fragments/contexts", locals: {contexts: contexts, show_label: true, swap_oob: false}) %>
+  </section>
 </div>

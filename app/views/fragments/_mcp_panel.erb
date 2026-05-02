@@ -1,4 +1,4 @@
-<aside id="mcp-list" class="theme-strong flex min-h-0 flex-1 flex-col text-sm">
+<aside id="mcp-list" class="rail-section theme-strong flex min-h-0 flex-1 flex-col text-sm">
   <div class="flex min-h-0 flex-1 flex-col gap-3">
     <div class="flex items-center justify-between gap-3">
       <span class="label">MCP</span>
@@ -19,9 +19,7 @@
             <div class="flex items-center justify-between gap-3">
               <div class="min-w-0">
                 <div class="theme-strong truncate text-sm font-semibold tracking-tight"><%= server.name %></div>
-                <div class="theme-muted mt-1 line-clamp-1 text-xs leading-5">
-                  <%= server.transport == "http" ? server.url : server.command %>
-                </div>
+                <div class="theme-muted mt-1 line-clamp-1 text-xs leading-5"><%= server.transport %> transport</div>
               </div>
               <form class="shrink-0" hx-post="/mcps/<%= server.id %>/toggle" hx-swap="none">
                 <button

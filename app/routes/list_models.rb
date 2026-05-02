@@ -8,13 +8,7 @@ module Relay::Routes
     # Returns the chat-capable models for the provider
     # @return [Array]
     def call
-      partial("fragments/models", {locals:})
-    end
-
-    private
-
-    def locals
-      {models: chat_models}
+      partial("fragments/models", locals: {show_label: true})
     end
   end
 end

@@ -2,18 +2,24 @@
   id="chatbot-stream"
   class="chat-stream scrollbar-chat min-h-0 min-w-0 flex-1 self-stretch overflow-y-auto"
 >
-  <div class="space-y-4" id="chatbot-messages">
-    <div class="theme-strong mt-3 text-center text-xs first:mt-0">
-      Welcome to Relay
-      <br>
-      <%= provider %> / <%= model %>
+  <div class="chat-meta">
+    <div class="chat-meta-copy min-w-0">
+      <div class="theme-strong truncate font-display text-[1.8rem] leading-none tracking-[-0.035em]">Conversation</div>
+      <div class="theme-muted mt-1.5 truncate text-sm"><%= ctx.title || "New Chat" %></div>
     </div>
+  </div>
+  <%== partial("fragments/jukebox") %>
+  <div class="space-y-5 pt-6" id="chatbot-messages">
     <% messages.each do |message| %>
       <%== partial("fragments/message", locals: {message:}) %>
     <% end %>
     <% if messages.empty? %>
-      <div class="theme-strong px-2 text-sm leading-7" id="chatbot-empty-state">
-        Ask a question, switch models, or explore the built-in tools.
+      <div class="chat-empty-state mx-auto max-w-2xl" id="chatbot-empty-state">
+        <div class="section-kicker">Start Here</div>
+        <div class="theme-strong mt-2 text-lg font-medium tracking-tight">Ask a question, switch models, or use a tool-backed workflow.</div>
+        <div class="theme-muted mt-2.5">
+          Relay keeps the conversation, tools, and MCP servers in one workspace so the chat stays central.
+        </div>
       </div>
     <% end %>
     <div id="chatbot-bottom"></div>

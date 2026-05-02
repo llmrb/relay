@@ -5,7 +5,7 @@ module Relay::Routes
     prepend Relay::Hooks::RequireUser
 
     def call
-      partial("fragments/providers")
+      partial("fragments/providers", locals: {show_label: true})
     end
   end
 end

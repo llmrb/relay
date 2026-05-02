@@ -55,7 +55,9 @@ module Relay::Concerns
     # @return [Array<Relay::Models::MCP>]
     #  Saved MCP servers for the current user, newest first.
     def mcps
-      @mcps ||= user ? user.mcps_dataset.reverse_order(:created_at).all : []
+      @mcps ||= user ? Relay::Models::MCP.summary_dataset(user.mcps_dataset).
+        reverse_order(:created_at).
+        all : []
     end
 
     ##

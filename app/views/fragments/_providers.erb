@@ -1,5 +1,7 @@
 <div id="providers-control" class="flex flex-col gap-2">
-  <span class="label">Provider</span>
+  <% if show_label %>
+    <span class="label">Provider Name</span>
+  <% end %>
   <form action="/settings/set-provider" method="post">
     <select
       class="select-field"
@@ -17,5 +19,5 @@
       <option <%= "selected" if provider == "xai" %> value="xai">xAI</option>
     </select>
   </form>
-  <span class="theme-muted text-[11px]">5 providers available</span>
+  <span class="theme-muted text-[11px]">Choose where responses come from</span>
 </div>

@@ -5,13 +5,7 @@ module Relay::Routes
     prepend Relay::Hooks::RequireUser
 
     def call
-      partial("fragments/controls", locals:)
-    end
-
-    private
-
-    def locals
-      {models: chat_models, contexts:}
+      partial("fragments/controls")
     end
   end
 end

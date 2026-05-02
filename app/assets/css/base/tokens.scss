@@ -1,0 +1,16 @@
+@theme {
+  --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+}
+
+@keyframes activity-pulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

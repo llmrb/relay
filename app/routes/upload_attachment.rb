@@ -11,12 +11,12 @@ module Relay::Routes
       attachment.attach(io: request.body, filename:, type:)
       response.status = 200
       response["content-type"] = "text/html"
-      partial("fragments/input")
+      partial("fragments/input", locals: {swap_oob: false})
     rescue ArgumentError => e
       attachment.error = e.message
       response.status = 422
       response["content-type"] = "text/html"
-      partial("fragments/input")
+      partial("fragments/input", locals: {swap_oob: false})
     end
 
     private

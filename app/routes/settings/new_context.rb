@@ -12,7 +12,7 @@ module Relay::Routes
     private
 
     def render
-      partial("fragments/settings/new_context", locals: {models: chat_models, contexts:, messages: ctx.messages})
+      partial("fragments/settings/workspace", locals: {messages: ctx.messages})
     end
 
     def create_context

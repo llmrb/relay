@@ -1,4 +1,4 @@
-import "../css/application.css"
+import "../css/application.scss"
 import htmx from "htmx.org"
 
 window.htmx = htmx

@@ -11,7 +11,7 @@ module Relay::Routes
     private
 
     def locals
-      {contexts:}
+      {contexts:, show_label: true, swap_oob: false}
     end
   end
 end

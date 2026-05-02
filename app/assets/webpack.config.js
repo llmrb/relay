@@ -21,11 +21,19 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.(css|scss)$/,
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
-          "postcss-loader"
+          "postcss-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                silenceDeprecations: ["import"]
+              }
+            }
+          }
         ]
       }
     ]

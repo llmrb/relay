@@ -1,7 +1,6 @@
 import { FileUpload } from "../file_upload"
 import { ActivityController } from "./controllers/ActivityController"
 import { ContentController } from "./controllers/ContentController"
-import { JukeboxController } from "./controllers/JukeboxController"
 import { MCPFormController } from "./controllers/MCPFormController"
 import { Scroll } from "../scroll"
 import { Timer } from "../jukebox/timer"
@@ -11,9 +10,8 @@ export const Relay = () => {
   const timer = Timer(document.getElementById("chatbot-status"))
   const activity = ActivityController({target})
   const content = ContentController({target})
-  const jukebox = JukeboxController({target})
   const mcpForm = MCPFormController({target})
-  const controllers = [activity, content, jukebox, mcpForm]
+  const controllers = [activity, content, mcpForm]
   let scroll = Scroll(document.getElementById("chatbot-stream"))
 
   const refreshScroll = () => {
@@ -89,6 +87,7 @@ export const Relay = () => {
       controllers.forEach((controller) => controller.start())
       bindEvents()
       enhance()
+      timer?.handle(timer.parentEl)
       requestAnimationFrame(() => scroll?.force())
     },
     stop() {

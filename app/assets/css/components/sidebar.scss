@@ -1,0 +1,145 @@
+@use "../base/mixins" as *;
+
+@layer components {
+  .workspace-rail {
+    @apply rounded-[1.5rem] border;
+    border-color: color-mix(in srgb, var(--theme-panel-border) 76%, transparent);
+    background-color: var(--theme-panel);
+  }
+
+  .sidebar-body {
+    @apply flex min-h-0 flex-1 flex-col;
+    max-height: min(56vh, calc(100vh - 17rem));
+  }
+
+  .sidebar-contexts {
+    @apply min-h-0 flex-1;
+  }
+
+  .sidebar-contexts-list {
+    max-height: min(42vh, calc(100vh - 22rem));
+    padding-bottom: 0.25rem;
+  }
+
+  .sidebar-group {
+    @apply min-h-0;
+  }
+
+  .sidebar-group-body {
+    @apply rounded-2xl border px-3 py-3;
+    border-color: color-mix(in srgb, var(--theme-panel-border) 64%, transparent);
+    background-color: color-mix(in srgb, var(--theme-surface) 42%, transparent);
+  }
+
+  .rail-section {
+    @apply min-h-0 flex-1 px-1 py-1;
+    background-color: transparent;
+  }
+
+  .sidebar-section {
+    @apply rounded-2xl px-0 py-0;
+    border: 0;
+    background: transparent;
+
+    summary {
+      @apply flex cursor-pointer list-none items-center justify-between gap-3 py-1 text-sm font-medium;
+      color: var(--theme-text);
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &::after {
+        content: "+";
+        color: var(--theme-muted);
+      }
+    }
+
+    &[open] summary::after {
+      content: "−";
+    }
+  }
+
+  .sidebar-section-body {
+    @apply pt-2;
+  }
+
+  .sidebar-list-item {
+    @apply w-full rounded-xl px-3 py-2.5 transition;
+    background-color: transparent;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--theme-surface) 42%, transparent);
+    }
+
+    &.is-active {
+      background-color: color-mix(in srgb, var(--theme-accent-soft) 62%, transparent);
+    }
+  }
+
+  .sidebar-meta {
+    @apply text-[11px];
+    color: var(--theme-muted);
+  }
+
+  .sidebar-avatar {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold;
+    background-color: color-mix(in srgb, var(--theme-accent-soft) 72%, transparent);
+    color: var(--theme-text);
+  }
+
+  .sidebar-presence {
+    @apply inline-block h-2 w-2 shrink-0 rounded-full;
+    background-color: color-mix(in srgb, var(--theme-accent) 84%, white 6%);
+  }
+
+  .sidebar-overflow {
+    @apply relative;
+
+    summary {
+      @apply flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-lg text-lg leading-none;
+      color: var(--theme-muted);
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+  }
+
+  .sidebar-overflow-menu {
+    @apply absolute top-10 right-0 z-30 w-64 rounded-2xl border p-4;
+    border-color: var(--theme-panel-border);
+    background-color: var(--theme-panel);
+  }
+
+  @include compact-shell {
+    .workspace-rail {
+      @apply rounded-[1.35rem] px-3.5 py-3.5;
+    }
+
+    .sidebar-header {
+      @apply gap-2;
+    }
+
+    .sidebar-body {
+      margin-top: 1rem;
+      max-height: min(48vh, calc(100vh - 15.5rem));
+    }
+
+    .sidebar-group-body {
+      @apply px-2.5 py-2.5;
+    }
+
+    .sidebar-contexts-list {
+      max-height: min(31vh, calc(100vh - 24rem));
+    }
+
+    .sidebar-list-item {
+      @apply px-2.5 py-2;
+    }
+
+    .sidebar-avatar {
+      @apply h-8 w-8 text-[11px];
+    }
+  }
+}

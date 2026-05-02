@@ -1,0 +1,189 @@
+@layer components {
+  .mcp-nav-link {
+    @apply rounded-full border px-3 py-1.5 text-sm font-medium transition;
+    border-color: var(--theme-panel-border);
+    background-color: transparent;
+    color: var(--theme-text);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--theme-surface-3) 55%, transparent);
+    }
+  }
+
+  .mcp-card {
+    @apply rounded-2xl border px-3 py-2.5 transition;
+    border-color: var(--theme-panel-border);
+    background-color: transparent;
+    color: var(--theme-text);
+
+    &:hover {
+      border-color: var(--theme-accent-border);
+      background-color: color-mix(in srgb, var(--theme-surface-3) 42%, transparent);
+    }
+
+    &.is-active {
+      border-color: var(--theme-accent-border);
+      background-color: color-mix(in srgb, var(--theme-accent-soft) 75%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--theme-accent) 28%, transparent);
+    }
+  }
+
+  .mcp-card-status {
+    @apply shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em];
+    background-color: var(--theme-panel);
+    color: var(--theme-accent-strong);
+  }
+
+  .mcp-card-select {
+    @apply block;
+  }
+
+  .mcp-card-delete {
+    @apply flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-semibold transition;
+    border-color: color-mix(in srgb, #ef4444 40%, var(--theme-panel-border));
+    background-color: color-mix(in srgb, #ef4444 10%, transparent);
+    color: #fecaca;
+
+    &:hover {
+      background-color: color-mix(in srgb, #ef4444 18%, transparent);
+    }
+  }
+
+  .mcp-delete-button {
+    @apply rounded-full border px-4 py-2 text-sm font-semibold transition;
+    border-color: color-mix(in srgb, #ef4444 45%, var(--theme-panel-border));
+    background-color: color-mix(in srgb, #ef4444 10%, var(--theme-panel));
+    color: #fecaca;
+
+    &:hover {
+      background-color: color-mix(in srgb, #ef4444 16%, var(--theme-panel));
+    }
+  }
+
+  .mcp-modal {
+    background-color: rgb(7 10 14 / 0.24);
+    backdrop-filter: blur(2px);
+  }
+
+  .mcp-modal-backdrop {
+    background: transparent;
+  }
+
+  .mcp-shell {
+    @apply rounded-sm border font-mono;
+    border-color: color-mix(in srgb, var(--theme-accent) 72%, #0f1a13 28%);
+    background-color: color-mix(in srgb, var(--theme-surface-2) 92%, black 8%);
+    box-shadow:
+      0 0 0 1px rgb(52 211 153 / 0.14),
+      0 18px 45px rgb(0 0 0 / 0.24);
+
+    .field {
+      @apply rounded-sm border px-2.5 py-2 text-sm;
+      border-color: color-mix(in srgb, var(--theme-accent) 58%, var(--theme-panel-border) 42%);
+      background-color: color-mix(in srgb, var(--theme-surface) 86%, black 14%);
+      box-shadow: none;
+    }
+
+    .label {
+      color: color-mix(in srgb, var(--theme-accent-strong) 86%, white 8%);
+      letter-spacing: 0.22em;
+    }
+
+    .composer-submit {
+      @apply min-w-0 rounded-sm border px-3 py-2 font-semibold;
+      border-color: color-mix(in srgb, var(--theme-accent) 68%, #0f1a13 32%);
+      background-color: color-mix(in srgb, var(--theme-accent-soft) 46%, transparent);
+      color: color-mix(in srgb, var(--theme-accent-strong) 94%, white 6%);
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--theme-accent-soft) 68%, transparent);
+      }
+    }
+  }
+
+  .mcp-pane {
+    border-color: var(--theme-panel-border);
+  }
+
+  .mcp-transport-grid {
+    @apply grid gap-2 sm:grid-cols-2;
+  }
+
+  .mcp-transport-option {
+    @apply block cursor-pointer rounded-sm border px-3 py-2 transition;
+    border-color: color-mix(in srgb, var(--theme-accent) 34%, var(--theme-panel-border) 66%);
+    background-color: transparent;
+
+    &:hover {
+      border-color: color-mix(in srgb, var(--theme-accent) 62%, var(--theme-panel-border) 38%);
+      background-color: color-mix(in srgb, var(--theme-accent-soft) 35%, transparent);
+    }
+
+    &.is-active {
+      border-color: color-mix(in srgb, var(--theme-accent) 78%, white 6%);
+      background-color: color-mix(in srgb, var(--theme-accent-soft) 58%, transparent);
+      box-shadow: inset 0 0 0 1px rgb(52 211 153 / 0.24);
+    }
+  }
+
+  .mcp-transport-copy {
+    @apply flex flex-col gap-1;
+  }
+
+  .mcp-transport-title {
+    @apply text-xs font-semibold uppercase tracking-[0.2em];
+    color: color-mix(in srgb, var(--theme-accent-strong) 92%, white 8%);
+  }
+
+  .mcp-transport-hint {
+    @apply text-[11px] leading-4;
+    color: var(--theme-muted);
+  }
+
+  .mcp-nav-link {
+    @apply rounded-sm border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] transition;
+    border-color: color-mix(in srgb, var(--theme-accent) 50%, var(--theme-panel-border) 50%);
+    background-color: transparent;
+    color: color-mix(in srgb, var(--theme-accent-strong) 90%, white 10%);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--theme-accent-soft) 35%, transparent);
+    }
+  }
+
+  .mcp-card {
+    @apply rounded-sm border px-2.5 py-2 transition;
+    border-color: color-mix(in srgb, var(--theme-accent) 28%, var(--theme-panel-border) 72%);
+    background-color: transparent;
+    color: var(--theme-text);
+
+    &:hover {
+      border-color: color-mix(in srgb, var(--theme-accent) 56%, var(--theme-panel-border) 44%);
+      background-color: color-mix(in srgb, var(--theme-accent-soft) 26%, transparent);
+    }
+
+    &.is-active {
+      border-color: color-mix(in srgb, var(--theme-accent) 78%, white 6%);
+      background-color: color-mix(in srgb, var(--theme-accent-soft) 44%, transparent);
+      box-shadow: inset 0 0 0 1px rgb(52 211 153 / 0.2);
+    }
+  }
+
+  .mcp-card-status {
+    @apply shrink-0 rounded-sm border px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.2em];
+    border-color: color-mix(in srgb, var(--theme-accent) 46%, var(--theme-panel-border) 54%);
+    background-color: transparent;
+    color: color-mix(in srgb, var(--theme-accent-strong) 88%, white 12%);
+  }
+
+  .mcp-card-delete {
+    @apply flex h-6 w-6 items-center justify-center rounded-sm border text-[10px] font-semibold transition;
+    border-color: color-mix(in srgb, #ef4444 52%, var(--theme-panel-border) 48%);
+    background-color: transparent;
+    color: #fca5a5;
+
+    &:hover {
+      background-color: rgb(239 68 68 / 0.14);
+    }
+  }
+}

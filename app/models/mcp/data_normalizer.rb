@@ -19,10 +19,7 @@ module Relay::Models
     def normalize_http_data(data)
       {
         "url" => normalize_url(data["url"]),
-        "headers" => Array(data["headers"]).each_with_object({}) do |line, headers|
-          key, value = line.to_s.strip.split("=", 2)
-          headers[key] = value.to_s if key && !key.empty?
-        end
+        "headers" => normalize_map(data["headers"])
       }.delete_if { |_, value| value.respond_to?(:empty?) && value.empty? }
     end
 
@@ -39,11 +36,24 @@ module Relay::Models
       {
         "argv" => argv.map(&:to_s).map(&:strip).reject(&:empty?),
         "cwd" => data["cwd"].to_s.strip,
-        "env" => Array(data["env"]).each_with_object({}) do |line, env|
-          key, value = line.to_s.strip.split("=", 2)
-          env[key] = value.to_s if key && !key.empty?
-        end
+        "env" => normalize_map(data["env"])
       }.delete_if { |_, value| value.respond_to?(:empty?) && value.empty? }
+    end
+
+    def normalize_map(value)
+      case value
+      when Hash
+        value.each_with_object({}) do |(key, entry), map|
+          key = key.to_s.strip
+          next if key.empty?
+          map[key] = entry.to_s
+        end
+      else
+        Array(value).each_with_object({}) do |line, map|
+          key, entry = line.to_s.strip.split("=", 2)
+          map[key] = entry.to_s if key && !key.empty?
+        end
+      end
     end
   end
 end

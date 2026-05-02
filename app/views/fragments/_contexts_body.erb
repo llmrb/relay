@@ -1,25 +1,33 @@
-<span class="label">Saved Contexts</span>
+<% if show_label %>
+  <div class="flex items-center justify-between gap-3">
+    <span class="label">Chats</span>
+    <span class="sidebar-meta"><%= contexts.size %></span>
+  </div>
+<% end %>
 <form action="/settings/new-context" method="post" class="pb-3" hx-post="/settings/new-context" hx-target="#workspace-main" hx-swap="outerHTML">
-  <button class="w-full rounded-2xl border px-4 py-2 text-sm font-semibold transition hover:opacity-90 focus:outline-none focus:ring-4" style="border-color: var(--theme-accent-border); background-color: var(--theme-accent-soft); color: var(--theme-text); --tw-ring-color: color-mix(in srgb, var(--theme-accent) 16%, transparent);" type="submit">New Context</button>
+  <button class="sidebar-create-button button-primary w-full px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-4" style="--tw-ring-color: color-mix(in srgb, var(--theme-accent) 16%, transparent);" type="submit">New Chat</button>
 </form>
-<div class="scrollbar-chat h-64 overflow-y-auto pr-1">
+<div class="sidebar-contexts-list scrollbar-chat min-h-0 flex-1 overflow-y-auto pr-1">
   <% if contexts.empty? %>
-    <div class="field theme-muted text-sm">No saved contexts for this provider yet.</div>
+    <div class="field theme-muted text-sm">No saved chats for this AI yet.</div>
   <% else %>
     <form class="flex flex-col gap-2" action="/settings/set-context" method="post" hx-post="/settings/set-context" hx-target="#workspace-main" hx-swap="outerHTML" hx-trigger="change from:input[type='radio']">
       <% contexts.each do |context| %>
         <% active = context.id == ctx.id %>
-        <label class="field flex cursor-pointer items-start gap-3 text-sm <%= "theme-strong" if active %>">
+        <label class="sidebar-list-item <%= "is-active" if active %> flex cursor-pointer items-center gap-3 text-sm">
           <input
             type="radio"
             name="context_id"
             value="<%= context.id %>"
             <%= "checked" if active %>
+            class="sr-only"
           >
+          <span class="sidebar-avatar"><%= initials(context.title || "Untitled Chat") %></span>
           <span class="flex min-w-0 flex-1 flex-col">
             <span class="truncate font-medium"><%= context.title || "Untitled Context" %></span>
-            <span class="theme-muted text-xs"><%= context.messages.size %> messages</span>
+            <span class="sidebar-meta"><%= context.messages.size %> messages</span>
           </span>
+          <span class="sidebar-presence" aria-hidden="true"></span>
         </label>
       <% end %>
     </form>

@@ -142,10 +142,10 @@ class Relay::Routes::Websocket
       when :append_message then partial("fragments/append_message", locals: vars)
       when :chat then partial("fragments/stream", locals: vars)
       when :contexts then partial("fragments/settings/replace_contexts", locals: vars)
-      when :input then partial("fragments/input")
+      when :input then partial("fragments/input", locals: {swap_oob: true})
       when :remove_empty_state then partial("fragments/remove_empty_state")
       when :replace_last_message then partial("fragments/replace_last_message", locals: vars)
-      when :status then partial("fragments/status", locals: vars)
+      when :status then partial("fragments/status", locals: vars.merge(swap_oob: true))
       end
     end
 

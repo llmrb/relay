@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-require "yaml"
-
 module Relay::Tools
   ##
-  # The {Relay::Tools::JukeBox} plays my favorite songs whenever
-  # I'm bored. The jukebox is maintained by the resources/jukebox.yml
-  # file and it can be edited to suit your own tastes.
+  # Returns the built-in jukebox playlist and embeddable iframe HTML for
+  # each track. The playlist is maintained in resources/jukebox.yml.
   class JukeBox < LLM::Tool
     include Relay::Tool
 
@@ -14,35 +11,36 @@ module Relay::Tools
     description "Returns a small built-in playlist of playable music videos"
 
     ##
-    # @param [String] category
-    #  The music category
-    # @return [Hash]
-    #  Returns an iframe with an embed
+    # @return [Array<Hash>]
     def call
-      jukebox.map do |j|
-        {directions:, html: html(j)}
+      jukebox.load.map do |entry|
+        {
+          name: entry["name"],
+          title: entry["title"],
+          track: entry["track"],
+          directions: directions,
+          html: iframe(entry)
+        }
       end
     end
 
     private
 
-    def html(j)
-      data = File.read File.join(Relay.fragments_dir, "jukebox", "_artist.erb")
-      ERB.new(data).result_with_hash(j:)
-    end
-
     def jukebox
-      YAML.safe_load_file(File.join(Relay.resources_dir, "jukebox.yml"), permitted_classes: [],
-                                                                         aliases: false)
+      @jukebox ||= Relay::Jukebox.new
     end
 
     def directions
       [
-        "To play a track, embed a single `artist` item with the `data-play` attribute.",
-        "Do not embed an iframe.",
-        "When presenting the full list, omit `data-play`.",
-        "Use the full list for display only."
+        "Use the list to tell the user what songs are available.",
+        "When the user wants to play a specific track, embed that track's iframe HTML exactly as returned.",
+        "Do not use `data-play` attributes."
       ]
+    end
+
+    def iframe(entry)
+      title = ERB::Util.html_escape("#{entry["name"]} - #{entry["title"]}")
+      %(<iframe class="h-full w-full" src="#{entry["track"]}" title="#{title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>)
     end
   end
 end

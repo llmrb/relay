@@ -7,7 +7,7 @@ module Relay::Routes
     def call
       attachment.clear
       response["content-type"] = "text/html"
-      partial("fragments/input")
+      partial("fragments/input", locals: {swap_oob: false})
     end
   end
 end

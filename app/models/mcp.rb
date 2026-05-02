@@ -11,6 +11,17 @@ module Relay::Models
     validates_presence_of :user_id, :name, :transport
     validates_inclusion_of :transport, in: %w[stdio http]
 
+    SUMMARY_COLUMNS = %i[
+      id
+      user_id
+      name
+      description
+      transport
+      enabled
+      created_at
+      updated_at
+    ].freeze
+
     def self.dump_data(data)
       JSON.generate(data)
     end
@@ -23,6 +34,10 @@ module Relay::Models
       end
     rescue JSON::ParserError
       {}
+    end
+
+    def self.summary_dataset(dataset = self.dataset)
+      dataset.select(*SUMMARY_COLUMNS)
     end
 
     def self.normalize_url(value)

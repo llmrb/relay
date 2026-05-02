@@ -1,0 +1,30 @@
+@layer components {
+  .activity-indicator {
+    @apply pointer-events-none fixed top-4 right-4 z-60 hidden items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium backdrop-blur-sm;
+    border-color: var(--theme-accent-border);
+    background-color: color-mix(in srgb, var(--theme-panel) 88%, transparent);
+    color: var(--theme-text);
+
+    &.is-active {
+      @apply flex;
+    }
+  }
+
+  .activity-indicator__dot {
+    @apply h-2 w-2 rounded-full;
+    background-color: var(--theme-accent);
+    animation: activity-pulse 1.2s ease-in-out infinite;
+  }
+
+  .activity-bar {
+    @apply pointer-events-none fixed top-0 left-0 z-70 h-0.5 w-full origin-left scale-x-0 opacity-0;
+    background: linear-gradient(90deg, var(--theme-accent), var(--theme-link));
+    transition:
+      opacity 140ms ease,
+      transform 180ms ease;
+
+    &.is-active {
+      @apply scale-x-100 opacity-100;
+    }
+  }
+}

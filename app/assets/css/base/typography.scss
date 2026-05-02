@@ -1,0 +1,122 @@
+@layer components {
+  .assistant-content {
+    @apply max-w-none whitespace-normal leading-7;
+
+    p {
+      @apply my-4;
+
+      &:first-child {
+        @apply mt-0;
+      }
+
+      &:last-child {
+        @apply mb-0;
+      }
+    }
+
+    a {
+      @apply font-medium underline underline-offset-3;
+      color: var(--theme-link);
+      text-decoration-color: var(--theme-link);
+
+      &:hover {
+        color: var(--theme-link-hover);
+        text-decoration-color: var(--theme-link-hover);
+      }
+    }
+
+    ul {
+      @apply my-4 list-disc pl-6;
+    }
+
+    ol {
+      @apply my-4 list-decimal pl-6;
+    }
+
+    li {
+      @apply my-1.5;
+    }
+
+    pre {
+      @apply my-4 overflow-x-auto rounded-2xl border p-3;
+      border-color: var(--theme-panel-border);
+      background-color: var(--theme-surface-2);
+
+      code.hljs {
+        @apply block rounded-xl p-0 text-[13px] leading-6;
+        background-color: var(--theme-surface-2);
+        color: var(--theme-text);
+      }
+    }
+
+    code {
+      @apply font-mono;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-title,
+    .hljs-section,
+    .hljs-built_in,
+    .hljs-type {
+      color: var(--theme-link);
+    }
+
+    .hljs-string,
+    .hljs-attr,
+    .hljs-template-tag,
+    .hljs-template-variable {
+      color: var(--theme-accent-strong);
+    }
+
+    .hljs-number,
+    .hljs-literal,
+    .hljs-symbol,
+    .hljs-bullet {
+      color: var(--theme-warn);
+    }
+
+    .hljs-comment,
+    .hljs-quote {
+      @apply italic;
+      color: var(--theme-muted);
+    }
+
+    blockquote {
+      @apply my-4 border-l-4 pl-4;
+      border-color: var(--theme-accent-border);
+      color: var(--theme-text);
+    }
+
+    img {
+      @apply mt-2 h-auto max-h-[32rem] w-full max-w-2xl rounded-2xl object-contain;
+    }
+  }
+
+  .label {
+    @apply block text-[11px] font-semibold uppercase tracking-[0.18em];
+    color: color-mix(in srgb, var(--theme-accent) 80%, white 10%);
+  }
+
+  .section-kicker {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em];
+    color: color-mix(in srgb, var(--theme-accent) 78%, white 10%);
+  }
+
+  .theme-accent {
+    color: color-mix(in srgb, var(--theme-accent) 80%, white 10%);
+  }
+
+  .theme-divider {
+    @apply h-px;
+    background-color: var(--theme-panel-border);
+  }
+
+  .theme-strong {
+    color: var(--theme-text);
+  }
+
+  .theme-muted {
+    color: var(--theme-muted);
+  }
+}

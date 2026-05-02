@@ -46,20 +46,14 @@ const Timer = function(parentEl) {
       self.el = null
     if (!textEl || self.el) return
     self.el = create()
-    const wrapper = document.createElement("span")
-    wrapper.className = "status-active"
-    const originalText = textEl.textContent.replace(/\s*\(\d+s\)$/, "")
-    const textNode = document.createTextNode(originalText)
-    textEl.textContent = ""
-    wrapper.appendChild(textNode)
-    wrapper.appendChild(self.el)
-    textEl.appendChild(wrapper)
+    textEl.textContent = textEl.textContent.replace(/\s+\d+s$/, "")
+    textEl.appendChild(self.el)
   }
 
   const detach = () => {
     if (!self.el) return
     if (self.el.parentNode)
-      self.el.parentNode.remove()
+      self.el.parentNode.removeChild(self.el)
     self.el = null
   }
 

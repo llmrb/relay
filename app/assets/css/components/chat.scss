@@ -1,0 +1,123 @@
+@use "../base/mixins" as *;
+
+@layer components {
+  .app-shell {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+
+  .panel {
+    @apply rounded-3xl border backdrop-blur-sm;
+    border-color: var(--theme-panel-border);
+    background-color: var(--theme-panel);
+  }
+
+  .workspace-frame {
+    max-width: 100%;
+  }
+
+  .workspace-chat {
+    @apply min-h-0 min-w-0 flex-1;
+  }
+
+  .chat-surface {
+    @apply flex h-full min-h-0 flex-col overflow-hidden rounded-[1.5rem] border;
+    border-color: color-mix(in srgb, var(--theme-panel-border) 88%, black 12%);
+    background-color: color-mix(in srgb, var(--theme-panel) 96%, transparent);
+  }
+
+  .chat-meta {
+    @apply flex items-center justify-between gap-3 border-b px-5 py-4;
+    border-color: color-mix(in srgb, var(--theme-panel-border) 82%, transparent);
+    background-color: color-mix(in srgb, var(--theme-panel) 88%, transparent);
+  }
+
+  .chat-meta-badge {
+    @apply inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em];
+    border-color: var(--theme-accent-border);
+    background-color: var(--theme-accent-soft);
+    color: color-mix(in srgb, var(--theme-accent) 78%, white 12%);
+  }
+
+  .chat-footer {
+    @apply px-5 py-4;
+    border-top: 0;
+    background-color: transparent;
+  }
+
+  .chat-stream {
+    @apply min-h-0 flex-1 px-5 py-5 text-[15px] leading-7;
+    background-color: transparent;
+    color: var(--theme-text);
+  }
+
+  .chat-bubble-user {
+    @apply rounded-2xl border px-4 py-3 leading-7;
+    border-color: var(--theme-accent-border);
+    background-color: var(--theme-accent-soft);
+    color: var(--theme-text);
+  }
+
+  .chat-bubble-assistant {
+    @apply rounded-2xl border px-4 py-3 leading-7;
+    border-color: var(--theme-panel-border);
+    background-color: var(--theme-panel);
+    color: var(--theme-text);
+  }
+
+  .chat-empty-state {
+    @apply rounded-[1.75rem] border px-5 py-5 text-sm leading-7;
+    border-color: var(--theme-panel-border);
+    background-color: color-mix(in srgb, var(--theme-panel) 92%, transparent);
+    box-shadow: 0 10px 24px rgb(0 0 0 / 0.12);
+  }
+
+  .message-avatar {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold;
+    background-color: color-mix(in srgb, var(--theme-accent-soft) 72%, transparent);
+    color: var(--theme-text);
+  }
+
+  .message-row {
+    @apply mt-3 flex gap-3 first:mt-0;
+  }
+
+  .message-stack {
+    @apply min-w-0;
+  }
+
+  .message-label {
+    @apply mb-1 text-xs font-medium;
+    color: var(--theme-muted);
+  }
+
+  @include compact-shell {
+    .workspace-frame {
+      @apply gap-3 px-3 py-3.5;
+    }
+
+    .chat-surface {
+      @apply rounded-[1.35rem];
+    }
+
+    .chat-meta {
+      @apply px-4 py-3;
+    }
+
+    .chat-stream {
+      @apply px-4 py-4 text-[14px] leading-6;
+    }
+
+    .chat-footer {
+      @apply px-4 py-3;
+    }
+
+    .message-row {
+      @apply mt-2.5 gap-2.5;
+    }
+
+    .message-avatar {
+      @apply h-8 w-8 text-[11px];
+    }
+  }
+}

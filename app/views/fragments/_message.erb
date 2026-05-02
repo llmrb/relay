@@ -19,9 +19,13 @@
     </div>
   </div>
 <% else %>
-  <div class="mt-3 flex first:mt-0">
-    <div class="assistant-content chat-bubble-assistant w-fit max-w-[85%]">
-      <div><%== markdown(content) %></div>
+  <div class="message-row">
+    <div class="message-avatar">AI</div>
+    <div class="message-stack max-w-[88%]">
+      <div class="message-label">Assistant</div>
+      <div class="assistant-content chat-bubble-assistant">
+        <div><%== markdown(content) %></div>
+      </div>
     </div>
   </div>
 <% end %>

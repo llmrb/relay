@@ -10,6 +10,37 @@ module Relay::Concerns
   # separates view concerns from session/context resolution.
   module View
     ##
+    # @return [Array<Relay::Theme>]
+    #  Returns the available UI themes.
+    def themes
+      Relay.themes
+    end
+
+    ##
+    # @return [String]
+    #  Returns the active theme identifier.
+    def theme
+      Relay.resolve_theme(session["theme"])
+    end
+
+    ##
+    # @return [String]
+    #  Returns the current theme stylesheet path.
+    def theme_href
+      "/themes/#{theme}.css"
+    end
+
+    ##
+    # @param [#to_s] text
+    # @return [String]
+    #  Returns up to two initials for compact UI badges.
+    def initials(text)
+      words = text.to_s.strip.split(/\s+/).reject(&:empty?)
+      return "?" if words.empty?
+      words.first(2).map { _1[0] }.join.upcase
+    end
+
+    ##
     # @param [String] text
     # @return [String]
     #  Renders markdown to HTML for templates and fragments.
