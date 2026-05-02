@@ -52,6 +52,13 @@ module Relay::Concerns
     end
 
     ##
+    # @return [Array<Relay::Models::MCP>]
+    #  Saved MCP servers for the current user, newest first.
+    def mcps
+      @mcps ||= user ? user.mcps_dataset.reverse_order(:created_at).all : []
+    end
+
+    ##
     # @return [Relay::Models::Context, nil]
     #  The currently selected context for the session, if it matches the
     #  current provider.

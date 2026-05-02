@@ -8,7 +8,7 @@ module Relay::Modals
 
     def modal(selected_id: nil, form:)
       route.partial("fragments/mcp_modal", locals: {mcps:, selected_id:, form:}) +
-        route.partial("fragments/settings/replace_mcp_panel", locals: {servers: route.ctx.mcps})
+        route.partial("fragments/settings/replace_mcp_panel", locals: {servers: mcps})
     end
 
     def editor(form:)

@@ -1,5 +1,5 @@
-<aside id="mcp-list" class="theme-strong w-full shrink-0 text-sm">
-  <div class="flex flex-col gap-3">
+<aside id="mcp-list" class="theme-strong flex min-h-0 flex-1 flex-col text-sm">
+  <div class="flex min-h-0 flex-1 flex-col gap-3">
     <div class="flex items-center justify-between gap-3">
       <span class="label">MCP</span>
       <button
@@ -12,33 +12,37 @@
         Manage
       </button>
     </div>
-    <ul>
-      <% servers.each do |tool| %>
-        <li class="py-2 first:pt-0 last:pb-0">
-          <div class="flex items-center justify-between gap-3">
-            <div class="theme-strong min-w-0 text-sm font-semibold tracking-tight"><%= tool.name %></div>
-            <div class="group relative shrink-0">
-              <button type="button" class="detail-button">
-                Details
-              </button>
-              <div class="tooltip tooltip-card">
-                <div class="theme-accent text-xs font-semibold uppercase tracking-[0.16em]">
-                  About
-                </div>
-                <div class="theme-divider my-2"></div>
-                <div class="tooltip text-sm leading-6">
-                  <%= tool.description %>
+    <div class="scrollbar-chat min-h-0 flex-1 overflow-y-auto pr-1">
+      <ul>
+        <% servers.each do |server| %>
+          <li class="py-2 first:pt-0 last:pb-0">
+            <div class="flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="theme-strong truncate text-sm font-semibold tracking-tight"><%= server.name %></div>
+                <div class="theme-muted mt-1 line-clamp-1 text-xs leading-5">
+                  <%= server.transport == "http" ? server.url : server.command %>
                 </div>
               </div>
+              <form class="shrink-0" hx-post="/mcps/<%= server.id %>/toggle" hx-swap="none">
+                <button
+                  type="submit"
+                  class="inline-flex min-w-[5.75rem] items-center justify-center gap-1 rounded-full border px-2 py-1 text-[11px] font-medium transition <%= server[:enabled] ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-200 hover:bg-emerald-500/25" : "border-zinc-500/40 bg-zinc-500/10 text-zinc-300 hover:bg-zinc-500/20 hover:text-zinc-100" %>"
+                  aria-label="<%= server[:enabled] ? "Disable" : "Enable" %> <%= server.name %>"
+                  title="<%= server[:enabled] ? "Enabled" : "Disabled" %>"
+                >
+                  <span aria-hidden="true"><%= server[:enabled] ? "●" : "○" %></span>
+                  <span><%= server[:enabled] ? "Enabled" : "Disabled" %></span>
+                </button>
+              </form>
             </div>
-          </div>
-        </li>
-      <% end %>
-    </ul>
+          </li>
+        <% end %>
+      </ul>
+    </div>
     <% if servers.empty? %>
-      <span class="theme-muted text-[11px]">No servers available</span>
+      <span class="theme-muted text-[11px]">No servers configured</span>
     <% else %>
-      <span class="theme-muted text-[11px]"><%= servers.size %> servers available</span>
+      <span class="theme-muted text-[11px]"><%= servers.size %> servers configured</span>
     <% end %>
   </div>
 </aside>

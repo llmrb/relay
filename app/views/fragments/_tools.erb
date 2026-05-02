@@ -1,32 +1,34 @@
-<aside id="tools-list" class="theme-strong w-full shrink-0 text-sm" hx-swap-oob="outerHTML">
-  <div class="flex flex-col gap-3">
+<aside id="tools-list" class="theme-strong flex min-h-0 flex-1 flex-col text-sm" hx-swap-oob="outerHTML">
+  <div class="flex min-h-0 flex-1 flex-col gap-3">
     <span class="label">Tools</span>
-    <ul>
-      <% tools.each do |tool| %>
-        <li class="py-2 first:pt-0 last:pb-0">
-          <div class="flex items-center justify-between gap-3">
-            <div class="theme-strong min-w-0 text-sm font-semibold tracking-tight"><%= tool.name %></div>
-            <div class="group relative shrink-0">
-              <button
-                type="button"
-                class="detail-button"
-              >
-                Details
-              </button>
-              <div class="tooltip tooltip-card">
-                <div class="theme-accent text-xs font-semibold uppercase tracking-[0.16em]">
-                  About
-                </div>
-                <div class="theme-divider my-2"></div>
-                <div class="tooltip text-sm leading-6">
-                  <%= tool.description %>
+    <div class="scrollbar-chat min-h-0 flex-1 overflow-y-auto pr-1">
+      <ul>
+        <% tools.each do |tool| %>
+          <li class="py-2 first:pt-0 last:pb-0">
+            <div class="flex items-center justify-between gap-3">
+              <div class="theme-strong min-w-0 text-sm font-semibold tracking-tight"><%= tool.name %></div>
+              <div class="group relative shrink-0">
+                <button
+                  type="button"
+                  class="detail-button"
+                >
+                  Details
+                </button>
+                <div class="tooltip tooltip-card">
+                  <div class="theme-accent text-xs font-semibold uppercase tracking-[0.16em]">
+                    About
+                  </div>
+                  <div class="theme-divider my-2"></div>
+                  <div class="tooltip text-sm leading-6">
+                    <%= tool.description %>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </li>
-      <% end %>
-    </ul>
+          </li>
+        <% end %>
+      </ul>
+    </div>
     <span class="theme-muted text-[11px]"><%= tools.size %> tools available</span>
   </div>
 </aside>

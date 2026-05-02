@@ -9,10 +9,12 @@
       <%== partial("partials/sidebar", locals: { show_controls: true, models:, contexts: }) %>
       <%== partial("fragments/chat", locals: {messages:, provider:, model:}) %>
     </div>
-    <div class="panel flex w-full shrink-0 flex-col gap-10 px-4 py-4 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-[24rem]">
+    <div class="panel flex w-full shrink-0 flex-col gap-6 px-4 py-4 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-[24rem]">
       <%== partial("fragments/jukebox") %>
-      <%== partial("fragments/tools_panel") %>
-      <%== partial("fragments/mcp_panel", locals: {servers: mcp_servers}) %>
+      <div class="flex min-h-0 flex-1 flex-col gap-6">
+        <%== partial("fragments/tools_panel") %>
+        <%== partial("fragments/mcp_panel", locals: {servers: mcp_servers}) %>
+      </div>
     </div>
     <%== partial("fragments/jukebox/player") %>
     <div id="mcp-modal-root"></div>

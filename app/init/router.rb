@@ -69,6 +69,12 @@ module Relay
           Routes::MCP::Show.new(self).call(id)
         end
 
+        r.is "toggle" do
+          r.post do
+            Routes::MCP::Toggle.new(self).call(id)
+          end
+        end
+
         r.is "delete" do
           r.post do
             Routes::MCP::Delete.new(self).call(id)
