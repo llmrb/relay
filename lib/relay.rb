@@ -123,8 +123,7 @@ module Relay
   def self.reload
     LLM::Tool.clear_registry!
     Relay.loader.reload
-    Dir[File.join(tools_dir, "*.rb")].sort.each do |path|
-      load(path)
-    end
+    paths = Dir[File.join(tools_dir, "*.rb")].sort
+    paths.each { load(_1) }
   end
 end
