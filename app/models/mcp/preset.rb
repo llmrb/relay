@@ -49,31 +49,12 @@ module Relay::Models
     #  The persisted MCP model attributes for the preset
     def attributes_for(form)
       preset = self[form.preset]
-      case preset[:transport]
-      when "http" then http_attributes(form, preset)
-      when "stdio" then stdio_attributes(form, preset)
-      else raise ArgumentError, "Unknown MCP transport: #{preset[:transport].inspect}"
-      end
-    end
-
-    def self.http_attributes(form, preset)
       {
         name: preset[:title],
         description: "",
-        transport: "http",
+        transport: preset[:transport],
         data: preset[:data].merge(form.data)
       }
     end
-    private_class_method :http_attributes
-
-    def self.stdio_attributes(form, preset)
-      {
-        name: preset[:title],
-        description: "",
-        transport: "stdio",
-        data: preset[:data].merge(form.data)
-      }
-    end
-    private_class_method :stdio_attributes
   end
 end
