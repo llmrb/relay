@@ -2,6 +2,7 @@
 
 module Relay
   require "test-cmd"
+  require_relative "relay/version"
   require_relative "relay/cache"
   require_relative "relay/attachment"
   require_relative "relay/jukebox"
@@ -52,6 +53,20 @@ module Relay
   end
 
   ##
+  # Returns the writable Relay home directory
+  # @return [String]
+  def self.home
+    @home ||= ENV["RELAY_HOME"] || File.join(Dir.home, ".relay")
+  end
+
+  ##
+  # Returns the path to the Relay env file
+  # @return [String]
+  def self.env_path
+    @env_path ||= File.join(home, "env")
+  end
+
+  ##
   # @return [Array<String>]
   #  Returns the tools directory
   def self.tools_dir
@@ -63,6 +78,13 @@ module Relay
   # @return [String]
   def self.public_dir
     @public_dir ||= File.join(root, "public")
+  end
+
+  ##
+  # Returns the path to generated images
+  # @return [String]
+  def self.images_dir
+    @images_dir ||= File.join(home, "g")
   end
 
   ##
@@ -103,7 +125,13 @@ module Relay
   ##
   # @return [String]
   def self.logs_dir
-    @logs_dir ||= File.join(root, "tmp")
+    @logs_dir ||= File.join(home, "tmp")
+  end
+
+  ##
+  # @return [String]
+  def self.jukebox_path
+    @jukebox_path ||= File.join(home, "jukebox.yml")
   end
 
   ##

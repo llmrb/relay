@@ -71,7 +71,7 @@ bundle install
 
 **2. Configure secrets**
 
-Create a `.env` file:
+Create `~/.relay/env`:
 
 ```sh
 OPENAI_SECRET=...
@@ -111,6 +111,13 @@ Then open Relay in your browser and sign in with the seeded account.
 During development, Relay enables Zeitwerk reloading and refreshes
 autoloaded constants between requests, so changes under `app/` are
 picked up without restarting the web server.
+
+When packaged as a gem, Relay ships its compiled frontend assets in
+`public/`, so running `relay start` does not require a local webpack
+build. Webpack remains a development tool for working on the frontend.
+Runtime state lives under `~/.relay/` by default, including the env
+file, SQLite databases, logs, uploads, generated images, and jukebox
+data.
 
 ## Features
 

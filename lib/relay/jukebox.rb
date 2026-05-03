@@ -6,15 +6,17 @@ require "yaml"
 
 module Relay
   class Jukebox
-    def initialize(path: File.join(Relay.resources_dir, "jukebox.yml"))
+    def initialize(path: Relay.jukebox_path)
       @path = path
     end
 
     def load
-      deduplicate(YAML.safe_load_file(path, permitted_classes: [], aliases: false) || [])
+      source = File.exist?(path) ? path : File.join(Relay.resources_dir, "jukebox.yml")
+      deduplicate(YAML.safe_load_file(source, permitted_classes: [], aliases: false) || [])
     end
 
     def save(entries)
+      FileUtils.mkdir_p File.dirname(path)
       File.write(path, YAML.dump(deduplicate(entries)))
     end
 

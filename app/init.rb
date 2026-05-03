@@ -37,5 +37,7 @@ module Relay
   require_relative "init/sidekiq"
   require_relative "init/router"
 
-  FileUtils.mkdir_p File.join(Relay.public_dir, "g")
+  FileUtils.mkdir_p Relay.home
+  FileUtils.mkdir_p Relay.images_dir
+  FileUtils.mkdir_p Relay.logs_dir
 end

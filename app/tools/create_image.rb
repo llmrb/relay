@@ -34,7 +34,7 @@ module Relay::Tools
     # Returns the directory where images are stored
     # @return [String]
     def images_dir
-      File.join(root, "public", "g")
+      Relay.images_dir
     end
   end
 end

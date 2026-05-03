@@ -3,7 +3,7 @@ module Relay::Concerns
     def attachment
       Relay::Attachment.session(
         session:,
-        root: Relay.root,
+        root: Relay.home,
         user: respond_to?(:user) ? user : nil,
         provider: session["provider"]
       )

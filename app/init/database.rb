@@ -20,10 +20,12 @@ module Relay::Database
   def connect!(env:)
     settings = load(env:)
     adapter = settings.fetch("adapter")
+    database = settings.fetch("database")
     adapter = "sqlite" if adapter == "sqlite3"
+    database = File.expand_path(database, Relay.home) unless database.start_with?("/")
     Sequel.connect(
       adapter:,
-      database: settings.fetch("database"),
+      database:,
       max_connections: settings.fetch("pool", 5),
       pool_timeout: settings.fetch("timeout", 5000) / 1000.0
     )

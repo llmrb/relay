@@ -3,12 +3,11 @@
 module Relay::Routes
   class ThemeStylesheet < Base
     ##
-    # Serves a discovered theme stylesheet.
-    # @param [String] id
+    # Serves the Relay theme stylesheet.
     # @return [String]
-    def call(id)
+    def call(_id)
       response["Content-Type"] = "text/css; charset=utf-8"
-      File.read(Relay.theme_path(id))
+      File.read(Relay.theme_path)
     end
   end
 end

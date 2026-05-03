@@ -10,17 +10,10 @@ module Relay::Concerns
   # separates view concerns from session/context resolution.
   module View
     ##
-    # @return [Array<Relay::Theme>]
-    #  Returns the available UI themes.
-    def themes
-      Relay.themes
-    end
-
-    ##
     # @return [String]
     #  Returns the active theme identifier.
     def theme
-      Relay.resolve_theme(session["theme"])
+      Relay::THEME
     end
 
     ##

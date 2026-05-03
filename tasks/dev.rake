@@ -12,13 +12,13 @@ namespace :dev do
 
   desc "Serve the server"
   task :server do
-    sh "env RACK_MULTIPART_BUFFERED_UPLOAD_BYTESIZE_LIMIT=67108864 $(cat .env) " \
+    sh "env RACK_MULTIPART_BUFFERED_UPLOAD_BYTESIZE_LIMIT=67108864 $(cat #{Relay.env_path}) " \
        "bundle exec falcon serve --bind http://0.0.0.0:9292"
   end
 
   desc "Run Sidekiq"
   task :sidekiq do
-    sh "env $(cat .env) " \
+    sh "env $(cat #{Relay.env_path}) " \
        "bundle exec sidekiq -C app/config/sidekiq.yml -r ./app/init.rb"
   end
 end

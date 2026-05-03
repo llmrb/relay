@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-env = File.join Relay.root, ".env"
+env = Relay.env_path
 if File.readable?(env)
   data = File.read(env)
   lines = data.each_line
