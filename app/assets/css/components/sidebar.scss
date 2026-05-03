@@ -9,7 +9,6 @@
 
   .sidebar-body {
     @apply flex min-h-0 flex-1 flex-col;
-    max-height: min(56vh, calc(100vh - 17rem));
   }
 
   .sidebar-contexts {
@@ -17,7 +16,6 @@
   }
 
   .sidebar-contexts-list {
-    max-height: min(42vh, calc(100vh - 22rem));
     padding-bottom: 0.25rem;
   }
 
@@ -123,7 +121,6 @@
 
     .sidebar-body {
       margin-top: 1rem;
-      max-height: min(48vh, calc(100vh - 15.5rem));
     }
 
     .sidebar-group-body {
@@ -131,7 +128,7 @@
     }
 
     .sidebar-contexts-list {
-      max-height: min(31vh, calc(100vh - 24rem));
+      min-height: 10rem;
     }
 
     .sidebar-list-item {

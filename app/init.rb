@@ -9,10 +9,9 @@ module Relay
 
   loader = Zeitwerk::Loader.new
   loader.inflector.inflect(
+    "github" => "GitHub",
     "list_mcp" => "ListMCP",
-    "mcp" => "MCP",
-    "mcp_validator" => "MCPValidator",
-    "mcps" => "MCPs"
+    "mcp" => "MCP"
   )
   loader.ignore(
     File.join(__dir__, "init.rb"),

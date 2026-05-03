@@ -26,6 +26,27 @@ class Relay::Routes::Websocket
     end
 
     ##
+    # Dispatches an incoming websocket payload to the appropriate handler.
+    # @param [Async::WebSocket::Adapters::Rack] conn
+    #  The WebSocket connection object
+    # @param [Relay::Models::Context] ctx
+    #  The current context
+    # @param [Hash] payload
+    #  The parsed websocket payload
+    # @param [Hash] params
+    #  The mutable request params for the current turn
+    # @return [void]
+    def dispatch(conn, ctx, payload, params)
+      case
+      when interrupt?(payload) then interrupt!(conn, ctx)
+      when request_in_flight?
+        write(conn, fragment(:status, status_bar(status: "Busy", ctx:)))
+      else
+        @task = Async { on_message(conn, ctx, payload, params) }
+      end
+    end
+
+    ##
     # Writes an HTML fragment to the websocket as a text frame
     # @param [Async::WebSocket::Adapters::Rack] conn
     #  The WebSocket connection object
@@ -37,16 +58,6 @@ class Relay::Routes::Websocket
       conn.flush
     rescue Errno::EPIPE, IOError, Protocol::WebSocket::ClosedError
       nil
-    end
-
-    def dispatch(conn, ctx, payload, params)
-      case
-      when interrupt?(payload) then interrupt!(conn, ctx)
-      when request_in_flight?
-        write(conn, fragment(:status, status_bar(status: "Busy", ctx:)))
-      else
-        @task = Async { on_message(conn, ctx, payload, params) }
-      end
     end
 
     ##
@@ -68,8 +79,11 @@ class Relay::Routes::Websocket
       write(conn, fragment(:append_message, message: vars[:messages][-2]))
       write(conn, fragment(:append_message, message: vars[:messages][-1]))
       write(conn, fragment(:input))
-      wait_with_heartbeat(conn, proc { talk(ctx, prompt, params) })
-      resolve_functions(ctx, conn, params)
+      yield_tools(ctx) do |tools|
+        params[:tools] = tools
+        wait_with_heartbeat(conn, proc { talk(ctx, prompt, params) })
+        resolve_functions(ctx, conn, params)
+      end
       write(conn, fragment(:status, status_bar(ctx:)))
       @contexts = nil
       write(conn, fragment(:contexts, contexts: contexts))
@@ -79,7 +93,7 @@ class Relay::Routes::Websocket
       write(conn, fragment(:status, status_bar(cost: "unknown")))
     rescue => e
       pp e.class, e.message, e.backtrace
-      write(conn, fragment(:status, status_bar(status: "Error")))
+      write(conn, fragment(:status, status_bar(status: "#{e.class}: #{e.message}")))
     ensure
       @task = nil
     end
@@ -216,6 +230,18 @@ class Relay::Routes::Websocket
         path:,
         type: payload["attachment_type"]
       )
+    end
+
+    ##
+    # @param [Relay::Models::Context] servers
+    # @yieldparam [Array<LLM::Tool>] tools
+    # @return [void]
+    def yield_tools(ctx)
+      servers = ctx.mcps
+      servers.each(&:start)
+      yield [*LLM::Tool.registry.reject(&:mcp?), *servers.flat_map(&:tools)]
+    ensure
+      servers&.each { _1.stop rescue nil }
     end
   end
 end

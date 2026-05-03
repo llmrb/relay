@@ -1,6 +1,5 @@
-GIT
-  remote: http://git.home.network/llmrb/llm.rb
-  revision: 8caeaeef86cc861483192d697afd6568193f9be1
+PATH
+  remote: ../llm.rb
   specs:
     llm.rb (7.0.0)
 

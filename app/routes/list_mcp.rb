@@ -5,7 +5,7 @@ module Relay::Routes
     prepend Relay::Hooks::RequireUser
 
     def call
-      Relay::Modals::MCP.new(self).modal(form: MCP::FormData.default)
+      Relay::Pages::MCP.new(self).call(form: Relay::Forms::MCP.build(preset: "github"))
     end
   end
 end

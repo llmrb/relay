@@ -14,13 +14,10 @@ module Relay::Routes
 
     def call
       Async::WebSocket::Adapters::Rack.open(request.env) do |conn|
-        mcps.each(&:start)
         context = ctx
         stream = Relay::Routes::Websocket::Stream.new(conn, self)
-        params = {model: context[:model], stream:, tools:}
+        params = {model: context[:model], stream:, tools: []}
         on_connect conn, context.llm, context, params
-      ensure
-        mcps.each(&:stop)
       end || upgrade_required
     end
 
@@ -35,20 +32,6 @@ module Relay::Routes
     end
 
     private
-
-    ##
-    # Returns an array of MCP clients that can provide tools
-    # @return [Array<LLM::MCP>]
-    def mcps
-      @mcps ||= ctx.mcps.map(&:mcp)
-    end
-
-    ##
-    # Returns an array of tools
-    # @return [Array<LLM::Tool>]
-    def tools
-      [*LLM::Tool.registry, *mcps.flat_map(&:tools)]
-    end
 
     def upgrade_required
       response.status = 426

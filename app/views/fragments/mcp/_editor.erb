@@ -1,103 +1,54 @@
+<% preset = Relay::Models::MCP::Preset[form.preset] %>
 <section id="mcp-editor-pane" class="mcp-pane scrollbar-chat min-h-0 overflow-y-auto px-1 py-1 pr-2">
   <div class="mb-4 flex items-start justify-between gap-4">
     <div>
-      <div class="label"><%= form[:persisted] ? "Selected server" : "New server" %></div>
-      <div id="mcp-editor-title" class="mt-1 text-lg font-semibold tracking-tight">
-        <%= form[:persisted] ? "Edit MCP server" : "Create MCP server" %>
+      <div id="mcp-editor-title" class="text-lg font-semibold tracking-tight">
+        <%= form.persisted? ? preset[:title] : "Add MCP Server" %>
       </div>
+      <div class="theme-muted mt-1 text-sm"><%= preset[:summary] %></div>
     </div>
   </div>
   <form
     id="mcp-editor"
     class="grid gap-3"
-    action="<%= form[:persisted] ? "/mcps/#{form[:id]}" : "/mcps" %>"
+    action="<%= form.persisted? ? "/mcps/#{form.id}" : "/mcps" %>"
     method="post"
-    hx-post="<%= form[:persisted] ? "/mcps/#{form[:id]}" : "/mcps" %>"
-    hx-target="#mcp-modal-root"
-    hx-swap="innerHTML"
+    hx-post="<%= form.persisted? ? "/mcps/#{form.id}" : "/mcps" %>"
+    hx-target="#mcp-workspace"
+    hx-swap="outerHTML"
   >
-    <input type="hidden" name="id" value="<%= form[:id] %>">
-    <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_10rem]">
-      <div class="space-y-2">
-        <label class="label" for="mcp-name">Name</label>
-        <input id="mcp-name" class="field" name="name" type="text" placeholder="GitHub" required value="<%= form[:name] %>">
-      </div>
-      <label class="flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm md:self-end">
-        <input id="mcp-enabled" type="checkbox" name="enabled" value="1" <%= "checked" if form[:enabled] %>>
-        <span>Enabled</span>
-      </label>
-    </div>
+    <input type="hidden" name="id" value="<%= form.id %>">
+    <input type="hidden" name="preset" value="<%= form.preset %>">
     <div class="space-y-2">
-      <span class="label">Transport</span>
-      <input type="hidden" name="transport" value="<%= form[:transport] %>">
+      <span class="label">Preset</span>
       <div class="mcp-transport-grid">
-        <% %w[stdio http].each do |transport| %>
+        <% Relay::Models::MCP::Preset.all.each do |entry| %>
           <button
-            class="mcp-transport-option <%= "is-active" if form[:transport] == transport %>"
+            class="mcp-transport-option <%= "is-active" if form.preset == entry[:id] %>"
             type="button"
-            <%= "disabled" if form[:persisted] %>
-            <% unless form[:persisted] %>
-              hx-post="/mcps/form"
-              hx-include="#mcp-editor"
-              hx-vals='{"transport":"<%= transport %>"}'
-              hx-target="#mcp-editor-pane"
-              hx-swap="outerHTML"
-            <% end %>
+            hx-post="/mcps/form"
+            hx-include="#mcp-editor"
+            hx-vals='{"preset":"<%= entry[:id] %>"}'
+            hx-target="#mcp-editor-pane"
+            hx-swap="outerHTML"
           >
             <span class="mcp-transport-copy">
-              <span class="mcp-transport-title"><%= transport %></span>
-              <span class="mcp-transport-hint">
-                <%= transport == "http" ? "Connect to a remote MCP endpoint" : "Run a local MCP command" %>
-              </span>
+              <span class="mcp-transport-title"><%= entry[:title] %></span>
+              <span class="mcp-transport-hint"><%= entry[:summary] %></span>
             </span>
           </button>
         <% end %>
       </div>
     </div>
-    <div class="space-y-2">
-      <label class="label" for="mcp-description">Description</label>
-      <input id="mcp-description" class="field" name="description" type="text" placeholder="Optional description" value="<%= form[:description] %>">
-    </div>
-    <% if form[:transport] == "http" %>
-      <div class="grid gap-3">
-        <div class="space-y-2">
-          <label class="label" for="mcp-url">URL</label>
-          <input id="mcp-url" class="field font-mono text-sm" name="url" type="url" placeholder="https://example.com/mcp" value="<%= form[:url] %>">
-        </div>
-        <div class="space-y-2">
-          <label class="label" for="mcp-headers">Headers</label>
-          <textarea id="mcp-headers" class="field min-h-24 font-mono text-sm" name="headers" placeholder="Authorization=Bearer ...&#10;X-API-Key=..."><%= form[:headers] %></textarea>
-        </div>
-      </div>
+    <% if form.preset == "forgejo" %>
+      <%== partial("fragments/mcp/fields_forgejo", locals: {form:}) %>
     <% else %>
-      <div class="grid gap-3 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-        <div class="space-y-2">
-          <label class="label" for="mcp-command">Command</label>
-          <input id="mcp-command" class="field font-mono text-sm" name="command" type="text" placeholder="github-mcp-server" value="<%= form[:command] %>">
-        </div>
-        <div class="space-y-2">
-          <label class="label" for="mcp-arguments">Arguments</label>
-          <textarea id="mcp-arguments" class="field min-h-24 font-mono text-sm" name="arguments" placeholder="stdio&#10;--flag"><%= form[:arguments] %></textarea>
-        </div>
-      </div>
-      <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <div class="space-y-2">
-          <label class="label" for="mcp-cwd">Working directory</label>
-          <input id="mcp-cwd" class="field" name="cwd" type="text" placeholder="/optional/path" value="<%= form[:cwd] %>">
-        </div>
-        <div class="space-y-2">
-          <label class="label" for="mcp-env">Env</label>
-          <textarea id="mcp-env" class="field min-h-24 font-mono text-sm" name="env" placeholder="GITHUB_TOKEN=..."><%= form[:env] %></textarea>
-        </div>
-      </div>
+      <%== partial("fragments/mcp/fields_github", locals: {form:}) %>
     <% end %>
-    <div class="border-t pt-4">
-      <p class="theme-muted text-xs">Relay starts enabled servers when chat opens. Only the selected transport fields are used.</p>
-    </div>
   </form>
   <div class="mt-3 flex flex-wrap items-center justify-end gap-3">
     <button id="mcp-save" class="composer-submit px-4 py-2" type="submit" form="mcp-editor">
-      <%= form[:persisted] ? "Save MCP server" : "Add MCP server" %>
+      Save
     </button>
   </div>
 </section>

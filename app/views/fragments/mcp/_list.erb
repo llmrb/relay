@@ -1,22 +1,21 @@
 <aside class="mcp-pane scrollbar-chat flex min-h-0 flex-col overflow-y-auto border-l pl-4">
   <div class="mb-4 flex items-center justify-between gap-3">
     <div>
-      <div class="label">Saved servers</div>
-      <div class="theme-muted mt-1 text-xs"><%= mcps.size %> configured</div>
+      <div class="text-sm font-semibold">Configured</div>
     </div>
     <button
       id="mcp-new"
       class="composer-submit px-3 py-2 text-sm"
       type="button"
       hx-get="/mcps/new"
-      hx-target="#mcp-modal-root"
-      hx-swap="innerHTML"
+      hx-target="#mcp-workspace"
+      hx-swap="outerHTML"
     >
       New
     </button>
   </div>
   <% if mcps.empty? %>
-    <div class="field theme-muted text-sm">No MCP servers configured yet.</div>
+    <div class="field theme-muted text-sm">No MCP servers yet.</div>
   <% else %>
     <div class="flex flex-col gap-2 pr-1">
       <% mcps.each do |mcp| %>
@@ -27,16 +26,24 @@
                 type="button"
                 class="mcp-card-select w-full text-left"
                 hx-get="/mcps/<%= mcp.id %>"
-                hx-target="#mcp-modal-root"
-                hx-swap="innerHTML"
+                hx-target="#mcp-workspace"
+                hx-swap="outerHTML"
               >
                 <div class="truncate font-medium"><%= mcp.name %></div>
-                <div class="theme-muted mt-1 line-clamp-1 text-xs leading-5"><%= mcp.transport %> transport</div>
+                <div class="theme-muted mt-1 line-clamp-1 text-xs leading-5"><%= mcp[:enabled] ? "Enabled" : "Disabled" %></div>
               </button>
             </div>
             <div class="flex items-center gap-2">
-              <span class="mcp-card-status"><%= mcp.transport %></span>
-              <form action="/mcps/<%= mcp.id %>/delete" method="post" hx-post="/mcps/<%= mcp.id %>/delete" hx-target="#mcp-modal-root" hx-swap="innerHTML">
+              <form class="shrink-0" hx-post="/mcps/<%= mcp.id %>/toggle?page=1" hx-target="#mcp-workspace" hx-swap="outerHTML">
+                <button
+                  type="submit"
+                  class="mcp-card-status"
+                  aria-label="<%= mcp[:enabled] ? "Disable" : "Enable" %> <%= mcp.name %>"
+                >
+                  <%= mcp[:enabled] ? "On" : "Off" %>
+                </button>
+              </form>
+              <form action="/mcps/<%= mcp.id %>/delete" method="post" hx-post="/mcps/<%= mcp.id %>/delete" hx-target="#mcp-workspace" hx-swap="outerHTML">
                 <button class="mcp-card-delete" type="submit" aria-label="Delete <%= mcp.name %>">X</button>
               </form>
             </div>

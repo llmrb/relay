@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Relay::Validators
-  class MCPValidator
+  class MCP
     def initialize(model)
       @model = model
     end
@@ -9,6 +9,7 @@ module Relay::Validators
     def call
       validate_data
       validate_transport_fields
+      validate_preset_fields
     end
 
     private
@@ -25,6 +26,16 @@ module Relay::Validators
         model.errors.add(:url, "is required") if model.url.empty?
       when "stdio"
         model.errors.add(:command, "is required") if model.command.empty?
+      end
+    end
+
+    def validate_preset_fields
+      case model.data["preset"]
+      when "github"
+        model.errors.add(:token, "is required") if model.headers["Authorization"].to_s.delete_prefix("Bearer ").strip.empty?
+      when "forgejo"
+        model.errors.add(:url, "is required") if model.env["FORGEJO_URL"].to_s.strip.empty?
+        model.errors.add(:token, "is required") if model.env["FORGEJO_TOKEN"].to_s.strip.empty?
       end
     end
   end

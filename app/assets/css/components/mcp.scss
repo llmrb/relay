@@ -1,108 +1,34 @@
 @layer components {
-  .mcp-nav-link {
-    @apply rounded-full border px-3 py-1.5 text-sm font-medium transition;
-    border-color: var(--theme-panel-border);
-    background-color: transparent;
-    color: var(--theme-text);
-
-    &:hover {
-      background-color: color-mix(in srgb, var(--theme-surface-3) 55%, transparent);
-    }
-  }
-
-  .mcp-card {
-    @apply rounded-2xl border px-3 py-2.5 transition;
-    border-color: var(--theme-panel-border);
-    background-color: transparent;
-    color: var(--theme-text);
-
-    &:hover {
-      border-color: var(--theme-accent-border);
-      background-color: color-mix(in srgb, var(--theme-surface-3) 42%, transparent);
-    }
-
-    &.is-active {
-      border-color: var(--theme-accent-border);
-      background-color: color-mix(in srgb, var(--theme-accent-soft) 75%, transparent);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--theme-accent) 28%, transparent);
-    }
-  }
-
-  .mcp-card-status {
-    @apply shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em];
-    background-color: var(--theme-panel);
-    color: var(--theme-accent-strong);
-  }
-
-  .mcp-card-select {
-    @apply block;
-  }
-
-  .mcp-card-delete {
-    @apply flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-semibold transition;
-    border-color: color-mix(in srgb, #ef4444 40%, var(--theme-panel-border));
-    background-color: color-mix(in srgb, #ef4444 10%, transparent);
-    color: #fecaca;
-
-    &:hover {
-      background-color: color-mix(in srgb, #ef4444 18%, transparent);
-    }
-  }
-
-  .mcp-delete-button {
-    @apply rounded-full border px-4 py-2 text-sm font-semibold transition;
-    border-color: color-mix(in srgb, #ef4444 45%, var(--theme-panel-border));
-    background-color: color-mix(in srgb, #ef4444 10%, var(--theme-panel));
-    color: #fecaca;
-
-    &:hover {
-      background-color: color-mix(in srgb, #ef4444 16%, var(--theme-panel));
-    }
-  }
-
-  .mcp-modal {
-    background-color: rgb(7 10 14 / 0.24);
-    backdrop-filter: blur(2px);
-  }
-
-  .mcp-modal-backdrop {
-    background: transparent;
-  }
-
-  .mcp-shell {
-    @apply rounded-sm border font-mono;
-    border-color: color-mix(in srgb, var(--theme-accent) 72%, #0f1a13 28%);
-    background-color: color-mix(in srgb, var(--theme-surface-2) 92%, black 8%);
-    box-shadow:
-      0 0 0 1px rgb(52 211 153 / 0.14),
-      0 18px 45px rgb(0 0 0 / 0.24);
-
-    .field {
-      @apply rounded-sm border px-2.5 py-2 text-sm;
-      border-color: color-mix(in srgb, var(--theme-accent) 58%, var(--theme-panel-border) 42%);
-      background-color: color-mix(in srgb, var(--theme-surface) 86%, black 14%);
-      box-shadow: none;
-    }
-
-    .label {
-      color: color-mix(in srgb, var(--theme-accent-strong) 86%, white 8%);
-      letter-spacing: 0.22em;
-    }
-
-    .composer-submit {
-      @apply min-w-0 rounded-sm border px-3 py-2 font-semibold;
-      border-color: color-mix(in srgb, var(--theme-accent) 68%, #0f1a13 32%);
-      background-color: color-mix(in srgb, var(--theme-accent-soft) 46%, transparent);
-      color: color-mix(in srgb, var(--theme-accent-strong) 94%, white 6%);
-
-      &:hover {
-        background-color: color-mix(in srgb, var(--theme-accent-soft) 68%, transparent);
-      }
-    }
+  .mcp-workspace-body {
+    @apply grid min-h-0 flex-1 gap-4 px-5 py-5 lg:grid-cols-[minmax(0,1.2fr)_18rem];
   }
 
   .mcp-pane {
     border-color: var(--theme-panel-border);
+  }
+
+  .mcp-helper-copy {
+    @apply rounded-2xl border px-4 py-4;
+    border-color: var(--theme-panel-border);
+    background-color: color-mix(in srgb, var(--theme-panel) 92%, transparent);
+  }
+
+  #mcp-settings {
+    @apply min-h-0;
+  }
+
+  .mcp-settings-list {
+    @apply min-h-0 rounded-2xl border p-1;
+    max-height: 8.75rem;
+    border-color: color-mix(in srgb, var(--theme-panel-border) 64%, transparent);
+    background-color: color-mix(in srgb, var(--theme-surface) 30%, transparent);
+  }
+
+  #mcp-settings .sidebar-list-item {
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
   }
 
   .mcp-transport-grid {

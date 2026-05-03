@@ -1,0 +1,16 @@
+<div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+  <div class="space-y-2">
+    <label class="label" for="mcp-url">Forgejo URL</label>
+    <input id="mcp-url" class="field font-mono text-sm" name="url" type="url" placeholder="https://code.example.com" required value="<%= form.url %>">
+  </div>
+  <div class="space-y-2">
+    <label class="label" for="mcp-token">Forgejo token</label>
+    <input id="mcp-token" class="field font-mono text-sm" name="token" type="password" placeholder="Paste access token" required value="<%= form.token %>">
+  </div>
+</div>
+<div class="mcp-helper-copy">
+  <div class="label">Transport</div>
+  <div class="theme-muted mt-2 text-sm leading-6">
+    Relay will run the Forgejo server locally and pass your URL and token as environment variables.
+  </div>
+</div>

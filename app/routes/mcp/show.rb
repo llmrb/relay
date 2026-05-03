@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 module Relay::Routes
-  class MCP::Show < Base
+  class MCP::Show < MCP::Base
     prepend Relay::Hooks::RequireUser
 
     def call(id)
-      mcp = Relay::Models::MCP.where(id:, user_id: user.id).first || raise(Sequel::NoMatchingRow)
-      Relay::Modals::MCP.new(self).modal(selected_id: mcp.id, form: MCP::FormData.from_model(mcp))
+      mcp = find_mcp(id)
+      form = Relay::Forms::MCP.from_model(mcp)
+      return workspace(selected_id: mcp.id, form:) if htmx?
+      Relay::Pages::MCP.new(self).call(selected_id: mcp.id, form:)
     end
   end
 end

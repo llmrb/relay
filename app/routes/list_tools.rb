@@ -7,7 +7,7 @@ module Relay::Routes
     ##
     # @return [String]
     def call
-      partial("fragments/tools", {locals: {tools: LLM::Tool.registry}})
+      partial("fragments/tools", {locals: {tools: LLM::Tool.registry.reject(&:mcp?)}})
     end
   end
 end

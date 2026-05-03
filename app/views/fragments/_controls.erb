@@ -9,4 +9,7 @@
   <section class="sidebar-group mt-[20px] min-h-0 flex-1">
     <%== partial("fragments/contexts", locals: {contexts: contexts, show_label: true, swap_oob: false}) %>
   </section>
+  <section class="sidebar-group mt-[20px]">
+    <%== partial("fragments/mcp_settings", locals: {servers: mcps, show_label: true, swap_oob: false}) %>
+  </section>
 </div>

@@ -1,7 +1,6 @@
 import { FileUpload } from "../file_upload"
 import { ActivityController } from "./controllers/ActivityController"
 import { ContentController } from "./controllers/ContentController"
-import { MCPFormController } from "./controllers/MCPFormController"
 import { Scroll } from "../scroll"
 import { Timer } from "../jukebox/timer"
 
@@ -10,8 +9,7 @@ export const Relay = () => {
   const timer = Timer(document.getElementById("chatbot-status"))
   const activity = ActivityController({target})
   const content = ContentController({target})
-  const mcpForm = MCPFormController({target})
-  const controllers = [activity, content, mcpForm]
+  const controllers = [activity, content]
   let scroll = Scroll(document.getElementById("chatbot-stream"))
 
   const refreshScroll = () => {

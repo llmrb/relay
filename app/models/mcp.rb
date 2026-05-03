@@ -3,7 +3,6 @@
 module Relay::Models
   class MCP < Sequel::Model
     include Relay::Model
-    extend DataNormalizer
     plugin :validation_class_methods
 
     set_dataset :mcps
@@ -50,53 +49,102 @@ module Relay::Models
       url
     end
 
-    def before_validation
-      super
-      self[:data] = self.class.dump_data(self.class.normalize_data(transport, self[:data]))
-    end
-
-    def validate
-      super
-      Relay::Validators::MCPValidator.new(self).call
-    end
-
+    ##
+    # @return [Hash]
+    #  Returns the parsed MCP transport data
     def data
       self.class.load_data(self[:data])
     end
 
     ##
     # @group stdio
+
+    ##
+    # @return [Array<String>]
+    #  Returns the stdio command argv
     def argv
-      payload["argv"] || []
+      transport == "stdio" ? data["argv"] || [] : []
     end
 
+    ##
+    # @return [String]
+    #  Returns the stdio executable name
     def command
       argv.first.to_s
     end
 
+    ##
+    # @return [Array<String>]
+    #  Returns the stdio command arguments
     def arguments
       argv.drop(1)
     end
 
+    ##
+    # @return [Hash]
+    #  Returns the stdio environment variables
     def env
-      payload["env"] || {}
+      transport == "stdio" ? data["env"] || {} : {}
     end
 
+    ##
+    # @return [String]
+    #  Returns the stdio working directory
     def cwd
-      payload["cwd"].to_s
+      transport == "stdio" ? data["cwd"].to_s : ""
     end
     # @endgroup
 
     ##
     # @group HTTP
+
+    ##
+    # @return [String]
+    #  Returns the MCP HTTP endpoint URL
     def url
-      self.class.normalize_url(payload["url"])
+      self.class.normalize_url(transport == "http" ? data["url"] : nil)
     end
 
+    ##
+    # @return [Hash]
+    #  Returns the MCP HTTP headers
     def headers
-      payload["headers"] || {}
+      transport == "http" ? data["headers"] || {} : {}
     end
     # @endgroup
+
+    ##
+    # @return [Array<Class<LLM::Tool>>]
+    #  Returns the cached MCP tool classes
+    def tools
+      @tools ||= mcp.tools
+    end
+
+    ##
+    # @return [void]
+    #  Starts the MCP client
+    def start
+      mcp.start
+    end
+
+    ##
+    # @return [void]
+    #  Stops the MCP client
+    def stop
+      mcp.stop
+    end
+
+    private
+
+    def before_validation
+      super
+      self[:data] = self.class.dump_data(self[:data]) unless String === self[:data]
+    end
+
+    def validate
+      super
+      Relay::Validators::MCP.new(self).call
+    end
 
     ##
     # Builds an {LLM::MCP} instance from the persisted transport settings.
@@ -107,21 +155,10 @@ module Relay::Models
     #
     # @return [LLM::MCP]
     def mcp
-      case transport
-      when "http"
+      @mcp ||= if transport == "http"
         LLM::MCP.http(url:, headers:)
       else
         LLM::MCP.stdio(argv:, env:, cwd: cwd.empty? ? nil : cwd)
-      end
-    end
-
-    private
-
-    def payload
-      case data
-      when Hash then data
-      when Array then {"argv" => data}
-      else {}
       end
     end
   end

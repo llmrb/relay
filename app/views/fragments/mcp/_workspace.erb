@@ -1,0 +1,12 @@
+<section id="mcp-workspace" class="chat-surface">
+  <header class="chat-meta">
+    <div class="min-w-0">
+      <div class="text-lg font-semibold tracking-tight">MCP Servers</div>
+    </div>
+    <a class="mcp-nav-link" href="/">Back to chat</a>
+  </header>
+  <div class="mcp-workspace-body min-h-0 flex-1">
+    <%== partial("fragments/mcp/editor", locals: {form:}) %>
+    <%== partial("fragments/mcp/list", locals: {mcps:, selected_id:}) %>
+  </div>
+</section>

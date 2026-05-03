@@ -1,0 +1,12 @@
+<div class="grid gap-3">
+  <div class="space-y-2">
+    <label class="label" for="mcp-token">GitHub token</label>
+    <input id="mcp-token" class="field font-mono text-sm" name="token" type="password" placeholder="ghp_..." required value="<%= form.token %>">
+  </div>
+  <div class="mcp-helper-copy">
+    <div class="label">Transport</div>
+    <div class="theme-muted mt-2 text-sm leading-6">
+      Relay will connect to <code>https://api.githubcopilot.com/mcp/</code> and send your token as <code>Authorization: Bearer ...</code>.
+    </div>
+  </div>
+</div>
