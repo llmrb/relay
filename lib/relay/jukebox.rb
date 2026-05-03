@@ -2,22 +2,11 @@
 
 require "cgi"
 require "uri"
-require "yaml"
 
 module Relay
   class Jukebox
-    def initialize(path: Relay.jukebox_path)
-      @path = path
-    end
-
     def load
-      source = File.exist?(path) ? path : File.join(Relay.resources_dir, "jukebox.yml")
-      deduplicate(YAML.safe_load_file(source, permitted_classes: [], aliases: false) || [])
-    end
-
-    def save(entries)
-      FileUtils.mkdir_p File.dirname(path)
-      File.write(path, YAML.dump(deduplicate(entries)))
+      Relay::Models::Song.order(:id).map { entry(_1) }
     end
 
     def normalize_track(url)
@@ -38,41 +27,38 @@ module Relay
     end
 
     def remove(name: nil, title: nil, track: nil)
-      entries = load
       normalized_name = name && normalize_text(name)
       normalized_title = title && normalize_text(title)
       normalized_track = track && normalize_track(track)
       raise ArgumentError, "name, title, or track is required" unless [normalized_name, normalized_title, normalized_track].any?
       removed = []
-      entries.reject! do |entry|
+      songs.each do |song|
+        entry = entry(song)
         matched = true
         matched &&= normalize_text(entry["name"]) == normalized_name if normalized_name
         matched &&= normalize_text(entry["title"]) == normalized_title if normalized_title
         matched &&= normalize_track(entry["track"]) == normalized_track if normalized_track
-        removed << entry if matched
-        matched
+        next unless matched
+        removed << entry
+        song.delete
       end
-      save(entries) unless removed.empty?
       {removed: removed.length, entries: removed}
     end
 
     def add(name:, title:, track:)
-      entries = load
       normalized_track = normalize_track(track)
       entry = {"name" => scrub_text(name), "title" => scrub_text(title), "track" => normalized_track}
       raise ArgumentError, "name is required" if entry["name"].empty?
       raise ArgumentError, "title is required" if entry["title"].empty?
-      entries.reject! do |existing|
-        same_track?(existing, entry) || same_song?(existing, entry)
+      songs.each do |song|
+        existing = entry(song)
+        song.delete if same_track?(existing, entry) || same_song?(existing, entry)
       end
-      entries << entry
-      save(entries)
+      Relay::Models::Song.create(**entry.transform_keys(&:to_sym))
       entry
     end
 
     private
-
-    attr_reader :path
 
     def extract_youtube_id(uri)
       path = uri.path.to_s
@@ -80,23 +66,8 @@ module Relay
       CGI.parse(uri.query.to_s).fetch("v", []).first
     end
 
-    def deduplicate(entries)
-      entries.each_with_object([]) do |entry, acc|
-        candidate = normalize_entry(entry)
-        next if candidate.nil?
-        next if acc.any? { same_track?(_1, candidate) || same_song?(_1, candidate) }
-        acc << candidate
-      end
-    end
-
-    def normalize_entry(entry)
-      name = scrub_text(entry["name"])
-      title = scrub_text(entry["title"])
-      track = normalize_track(entry["track"])
-      return nil if name.empty? || title.empty? || track.empty?
-      {"name" => name, "title" => title, "track" => track}
-    rescue ArgumentError
-      nil
+    def songs
+      Relay::Models::Song.order(:id).all
     end
 
     def same_track?(left, right)
@@ -116,6 +87,10 @@ module Relay
 
     def normalize_text(value)
       scrub_text(value).downcase
+    end
+
+    def entry(song)
+      {"name" => song.name, "title" => song.title, "track" => normalize_track(song.track)}
     end
   end
 end

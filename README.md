@@ -79,11 +79,10 @@ GOOGLE_SECRET=...
 ANTHROPIC_SECRET=...
 DEEPSEEK_SECRET=...
 XAI_SECRET=...
-SESSION_SECRET=...
-REDIS_URL=
 ```
 
 You only need provider secrets for the providers you plan to use.
+Relay generates and persists `SESSION_SECRET` automatically.
 
 **3. Set up the database**
 
@@ -137,8 +136,7 @@ data.
 
 - Rack application built with Falcon, Roda, and async-websocket
 - Sequel models and migrations for application state
-- Sidekiq workers for background jobs
-- A built-in task monitor for the local development stack: web, workers, and assets
+- A built-in task monitor for the local development stack: web and assets
 - Session support through Roda's session plugin
 - In-memory shared state via `Relay.cache`
 - Automatic `.env` loading during boot

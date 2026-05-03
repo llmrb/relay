@@ -5,7 +5,7 @@ module Relay::Tools
     include Relay::Tool
 
     name "add-song"
-    description "Adds a new track to jukebox.yml from an artist, title, and YouTube link"
+    description "Adds a new track from an artist, title, and YouTube link"
     param :name, String, "The artist or performer name", required: true
     param :title, String, "The track title", required: true
     param :url, String, "A YouTube watch/share/embed URL", required: true

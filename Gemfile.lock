@@ -3,6 +3,28 @@ PATH
   specs:
     llm.rb (7.0.0)
 
+PATH
+  remote: .
+  specs:
+    relay (0.1.0)
+      async-websocket
+      bcrypt
+      erb
+      erubi
+      falcon
+      llm.rb
+      net-http-persistent
+      rack
+      rackup
+      redcarpet
+      roda
+      sequel
+      sqlite3
+      test-cmd.rb
+      tilt
+      xchan.rb
+      zeitwerk
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -48,6 +70,7 @@ GEM
       fiber-annotation
       fiber-local (~> 1.1)
       json
+    erb (6.0.4)
     erubi (1.13.1)
     falcon (0.55.2)
       async
@@ -76,7 +99,6 @@ GEM
     localhost (1.7.0)
     lockf.rb (3.0.0)
       fiddle (~> 1.1)
-    logger (1.7.0)
     mapping (1.1.3)
     metrics (0.15.0)
     mini_portile2 (2.8.9)
@@ -112,8 +134,6 @@ GEM
     rainbow (3.1.1)
     rake (13.3.1)
     redcarpet (3.6.1)
-    redis-client (0.28.0)
-      connection_pool
     regexp_parser (2.11.3)
     roda (3.102.0)
       rack
@@ -141,12 +161,6 @@ GEM
       mapping (~> 1.0)
     sequel (5.102.0)
       bigdecimal
-    sidekiq (8.1.2)
-      connection_pool (>= 3.0.0)
-      json (>= 2.16.0)
-      logger (>= 1.7.0)
-      rack (>= 3.2.0)
-      redis-client (>= 0.26.0)
     sqlite3 (2.9.2)
       mini_portile2 (~> 2.8.0)
     sqlite3 (2.9.2-aarch64-linux-gnu)
@@ -199,27 +213,12 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  async-websocket
-  bcrypt
-  erubi
-  falcon
   llm.rb!
-  net-http-persistent
-  rack
   rack-test
-  rackup
   rake
-  redcarpet
-  roda
-  sequel
-  sidekiq
-  sqlite3
+  relay!
   standard
-  test-cmd.rb
   test-unit
-  tilt
-  xchan.rb
-  zeitwerk
 
 BUNDLED WITH
    2.6.9

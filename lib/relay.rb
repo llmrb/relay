@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Relay
-  require "test-cmd"
   require_relative "relay/version"
   require_relative "relay/cache"
   require_relative "relay/attachment"
@@ -126,12 +125,6 @@ module Relay
   # @return [String]
   def self.logs_dir
     @logs_dir ||= File.join(home, "tmp")
-  end
-
-  ##
-  # @return [String]
-  def self.jukebox_path
-    @jukebox_path ||= File.join(home, "jukebox.yml")
   end
 
   ##

@@ -118,7 +118,7 @@ the user.
 ### relay-knowledge
 
 Use `relay-knowledge` whenever the user asks about Relay itself, its
-architecture, features, routes, tools, cache, sessions, workers, assets,
+architecture, features, routes, tools, cache, sessions, assets,
 setup, or how it works.
 
 Use `relay-knowledge` for `llm.rb` questions when they are relevant to

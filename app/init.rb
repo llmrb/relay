@@ -1,11 +1,18 @@
 # frozen_string_literal: true
 
 module Relay
-  require "bundler/setup"
-  Bundler.require(:default)
-
+  require "async"
+  require "async/websocket"
+  require "async/websocket/adapters/rack"
+  require "llm"
+  require "roda"
+  require "bcrypt"
+  require "test-cmd"
   require "erb"
+  require "zeitwerk"
+  require "sequel"
   require "yaml"
+  require "relay"
 
   loader = Zeitwerk::Loader.new
   loader.inflector.inflect(
@@ -19,8 +26,6 @@ module Relay
   )
   loader.push_dir(__dir__, namespace: self)
 
-  require_relative "../lib/relay"
-
   loader.enable_reloading if development?
   loader.setup
 
@@ -32,12 +37,12 @@ module Relay
   end
   @loader = loader
 
-  require_relative "init/env"
-  require_relative "init/database"
-  require_relative "init/sidekiq"
-  require_relative "init/router"
-
   FileUtils.mkdir_p Relay.home
+  FileUtils.mkdir_p File.join(Relay.home, "db")
   FileUtils.mkdir_p Relay.images_dir
   FileUtils.mkdir_p Relay.logs_dir
+
+  require_relative "init/env"
+  require_relative "init/database"
+  require_relative "init/router"
 end

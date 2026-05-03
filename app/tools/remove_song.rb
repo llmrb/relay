@@ -5,7 +5,7 @@ module Relay::Tools
     include Relay::Tool
 
     name "remove-song"
-    description "Removes one or more matching tracks from jukebox.yml"
+    description "Removes one or more matching tracks from the jukebox"
     param :by, Enum["name", "title", "url"], "The jukebox field to match against", required: true
     param :value, String, "The artist name, track title, or YouTube URL to remove", required: true
 

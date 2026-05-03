@@ -32,5 +32,5 @@ module Relay::Database
   end
 end
 
-Relay::DB = Relay::Database.connect!(env: ENV["RACK_ENV"] || "development")
+Relay::DB = Relay::Database.connect!(env: Relay.environment)
 Sequel::Model.db = Relay::DB

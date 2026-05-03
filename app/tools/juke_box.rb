@@ -3,7 +3,7 @@
 module Relay::Tools
   ##
   # Returns the built-in jukebox playlist and embeddable iframe HTML for
-  # each track. The playlist is maintained in ~/.relay/jukebox.yml.
+  # each track. The playlist is stored in the songs table.
   class JukeBox < LLM::Tool
     include Relay::Tool
 

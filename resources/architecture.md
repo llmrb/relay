@@ -9,8 +9,8 @@ study, extend, or fork it.
 
 The architecture is intentionally simple. HTMX keeps the client light,
 while server-rendered HTML keeps the application comfortable for
-Ruby-focused developers. Background work is handled with Sidekiq, and
-development processes are coordinated by Relay's task monitor.
+Ruby-focused developers. Development processes are coordinated by
+Relay's task monitor.
 
 Some important notes:
 
@@ -36,7 +36,6 @@ The codebase is organized by responsibility:
 - `app/models` contains Sequel models
 - `app/routes` contains route classes and WebSocket handlers
 - `app/views` contains HTML templates and partials
-- `app/workers` contains Sidekiq workers
 - `db/` contains database configuration and migrations
 - `tasks/` contains rake tasks for development, assets, and database
   work

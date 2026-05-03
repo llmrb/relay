@@ -16,7 +16,6 @@ when "development"
   use Rack::ConditionalGet
   use Rack::Head
   use Relay::Reloader
-  map("/sidekiq") { run Sidekiq::Web }
 end
 
 run Relay::Router
