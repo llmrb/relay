@@ -128,6 +128,12 @@ module Relay
         end
       end
 
+      r.is "chat" do
+        r.get do
+          Routes::ListChat.new(self).call
+        end
+      end
+
       r.is "contexts" do
         r.get do
           Routes::ListContexts.new(self).call

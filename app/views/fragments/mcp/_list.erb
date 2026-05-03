@@ -8,7 +8,7 @@
       class="composer-submit px-3 py-2 text-sm"
       type="button"
       hx-get="/mcps/new"
-      hx-target="#mcp-workspace"
+      hx-target="#chat-panel"
       hx-swap="outerHTML"
     >
       New
@@ -26,7 +26,7 @@
                 type="button"
                 class="mcp-card-select w-full text-left"
                 hx-get="/mcps/<%= mcp.id %>"
-                hx-target="#mcp-workspace"
+                hx-target="#chat-panel"
                 hx-swap="outerHTML"
               >
                 <div class="truncate font-medium"><%= mcp.name %></div>
@@ -34,7 +34,7 @@
               </button>
             </div>
             <div class="flex items-center gap-2">
-              <form class="shrink-0" hx-post="/mcps/<%= mcp.id %>/toggle?page=1" hx-target="#mcp-workspace" hx-swap="outerHTML">
+              <form class="shrink-0" hx-post="/mcps/<%= mcp.id %>/toggle?page=1" hx-target="#chat-panel" hx-swap="outerHTML">
                 <button
                   type="submit"
                   class="mcp-card-status"
@@ -43,7 +43,7 @@
                   <%= mcp[:enabled] ? "On" : "Off" %>
                 </button>
               </form>
-              <form action="/mcps/<%= mcp.id %>/delete" method="post" hx-post="/mcps/<%= mcp.id %>/delete" hx-target="#mcp-workspace" hx-swap="outerHTML">
+              <form action="/mcps/<%= mcp.id %>/delete" method="post" hx-post="/mcps/<%= mcp.id %>/delete" hx-target="#chat-panel" hx-swap="outerHTML">
                 <button class="mcp-card-delete" type="submit" aria-label="Delete <%= mcp.name %>">X</button>
               </form>
             </div>

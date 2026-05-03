@@ -14,7 +14,7 @@
     action="<%= form.persisted? ? "/mcps/#{form.id}" : "/mcps" %>"
     method="post"
     hx-post="<%= form.persisted? ? "/mcps/#{form.id}" : "/mcps" %>"
-    hx-target="#mcp-workspace"
+    hx-target="#chat-panel"
     hx-swap="outerHTML"
   >
     <input type="hidden" name="id" value="<%= form.id %>">

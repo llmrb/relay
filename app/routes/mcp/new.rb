@@ -5,9 +5,12 @@ module Relay::Routes
     prepend Relay::Hooks::RequireUser
 
     def call
-      form = Relay::Forms::MCP.build(preset: params["preset"] || "github")
-      return workspace(form:) if htmx?
-      Relay::Pages::MCP.new(self).call(form:)
+      if htmx?
+        workspace(form: Relay::Forms::MCP.build(preset: params["preset"] || "github"))
+      else
+        form = Relay::Forms::MCP.build(preset: params["preset"] || "github")
+        Relay::Pages::MCP.new(self).call(form:)
+      end
     end
   end
 end

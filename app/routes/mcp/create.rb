@@ -9,8 +9,11 @@ module Relay::Routes
       attributes = Relay::Models::MCP::Preset.attributes_for(form).merge(enabled: false)
       mcp = Relay::Models::MCP.create({user_id: user.id}.merge(attributes))
       form = Relay::Forms::MCP.from_model(mcp)
-      return workspace(selected_id: mcp.id, form:) if htmx?
-      Relay::Pages::MCP.new(self).call(selected_id: mcp.id, form:)
+      if htmx?
+        workspace(selected_id: mcp.id, form:)
+      else
+        Relay::Pages::MCP.new(self).call(selected_id: mcp.id, form:)
+      end
     end
   end
 end

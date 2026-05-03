@@ -6,9 +6,12 @@ module Relay::Routes
 
     def call(id)
       Relay::Models::MCP.where(id:, user_id: user.id).delete
-      form = Relay::Forms::MCP.build(preset: "github")
-      return workspace(form:) if htmx?
-      Relay::Pages::MCP.new(self).call(form:)
+      if htmx?
+        workspace(form: Relay::Forms::MCP.build(preset: "github"))
+      else
+        form = Relay::Forms::MCP.build(preset: "github")
+        Relay::Pages::MCP.new(self).call(form:)
+      end
     end
   end
 end
