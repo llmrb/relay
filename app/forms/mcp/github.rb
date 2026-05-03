@@ -32,5 +32,16 @@ class Relay::Forms::MCP
     def transport
       "http"
     end
+
+    ##
+    # @return [Hash]
+    #  Returns the preset-specific MCP data overrides
+    def data
+      {
+        "headers" => {
+          "Authorization" => "Bearer #{token}"
+        }
+      }
+    end
   end
 end

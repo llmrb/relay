@@ -13,7 +13,7 @@ module Relay::Models
         title: "GitHub",
         summary: "Connect GitHub with a single token.",
         transport: "http",
-        command: nil,
+        data: {"preset" => "github", "url" => "https://api.githubcopilot.com/mcp/", "headers" => {}},
         description: "Uses GitHub's hosted MCP endpoint with a Bearer token."
       },
       "forgejo" => {
@@ -21,7 +21,7 @@ module Relay::Models
         title: "Forgejo",
         summary: "Connect a Forgejo instance with URL and token.",
         transport: "stdio",
-        command: "forgejo-mcp",
+        data: {"preset" => "forgejo", "argv" => ["forgejo-mcp"], "cwd" => "", "env" => {}},
         description: "Requires Forgejo support to be installed on this Relay host."
       }
     }.freeze
@@ -61,31 +61,17 @@ module Relay::Models
         name: preset[:title],
         description: "",
         transport: "http",
-        data: {
-          "preset" => preset[:id],
-          "url" => "https://api.githubcopilot.com/mcp/",
-          "headers" => {
-            "Authorization" => form.token.empty? ? "" : "Bearer #{form.token}"
-          }
-        }
+        data: preset[:data].merge(form.data)
       }
     end
     private_class_method :http_attributes
-    
+
     def self.stdio_attributes(form, preset)
       {
         name: preset[:title],
         description: "",
         transport: "stdio",
-        data: {
-          "preset" => preset[:id],
-          "argv" => [preset[:command]],
-          "cwd" => "",
-          "env" => {
-            "FORGEJO_URL" => form.url,
-            "FORGEJO_TOKEN" => form.token
-          }
-        }
+        data: preset[:data].merge(form.data)
       }
     end
     private_class_method :stdio_attributes
